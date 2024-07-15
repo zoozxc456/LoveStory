@@ -11,6 +11,7 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "dayjs": "^1.11.11",
     "nuxt": "^3.12.3",
     "vue": "latest"
   },
