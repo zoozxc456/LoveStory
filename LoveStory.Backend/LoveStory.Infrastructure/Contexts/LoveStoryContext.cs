@@ -1,15 +1,17 @@
-using LoveStory.Infrastructure.Configurations;
 using LoveStory.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LoveStory.Infrastructure.Contexts;
 
-public class LoveStoryContext(InfrastructureConfiguration configuration) : DbContext
+public class LoveStoryContext : DbContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public LoveStoryContext()
     {
-        optionsBuilder.UseSqlServer(configuration.ConnectionString);
+    }
+
+    public LoveStoryContext(DbContextOptions<LoveStoryContext> options) : base(options)
+    {
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,7 +32,7 @@ public class LoveStoryContext(InfrastructureConfiguration configuration) : DbCon
                 .HasForeignKey(g => g.CreatorId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
-        
+
         modelBuilder.Entity<GuestGroupData>(e =>
         {
             e.HasOne(g => g.Creator)
