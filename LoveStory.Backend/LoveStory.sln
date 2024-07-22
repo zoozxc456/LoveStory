@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveStory.Core", "LoveStory
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveStory.UnitTest", "LoveStory.UnitTest\LoveStory.UnitTest.csproj", "{B1B81B6E-E842-495A-BD09-3A8FEBB3778C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoveStory.IntegrationTest", "LoveStory.IntegrationTest\LoveStory.IntegrationTest.csproj", "{B0ABF153-0EF6-4A1C-8066-501621C50362}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B1B81B6E-E842-495A-BD09-3A8FEBB3778C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1B81B6E-E842-495A-BD09-3A8FEBB3778C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1B81B6E-E842-495A-BD09-3A8FEBB3778C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0ABF153-0EF6-4A1C-8066-501621C50362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0ABF153-0EF6-4A1C-8066-501621C50362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0ABF153-0EF6-4A1C-8066-501621C50362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0ABF153-0EF6-4A1C-8066-501621C50362}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
