@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@enums/*": [
+        "enums/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@css/*": [
+        "assets/css/*"
+      ],
+      "@images/*": [
+        "assets/images/*"
+      ],
+      "@layouts/*": [
+        "layouts/*"
+      ]
+    }
+  },
+  "include": [
+    ".nuxt/**/*",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.vue"
+  ],
+  "extends": "./.nuxt/tsconfig.json"
+}
