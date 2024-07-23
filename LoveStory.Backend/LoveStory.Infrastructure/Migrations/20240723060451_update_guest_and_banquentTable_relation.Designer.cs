@@ -4,6 +4,7 @@ using LoveStory.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoveStory.Infrastructure.Migrations
 {
     [DbContext(typeof(LoveStoryContext))]
-    partial class LoveStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240723060451_update_guest_and_banquentTable_relation")]
+    partial class update_guest_and_banquentTable_relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,9 +178,14 @@ namespace LoveStory.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("remark");
 
+                    b.Property<Guid?>("UserDataUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("GuestGroupId");
 
                     b.HasIndex("CreatorId");
+
+                    b.HasIndex("UserDataUserId");
 
                     b.ToTable("guest_groups");
                 });
@@ -208,11 +216,16 @@ namespace LoveStory.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("special_need_content");
 
+                    b.Property<Guid?>("UserDataUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("SpecialNeedId");
 
                     b.HasIndex("CreatorId");
 
                     b.HasIndex("GuestId");
+
+                    b.HasIndex("UserDataUserId");
 
                     b.ToTable("guest_special_needs");
                 });
@@ -282,10 +295,14 @@ namespace LoveStory.Infrastructure.Migrations
             modelBuilder.Entity("LoveStory.Infrastructure.Data.GuestGroupData", b =>
                 {
                     b.HasOne("LoveStory.Infrastructure.Data.UserData", "Creator")
-                        .WithMany("CreatedGroups")
+                        .WithMany()
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("LoveStory.Infrastructure.Data.UserData", null)
+                        .WithMany("CreatedGroups")
+                        .HasForeignKey("UserDataUserId");
 
                     b.Navigation("Creator");
                 });
@@ -293,7 +310,7 @@ namespace LoveStory.Infrastructure.Migrations
             modelBuilder.Entity("LoveStory.Infrastructure.Data.GuestSpecialNeedData", b =>
                 {
                     b.HasOne("LoveStory.Infrastructure.Data.UserData", "Creator")
-                        .WithMany("CreatedSpecialNeeds")
+                        .WithMany()
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -303,6 +320,10 @@ namespace LoveStory.Infrastructure.Migrations
                         .HasForeignKey("GuestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("LoveStory.Infrastructure.Data.UserData", null)
+                        .WithMany("CreatedSpecialNeeds")
+                        .HasForeignKey("UserDataUserId");
 
                     b.Navigation("Creator");
 

@@ -20,30 +20,29 @@ public class GuestData
     public string GuestRelationship { get; set; } = string.Empty;
 
     [Column("guest_group")]
-    [ForeignKey("GroupGroup")]
+    [ForeignKey("GuestGroup")]
     public Guid? GuestGroupId { get; set; }
 
-    public GuestGroupData? GroupGroup { get; set; }
+    public GuestGroupData? GuestGroup { get; set; }
 
     [Column("seat_location")]
     [ForeignKey("SeatLocation")]
-    public Guid SeatLocationId { get; set; }
+    public Guid? SeatLocationId { get; set; }
 
-    public BanquetTableData SeatLocation { get; set; } = new();
+    public BanquetTableData? SeatLocation { get; set; } = new();
 
     [Column("is_attended")] public bool IsAttended { get; set; }
 
     [Column("remark")]
     [StringLength(int.MaxValue)]
     public string Remark { get; set; } = string.Empty;
-
     [Column("create_at")] public DateTime CreateAt { get; set; }
 
     [Column("creator")]
     [ForeignKey("Creator")]
     public Guid CreatorId { get; set; }
 
-    public UserData Creator { get; set; } = new();
+    [InverseProperty("CreatedGuests")] public UserData Creator { get; set; } = new();
 
     public GuestAttendanceData GuestAttendance { get; set; } = new();
     public ICollection<GuestSpecialNeedData> SpecialNeeds { get; set; } = new List<GuestSpecialNeedData>();

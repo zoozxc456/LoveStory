@@ -13,6 +13,6 @@ public class GuestController(IServiceProvider provider) : Controller
     public IActionResult GetAllGuests()
     {
         var allGuests = _guestService.GetAllGuests().ToList();
-        return Ok();
+        return Ok(allGuests);
     }
 }

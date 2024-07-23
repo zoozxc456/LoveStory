@@ -1,16 +1,16 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=546b892f_002Dcdcd_002D4627_002D929f_002D8529432b581f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UserControllerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Or&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Controllers.UserControllerTest&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest.GetAllGuests_GivenEmptyParameter_ShouldReturnAllGuestList&lt;/TestId&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-    &lt;ProjectFolder&gt;B1B81B6E-E842-495A-BD09-3A8FEBB3778C/d:Services&lt;/ProjectFolder&gt;&#xD;
-  &lt;/Or&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=546b892f_002Dcdcd_002D4627_002D929f_002D8529432b581f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UserControllerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Controllers.UserControllerTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest.GetAllGuests_GivenEmptyParameter_ShouldReturnAllGuestList&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+    &lt;ProjectFolder&gt;B1B81B6E-E842-495A-BD09-3A8FEBB3778C/d:Services&lt;/ProjectFolder&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d6c0faa7_002Ddd11_002D4560_002Dbe42_002Db7c1399f31bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GuestControllerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d6c0faa7_002Ddd11_002D4560_002Dbe42_002Db7c1399f31bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GuestControllerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

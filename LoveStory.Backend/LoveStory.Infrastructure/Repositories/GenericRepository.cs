@@ -7,8 +7,9 @@ namespace LoveStory.Infrastructure.Repositories;
 
 public class GenericRepository<T>(LoveStoryContext context) : IRepository<T> where T : class
 {
-    public IQueryable<T> GetAll() => context.Set<T>();
+    public virtual IQueryable<T> GetAll() => context.Set<T>();
     public IAsyncEnumerable<T> GetAllAsync() => context.Set<T>().AsAsyncEnumerable();
+
     public Task<T?> GetOneAsync(Expression<Func<T, bool>> prediction) => context.Set<T>().FirstOrDefaultAsync(prediction);
 
     public async Task<bool> InsertAsync(T entity)
