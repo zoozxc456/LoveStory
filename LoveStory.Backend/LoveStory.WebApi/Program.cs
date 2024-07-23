@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGuestService, GuestService>();
 builder.Services.AddScoped<IRepository<UserData>, GenericRepository<UserData>>();
 builder.Services.AddScoped<IRepository<BanquetTableData>, GenericRepository<BanquetTableData>>();
-builder.Services.AddScoped<IRepository<GuestData>, GenericRepository<GuestData>>();
+builder.Services.AddScoped<IRepository<GuestData>, GuestRepository>();
 builder.Services.AddScoped<IRepository<GuestAttendanceData>, GenericRepository<GuestAttendanceData>>();
 builder.Services.AddScoped<IRepository<GuestGroupData>, GenericRepository<GuestGroupData>>();
 builder.Services.AddScoped<IRepository<GuestSpecialNeedData>, GenericRepository<GuestSpecialNeedData>>();
@@ -25,6 +25,17 @@ builder.Services.AddDbContext<LoveStoryContext>(option =>
     option.UseSqlServer(connectionString);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("policy", policy =>
+    {
+        policy.SetIsOriginAllowed(origin => true);
+        policy.AllowCredentials();
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -33,7 +44,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("policy");
+
+// app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();

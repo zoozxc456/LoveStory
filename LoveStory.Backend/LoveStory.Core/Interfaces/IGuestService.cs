@@ -5,5 +5,4 @@ namespace LoveStory.Core.Interfaces;
 public interface IGuestService
 {
     IEnumerable<GuestDto> GetAllGuests();
-    Task<GuestDto> GetGuestById(Guid guestId);
 }

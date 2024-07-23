@@ -20,10 +20,10 @@ public class GuestData
     public string GuestRelationship { get; set; } = string.Empty;
 
     [Column("guest_group")]
-    [ForeignKey("GroupGroup")]
+    [ForeignKey("GuestGroup")]
     public Guid? GuestGroupId { get; set; }
 
-    public GuestGroupData? GroupGroup { get; set; }
+    public GuestGroupData? GuestGroup { get; set; }
 
     [Column("seat_location")]
     [ForeignKey("SeatLocation")]
