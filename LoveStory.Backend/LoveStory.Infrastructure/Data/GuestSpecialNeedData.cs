@@ -14,7 +14,7 @@ public class GuestSpecialNeedData
     [Column("special_need_content")]
     [StringLength(int.MaxValue)]
     public string SpecialNeedContent { get; set; } = string.Empty;
-    
+
     [Column("guest_id")]
     [ForeignKey("Guest")]
     public Guid GuestId { get; set; }
@@ -27,5 +27,6 @@ public class GuestSpecialNeedData
     [Column("creator")]
     public Guid CreatorId { get; set; }
 
+    [InverseProperty("CreatedSpecialNeeds")]
     public UserData Creator { get; set; } = new();
 }
