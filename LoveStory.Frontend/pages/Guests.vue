@@ -1,9 +1,7 @@
 <template>
   <div class="w-full mx-auto">
     <div class="header text-center text-2xl">賓客管理</div>
-    <ClientOnly>
-      <GuestManagementTable :guest-managements="guests" />
-    </ClientOnly>
+    <GuestManagementTable :guest-managements="guests" />
   </div>
 </template>
 
