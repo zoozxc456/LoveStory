@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace LoveStory.Core.DTOs;
 
 public class GuestDto
@@ -40,7 +42,7 @@ public class GuestSpecialNeedDto
 {
     public Guid SpecialNeedId { get; set; }
     public string SpecialNeedContent { get; set; } = string.Empty;
-    public GuestDto Guest { get; set; } = new();
+    [JsonIgnore] public GuestDto Guest { get; set; } = new();
     public DateTime CreateAt { get; set; }
     public UserDto Creator { get; set; } = new();
 }

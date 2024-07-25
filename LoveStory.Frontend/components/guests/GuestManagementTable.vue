@@ -14,7 +14,7 @@
           </th>
         </tr>
       </thead>
-      <tbody v-for="({ isExpanded, ...guest }, index) in tableData">
+      <tbody v-for="({ isExpanded, ...guest }, index) in combinedData">
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
@@ -47,12 +47,12 @@
           </th>
           <td class="px-6 py-4">{{ guest.guestName }}</td>
           <td class="px-6 py-4">{{ guest.guestRelationship }}</td>
-          <td class="px-6 py-4">{{ guest.attendanceList.length }}</td>
+          <td class="px-6 py-4">{{ guest.details.length }}</td>
           <td class="px-6 py-4">{{ aggregateSpecialNeedsForGuest(guest) }}</td>
           <td class="px-6 py-4">
-            {{ dayjs(guest.createTime).format("YYYY-MM-DD HH:mm") }}
+            {{ dayjs(guest.createAt).format("YYYY-MM-DD HH:mm") }}
           </td>
-          <td class="px-6 py-4">{{ guest.creator }}</td>
+          <td class="px-6 py-4">{{ guest.creator.username }}</td>
           <td class="px-6 py-4">
             <button
               type="button"
@@ -71,7 +71,7 @@
         <tr class="">
           <td :colspan="headerColumns.length" class="p-0">
             <GuestManagementRowDetail
-              :guests="guest.attendanceList"
+              :guests="guest.details"
               :class="isExpanded ? 'block' : 'hidden'"
             />
           </td>
@@ -83,30 +83,25 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
-import type { GuestManagement } from "pages/Guests.vue";
 import GuestManagementRowDetail from "./GuestManagementRowDetail.vue";
+import type { GuestManagement } from "types/GuestManagement/guestManagement.type";
 
 type GuestManagementTableProps = {
   guestManagements: GuestManagement[];
 };
 type GuestManagementTableData = GuestManagement & { isExpanded: boolean };
-
 const props = defineProps<GuestManagementTableProps>();
-const tableData = toRef<GuestManagementTableData[]>(
-  [...props.guestManagements].map((x) => ({
-    ...x,
-    isExpanded: false,
+const expandStatusRecord = ref<Record<string, boolean>>({});
+
+const combinedData = computed<GuestManagementTableData[]>(() =>
+  props.guestManagements.map<GuestManagementTableData>((guest) => ({
+    ...guest,
+    isExpanded: !!expandStatusRecord.value[guest.guestId],
   }))
 );
 
 const handleExpandDetail = (guest: GuestManagementTableData): void => {
-  const result = tableData.value.find(
-    ({ guestId }) => guestId === guest.guestId
-  );
-
-  if (result !== undefined) {
-    result.isExpanded = !result.isExpanded;
-  }
+  expandStatusRecord.value[guest.guestId] = !expandStatusRecord.value[guest.guestId];
 };
 
 const headerColumns: string[] = [
@@ -122,10 +117,9 @@ const headerColumns: string[] = [
 ];
 
 const unionForSpecialNeeds = (guestManagement: GuestManagement): string[] => {
-  const result = [
-    ...guestManagement.specialNeeds,
-    ...guestManagement.attendanceList.flatMap((x) => x.specialNeeds),
-  ];
+  const result = guestManagement.details
+    .flatMap((x) => x.specialNeeds)
+    .map((x) => x.specialNeedContent);
   return [...new Set<string>(result)];
 };
 

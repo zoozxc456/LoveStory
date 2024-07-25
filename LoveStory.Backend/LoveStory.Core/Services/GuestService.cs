@@ -6,13 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LoveStory.Core.Services;
 
-public class GuestService(IServiceProvider provider) : IGuestService
+public class GuestService(IServiceProvider provider) : IGuestService, IGuestManagementService
 {
     private readonly IRepository<GuestData> _guestRepository = provider.GetRequiredService<IRepository<GuestData>>();
-    public IEnumerable<GuestDto> GetAllGuests()
-    {
-        return _guestRepository.GetAll().Select(x => ConvertToDtoFromData(x));
-    }
+
+    public IEnumerable<GuestDto> GetAllGuests() => _guestRepository.GetAll().Select(x => ConvertToDtoFromData(x));
+
+    public IEnumerable<GuestDto> GetAllGroupGuests() => GetAllGuests().Where(x => x.GuestGroup != null);
+
+    public IEnumerable<GuestDto> GetAllSingleGuests() => GetAllGuests().Where(x => x.GuestGroup == null);
 
     private static GuestDto ConvertToDtoFromData(GuestData data) => new()
     {
@@ -65,5 +67,11 @@ public class GuestService(IServiceProvider provider) : IGuestService
         Guest = ConvertToDtoFromData(data.Guest),
         CreateAt = data.CreateAt,
         Creator = ConvertToDtoFromData(data.Creator)
+    };
+
+    public GetGuestManagementDto GetAllGuestManagement() => new()
+    {
+        GroupGuests = GetAllGroupGuests(),
+        SingleGuests = GetAllSingleGuests()
     };
 }
