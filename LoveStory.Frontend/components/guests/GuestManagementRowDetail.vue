@@ -19,7 +19,7 @@
       <div class="h-3/4 w-full text-center">
         <div class="grid grid-cols-2 py-1 seat">
           <div class="label">宴席座位</div>
-          <div class="content">{{ seatLocation.tableAlias }}</div>
+          <div class="content">{{ seatLocation?.tableAlias ?? "" }}</div>
         </div>
         <div class="grid grid-cols-2 py-1 special-needs">
           <div class="label">特殊需求</div>
