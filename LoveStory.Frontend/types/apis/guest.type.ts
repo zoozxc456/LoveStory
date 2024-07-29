@@ -38,3 +38,4 @@ export interface IGuestGroup {
 }
 
 export type GetGuestManagementResponse = IGuest[];
+export type AddGuestManagementRequest = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'>;

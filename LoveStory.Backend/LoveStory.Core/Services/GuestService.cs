@@ -11,6 +11,18 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
     private readonly IRepository<GuestData> _guestRepository = provider.GetRequiredService<IRepository<GuestData>>();
 
     public IEnumerable<GuestDto> GetAllGuests() => _guestRepository.GetAll().Select(x => ConvertToDtoFromData(x));
+    public async Task<bool> CreateNewGuest(GuestDto guestDto)
+    {
+       return await _guestRepository.InsertAsync(new GuestData
+        {
+            GuestName = guestDto.GuestName,
+            GuestRelationship = guestDto.GuestRelationship,
+            IsAttended = guestDto.IsAttended,
+            Remark = guestDto.Remark,
+            CreatorId = guestDto.Creator.UserId,
+            CreateAt = guestDto.CreateAt
+        });
+    }
 
     public IEnumerable<GuestDto> GetAllGroupGuests() => GetAllGuests().Where(x => x.GuestGroup != null);
 
