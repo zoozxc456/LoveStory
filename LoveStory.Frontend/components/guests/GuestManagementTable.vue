@@ -1,7 +1,14 @@
 <template>
-  <div
-    class="relative overflow-x-auto shadow-md sm:rounded-lg mx-4 max-h-[95vh]"
-  >
+  <div class="relative shadow-md sm:rounded-lg mx-4 max-h-[95vh]">
+    <div class="absolute -top-12 right-0">
+      <button
+        class="select-none rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white duration-150 ease-in-out py-2 px-6 text-center align-middle font-sans text-sm font-bold uppercases hadow-md transition-all hover:shadow-lg focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        type="button"
+        @click="handleShowCreateGuestDialog"
+      >
+        新增賓客
+      </button>
+    </div>
     <table
       class="w-full max-h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-scroll"
     >
@@ -63,7 +70,7 @@
             <button
               type="button"
               class="px-4 py-2 mx-1 rounded-md border border-1 border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
-              @click="handleTriggerShowDialog(guest)"
+              @click="handleShowDeleteGuestDialog(guest)"
             >
               刪除
             </button>
@@ -80,11 +87,17 @@
       </tbody>
     </table>
   </div>
+  <CreateGuestDialog
+    v-if="createGuestDialogIsShow"
+    @guest-add="handleCreateGuest"
+    @close-dialog="handleCancelCreateGuestDialog"
+  />
+
   <DeleteGuestDialog
-    v-if="isShow"
-    :guest-id="data.guestId"
-    :guest-name="data.guestName"
-    @close-dialog="handleCancel"
+    v-if="deleteGuestDialogIsShow"
+    :guest-id="deleteGuestDialogData.guestId"
+    :guest-name="deleteGuestDialogData.guestName"
+    @close-dialog="handleCancelDeleteGuestDialog"
     @delete-guest="handleDeleteGuestById"
   />
 </template>
@@ -92,22 +105,30 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import GuestManagementRowDetail from "./GuestManagementRowDetail.vue";
+import CreateGuestDialog from "./CreateGuestDialog.vue";
 import DeleteGuestDialog from "./DeleteGuestDialog.vue";
 import type { GuestManagement } from "types/GuestManagement/guestManagement.type";
 import { useDeleteGuestDialog } from "../../composables/admin/useDeleteGuestDialog";
+import { useCreateGuestDialog } from "../../composables/admin/useCreateGuestDialog";
 type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 type GuestManagementTableData = GuestManagement & { isExpanded: boolean };
 
 const props = defineProps<GuestManagementTableProps>();
 const emits = defineEmits(["update:guests"]);
-
 const {
-  data,
-  isShow,
-  handleTriggerShowDialog,
-  handleCancel,
+  data: deleteGuestDialogData,
+  isShow: deleteGuestDialogIsShow,
+  handleTriggerShowDialog: handleShowDeleteGuestDialog,
+  handleCancel: handleCancelDeleteGuestDialog,
   handleDeleteGuestById,
 } = useDeleteGuestDialog(emits);
+
+const {
+  isShow: createGuestDialogIsShow,
+  handleTriggerShowDialog: handleShowCreateGuestDialog,
+  handleCancel: handleCancelCreateGuestDialog,
+  handleCreateGuest,
+} = useCreateGuestDialog(emits);
 
 const expandStatusRecord = ref<Record<string, boolean>>({});
 

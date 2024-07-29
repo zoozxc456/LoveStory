@@ -112,14 +112,25 @@
           </div>
         </div>
       </div>
-      <div class="p-6 pt-0">
-        <button
-          class="block w-full select-none rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white bg-pink-300 shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button"
-          @click="handleSubmit"
-        >
-          新增
-        </button>
+      <div class="p-6 pt-0 flex gap-2">
+        <div class="flex-1">
+          <button
+            class="block w-full select-none rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white bg-pink-300 shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            type="button"
+            @click="emits('guest-add', formData)"
+          >
+            新增
+          </button>
+        </div>
+        <div class="flex-1">
+          <button
+            class="block w-full select-none rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-gray-400 border-solid border-2 border-gray-300 shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            type="button"
+            @click="emits('close-dialog')"
+          >
+            取消
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -135,12 +146,10 @@ export type CreateGuestFormDataType = {
   remark: string;
 };
 
-const emits = defineEmits<{ "guest-add": [value: CreateGuestFormDataType] }>();
-
-const handleSubmit = () => {
-  emits("guest-add", formData);
-};
-
+const emits = defineEmits<{
+  "guest-add": [value: CreateGuestFormDataType];
+  "close-dialog": [];
+}>();
 const formData = reactive<CreateGuestFormDataType>({
   guestName: "",
   guestRelationship: "",

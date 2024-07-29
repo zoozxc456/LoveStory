@@ -1,5 +1,5 @@
-import type { AddGuestManagementRequest, IGuest } from "types/apis/guest.type";
-import { fetchAllGuests, addGuest } from "../../apis/guest.api";
+import type { IGuest } from "types/apis/guest.type";
+import { fetchAllGuests } from "../../apis/guest.api";
 import { ref, computed } from 'vue';
 import type { Ref } from 'vue';
 import type { ErrorResponse } from "types/apis/index.type";
@@ -47,10 +47,6 @@ export function useGuestManagement() {
   const error: Ref<ErrorResponse | null> = ref(null);
   const isLoading = ref(true);
 
-  const addGuestManagement = async (data: AddGuestManagementRequest) => {
-    const result = await addGuest(data);
-  };
-
   const fetchGuests = async () => {
     isLoading.value = true;
     const { data, error: fetchError } = await fetchAllGuests();
@@ -69,14 +65,12 @@ export function useGuestManagement() {
     fetchGuests();
   };
 
-  // 立即執行首次獲取
   fetchGuests();
 
   return {
     guests: computedGuests,
     error,
     isLoading,
-    refreshGuests,
-    addGuestManagement
+    refreshGuests
   };
 }
