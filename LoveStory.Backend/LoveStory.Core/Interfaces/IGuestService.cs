@@ -6,4 +6,5 @@ public interface IGuestService
 {
     IEnumerable<GuestDto> GetAllGuests();
     Task<bool> CreateNewGuest(GuestDto guestDto);
+    Task<bool> DeleteGuestById(Guid guestId);
 }

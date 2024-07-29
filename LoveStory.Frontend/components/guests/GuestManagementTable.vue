@@ -63,6 +63,7 @@
             <button
               type="button"
               class="px-4 py-2 mx-1 rounded-md border border-1 border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
+              @click="handleTriggerShowDialog(guest)"
             >
               刪除
             </button>
@@ -79,18 +80,35 @@
       </tbody>
     </table>
   </div>
+  <DeleteGuestDialog
+    v-if="isShow"
+    :guest-id="data.guestId"
+    :guest-name="data.guestName"
+    @close-dialog="handleCancel"
+    @delete-guest="handleDeleteGuestById"
+  />
 </template>
 
 <script setup lang="ts">
 import dayjs from "dayjs";
 import GuestManagementRowDetail from "./GuestManagementRowDetail.vue";
+import DeleteGuestDialog from "./DeleteGuestDialog.vue";
 import type { GuestManagement } from "types/GuestManagement/guestManagement.type";
-
-type GuestManagementTableProps = {
-  guestManagements: GuestManagement[];
-};
+import { useDeleteGuestDialog } from "../../composables/admin/useDeleteGuestDialog";
+type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 type GuestManagementTableData = GuestManagement & { isExpanded: boolean };
+
 const props = defineProps<GuestManagementTableProps>();
+const emits = defineEmits(["update:guests"]);
+
+const {
+  data,
+  isShow,
+  handleTriggerShowDialog,
+  handleCancel,
+  handleDeleteGuestById,
+} = useDeleteGuestDialog(emits);
+
 const expandStatusRecord = ref<Record<string, boolean>>({});
 
 const combinedData = computed<GuestManagementTableData[]>(() =>
@@ -101,7 +119,8 @@ const combinedData = computed<GuestManagementTableData[]>(() =>
 );
 
 const handleExpandDetail = (guest: GuestManagementTableData): void => {
-  expandStatusRecord.value[guest.guestId] = !expandStatusRecord.value[guest.guestId];
+  expandStatusRecord.value[guest.guestId] =
+    !expandStatusRecord.value[guest.guestId];
 };
 
 const headerColumns: string[] = [

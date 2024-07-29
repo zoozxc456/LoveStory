@@ -24,6 +24,14 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
         });
     }
 
+    public async Task<bool> DeleteGuestById(Guid guestId)
+    {
+        var guest = await _guestRepository.GetOneAsync(guest => guest.GuestId == guestId);
+        if (guest == null) return false;
+
+        return await _guestRepository.DeleteAsync(guest);
+    }
+
     public IEnumerable<GuestDto> GetAllGroupGuests() => GetAllGuests().Where(x => x.GuestGroup != null);
 
     public IEnumerable<GuestDto> GetAllSingleGuests() => GetAllGuests().Where(x => x.GuestGroup == null);

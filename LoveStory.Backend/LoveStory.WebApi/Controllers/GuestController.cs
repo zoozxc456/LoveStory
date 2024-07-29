@@ -36,4 +36,10 @@ public class GuestController(IServiceProvider provider) : Controller
         });
         return Ok(isSuccess);
     }
+
+    [HttpDelete("{guestId:guid}")]
+    public async Task<IActionResult> DeleteGuestById(Guid guestId)
+    {
+        return Ok(await _guestService.DeleteGuestById(guestId));
+    }
 }

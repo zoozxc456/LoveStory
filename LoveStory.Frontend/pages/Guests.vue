@@ -13,7 +13,10 @@
       v-if="createGuestDialog.isShow"
       @guest-add="handleAddGuest"
     />
-    <GuestManagementTable :guest-managements="guests" />
+    <GuestManagementTable
+      :guest-managements="guests"
+      @update:guests="refreshGuests"
+    />
   </div>
 </template>
 
