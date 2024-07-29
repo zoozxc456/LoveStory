@@ -28,7 +28,7 @@ public class BanquetTableData
     [ForeignKey("Creator")]
     public Guid CreatorId { get; set; }
 
-    public UserData Creator { get; set; } = new();
+    public UserData Creator { get; set; }
 
     public ICollection<GuestData> Guests { get; set; } = new List<GuestData>();
 }
