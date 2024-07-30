@@ -1,17 +1,12 @@
 import { reactive } from 'vue';
 import type { IGuest } from '../../types/apis/guest.type';
 import { deleteGuest } from '../../apis/guest.api';
+import type { IDialogDisplayController } from './useDialogDisplayController';
 
-export const useDeleteGuestDialog = (emits: (event: 'update:guests') => void) => {
+export const useDeleteGuestDialog = (displayController: IDialogDisplayController, emits: (event: 'update:guests') => void) => {
   const data = reactive<Pick<IGuest, 'guestId' | 'guestName'>>({
     guestId: '',
     guestName: ''
-  });
-
-  const displayController: { isShow: boolean; onShow: () => boolean; onClose: () => boolean; } = reactive<{ isShow: boolean; onShow: () => boolean; onClose: () => boolean; }>({
-    isShow: false,
-    onShow: () => displayController.isShow = true,
-    onClose: () => displayController.isShow = false
   });
 
   const handleDeleteGuestById = async (guestId: Pick<IGuest, 'guestId'>) => {
@@ -36,7 +31,7 @@ export const useDeleteGuestDialog = (emits: (event: 'update:guests') => void) =>
     data.guestName = "";
   };
   return {
-    data, isShow: computed(() => displayController.isShow),
+    data, isShow: computed(() => displayController.state.isShow),
     handleCancel, handleDeleteGuestById, handleTriggerShowDialog
   };
 };

@@ -1,4 +1,5 @@
 import { addGuest } from "../../apis/guest.api";
+import type { IDialogDisplayController } from "./useDialogDisplayController";
 
 type CreateGuestFormDataType = {
   guestName: string;
@@ -8,19 +9,13 @@ type CreateGuestFormDataType = {
   remark: string;
 };
 
-export const useCreateGuestDialog = (emits: (event: 'update:guests') => void) => {
+export const useCreateGuestDialog = (displayController: IDialogDisplayController, emits: (event: 'update:guests') => void) => {
   const data = reactive<CreateGuestFormDataType>({
     guestName: "",
     guestRelationship: "",
     guestType: "",
     isAttended: false,
     remark: ""
-  });
-
-  const displayController: { isShow: boolean; onShow: () => boolean; onClose: () => boolean; } = reactive<{ isShow: boolean; onShow: () => boolean; onClose: () => boolean; }>({
-    isShow: false,
-    onShow: () => displayController.isShow = true,
-    onClose: () => displayController.isShow = false
   });
 
   const handleTriggerShowDialog = () => {
@@ -48,7 +43,7 @@ export const useCreateGuestDialog = (emits: (event: 'update:guests') => void) =>
   };
 
   return {
-    data, isShow: computed(() => displayController.isShow),
+    data, isShow: computed(() => displayController.state.isShow),
     handleCancel, handleCreateGuest, handleTriggerShowDialog
   };
 };

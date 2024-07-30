@@ -108,6 +108,7 @@ import GuestManagementRowDetail from "./GuestManagementRowDetail.vue";
 import CreateGuestDialog from "./CreateGuestDialog.vue";
 import DeleteGuestDialog from "./DeleteGuestDialog.vue";
 import type { GuestManagement } from "types/GuestManagement/guestManagement.type";
+import { useDialogDisplayController } from "../../composables/admin/useDialogDisplayController";
 import { useDeleteGuestDialog } from "../../composables/admin/useDeleteGuestDialog";
 import { useCreateGuestDialog } from "../../composables/admin/useCreateGuestDialog";
 type GuestManagementTableProps = { guestManagements: GuestManagement[] };
@@ -121,14 +122,14 @@ const {
   handleTriggerShowDialog: handleShowDeleteGuestDialog,
   handleCancel: handleCancelDeleteGuestDialog,
   handleDeleteGuestById,
-} = useDeleteGuestDialog(emits);
+} = useDeleteGuestDialog(useDialogDisplayController(), emits);
 
 const {
   isShow: createGuestDialogIsShow,
   handleTriggerShowDialog: handleShowCreateGuestDialog,
   handleCancel: handleCancelCreateGuestDialog,
   handleCreateGuest,
-} = useCreateGuestDialog(emits);
+} = useCreateGuestDialog(useDialogDisplayController(), emits);
 
 const expandStatusRecord = ref<Record<string, boolean>>({});
 
