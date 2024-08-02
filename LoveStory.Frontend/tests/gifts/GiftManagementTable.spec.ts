@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { mount, VueWrapper } from "@vue/test-utils";
-import GiftManagementTable from "../../components/gifts/GiftManagementTable.vue";
 import type { GiftManagement } from "pages/gifts.vue";
+import { GiftsGiftManagementTable } from ".nuxt/components";
 
 describe('Test Gift Management Table Display Text', () => {
   let wrapper: VueWrapper<any>;
@@ -16,7 +16,7 @@ describe('Test Gift Management Table Display Text', () => {
   ];
 
   beforeEach(() => {
-    wrapper = mount(GiftManagementTable, { props: { gifts: exceptGifts } });
+    wrapper = mount(GiftsGiftManagementTable, { props: { gifts: exceptGifts } });
   });
 
   it('Give a specific gift record, should be displayed correct guest name text', () => {

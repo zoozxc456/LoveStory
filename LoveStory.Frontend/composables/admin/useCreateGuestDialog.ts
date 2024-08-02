@@ -1,5 +1,3 @@
-import { addGuest } from "../../apis/guest.api";
-
 export type CreateGuestFormDataType = {
   guestName: string;
   guestRelationship: string;

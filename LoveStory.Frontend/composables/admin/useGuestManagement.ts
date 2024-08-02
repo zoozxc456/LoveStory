@@ -1,9 +1,3 @@
-import type { IGuest } from "types/apis/guest.type";
-import { fetchAllGuests } from "../../apis/guest.api";
-import { ref, computed } from 'vue';
-import type { Ref } from 'vue';
-import type { ErrorResponse } from "types/apis/index.type";
-import type { GroupGuestManagement, GroupGuestManagementDetail, GuestManagement, SingleGuestManagement, SingleGuestManagementDetail } from "types/GuestManagement/guestManagement.type";
 import dayjs from "dayjs";
 
 const dateTimeAscendingComparer = (x: Date, y: Date): number => dayjs(x).unix() - dayjs(y).unix();

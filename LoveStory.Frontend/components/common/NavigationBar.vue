@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import LogoImg from "../../assets/images/Logo.png";
+import LogoImg from "assets/images/Logo.png";
 
 type NameItemType = {
   to: string;

@@ -3,21 +3,21 @@
     v-if="model?.state.isShow"
     class="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
   >
-    <select-guest-type-form
+    <guests-create-guest-dialog-select-guest-type-form
       v-if="step == 1"
       v-model:model-value="guestType"
       @update:model-value="handleSelectType"
       @cancel="handleCancel"
     />
 
-    <single-guest-form
+    <guests-create-guest-dialog-single-guest-form
       v-if="step == 2 && guestType == 'single'"
       v-model:model-value="data"
       @cancel="handleCancel"
       @on-select="handleSelect"
     />
 
-    <family-guest-form
+    <guests-create-guest-dialog-family-guest-form
       v-if="step == 2 && guestType == 'family'"
       v-model:model-value="FamilyData"
       v-model:attendance-number="attendanceNumber"
@@ -30,13 +30,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import { useCreateFamilyGuest } from "../../../composables/admin/useCreateFamilyGuest";
-import type { GuestType } from "../../../composables/admin/dialog.type";
-import { useCreateGuestDialog } from "../../../composables/admin/useCreateGuestDialog";
-import type { IDialogDisplayController } from "../../../composables/admin/useDialogDisplayController";
-import FamilyGuestForm from "./FamilyGuest/FamilyGuestForm.vue";
-import SelectGuestTypeForm from "./SelectGuestTypeForm.vue";
-import SingleGuestForm from "./SingleGuestForm.vue";
 const step = ref<number>(1);
 const guestType = ref<GuestType | null>(null);
 

@@ -1,6 +1,3 @@
-import { addFamilyGuest } from "../../apis/guest.api";
-import type { CreateFamilyGuestFormDataType, FamilyAttendanceDataType } from "./dialog.type";
-
 export const useCreateFamilyGuest = () => {
   const attendanceNumber = ref<number>(2);
 

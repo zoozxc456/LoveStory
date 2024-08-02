@@ -1,8 +1,3 @@
-import { reactive } from 'vue';
-import type { IGuest } from '../../types/apis/guest.type';
-import { deleteGuest } from '../../apis/guest.api';
-import type { IDialogDisplayController } from './useDialogDisplayController';
-
 export const useDeleteGuestDialog = (displayController: IDialogDisplayController, emits: (event: 'update:guests') => void) => {
   const data = reactive<Pick<IGuest, 'guestId' | 'guestName'>>({
     guestId: '',

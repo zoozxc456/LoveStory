@@ -44,8 +44,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import type { GuestType } from "../../../composables/admin/dialog.type";
-
 const model = defineModel<GuestType | null>({ default: {} });
 const emits = defineEmits<{ cancel: [] }>();
 </script>

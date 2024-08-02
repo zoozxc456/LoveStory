@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { mount, VueWrapper } from "@vue/test-utils";
-import GuestManagementRowDetail from "../../components/guests/GuestManagementRowDetail.vue";
-import type { GroupGuestManagementDetail, GuestManagement, SingleGuestManagementDetail } from "types/GuestManagement/guestManagement.type";
+import { GuestsGuestManagementRowDetail } from ".nuxt/components";
 
 describe('Test Guest Management Table Row Detail Display Text', () => {
   let wrapper: VueWrapper<any>;
@@ -31,7 +30,7 @@ describe('Test Guest Management Table Row Detail Display Text', () => {
   }];
 
   beforeEach(() => {
-    wrapper = mount(GuestManagementRowDetail, { props: { guests: exceptDetails } });
+    wrapper = mount(GuestsGuestManagementRowDetail, { props: { guests: exceptDetails } });
   });
 
   it.each(exceptDetails)('Give a specific attendance(guestId: $guestId, guestName: $guestName), should be displayed corrent guest name text', ({ guestId, guestName }) => {

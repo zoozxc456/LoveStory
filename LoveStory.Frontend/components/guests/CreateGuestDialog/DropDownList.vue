@@ -10,8 +10,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import type { IDialogDisplayController } from "../../../composables/admin/useDialogDisplayController";
-
 const displayController = defineModel<IDialogDisplayController>(
   "displayController",
   { default: {} }

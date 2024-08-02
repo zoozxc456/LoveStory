@@ -1,6 +1,3 @@
-import type { IGuest, IGuestGroup } from "types/apis/guest.type";
-import type { ApiResponse } from "types/apis/index.type";
-
 // Guest Management Detail Types
 export type SingleGuestManagementDetail = Omit<IGuest, 'guestRelationship' | 'guestGroup'>;
 export type GroupGuestManagementDetail = SingleGuestManagementDetail;

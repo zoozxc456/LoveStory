@@ -47,13 +47,11 @@
 
 <script setup lang="ts">
 import DropDownList from "./DropDownList.vue";
-import { useDialogDisplayController } from "../../../composables/admin/useDialogDisplayController";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const model = defineModel<string[]>("specialNeeds");
 
 const displayController = useDialogDisplayController();
 const items: string[] = ["素食", "兒童椅"];
-const stack = reactive<string[]>([]);
 
 const handleSelectItem = (item: string) => {
   if (model.value !== undefined) {

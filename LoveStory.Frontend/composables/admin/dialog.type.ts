@@ -1,5 +1,3 @@
-import type { IGuest } from "../../types/apis/guest.type";
-
 export type CreateSingleGuestFormDataType = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'> & { specialNeeds: string[]; };
 export type CreateFamilyGuestFormDataType = {
   familyName: string;

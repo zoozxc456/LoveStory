@@ -2,23 +2,29 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@/*": [
+        "./"
+      ],
       "@interfaces/*": [
-        "interfaces/*"
+        "./interfaces/*"
       ],
       "@enums/*": [
-        "enums/*"
+        "./enums/*"
       ],
       "@components/*": [
-        "components/*"
+        "./components/*"
       ],
       "@css/*": [
-        "assets/css/*"
+        "./assets/css/*"
       ],
       "@images/*": [
-        "assets/images/*"
+        "./assets/images/*"
       ],
       "@layouts/*": [
-        "layouts/*"
+        "./layouts/*"
+      ],
+      "@types/*": [
+        "./types/*"
       ]
     }
   },

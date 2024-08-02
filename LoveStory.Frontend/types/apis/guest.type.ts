@@ -1,6 +1,3 @@
-import type { IBanquetTable } from "./banquetTable.type";
-import type { IUser } from "./user.type";
-
 export interface IGuest {
   guestId: string;
   guestName: string;

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
-import DashboardCard from "../../components/index/DashboardCard.vue";
+import { IndexDashboardCard } from ".nuxt/components";
 
 describe('Test Dashboard Card Display Text', () => {
   it('Give a specific header text, should be displayed correct header text', () => {
-    const wrapper = mount(DashboardCard, {
+    const wrapper = mount(IndexDashboardCard, {
       props: {
         header: "已邀請",
         body: ["352 位賓客", "(男方: 100 位 / 女方: 100 位)"]
@@ -16,7 +16,7 @@ describe('Test Dashboard Card Display Text', () => {
   });
 
   it('Give a specific body text array, should be displayed correct body', () => {
-    const wrapper = mount(DashboardCard, {
+    const wrapper = mount(IndexDashboardCard, {
       props: {
         header: "已邀請",
         body: ["352 位賓客", "(男方: 100 位 / 女方: 100 位)"]

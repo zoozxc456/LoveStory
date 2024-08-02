@@ -1,5 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-
 export default defineNuxtConfig({
   modules: ['@nuxt/test-utils/module'],
   compatibilityDate: '2024-04-03',
@@ -11,14 +9,17 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  alias: {
-    "@interfaces/*": "interfaces/*",
-    "@enums/*": "enums/*",
-    "@components/*": "components/*",
-    "@css/*": "assets/css/*",
-    "@images/*": "assets/images/*",
-    "@layouts/*": "layouts/*"
+  imports: {
+    dirs: [
+      'apis',
+      'apis/**',
+      'composables',
+      'composables/*/index.{ts,js,mjs,mts}',
+      'composables/**',
+      'types',
+      'types/*/index.{ts,js,mjs,mts}',
+      'types/**'
+    ]
   },
   plugins: [{ src: '~/plugins/font-awesome.ts' }],
-  runtimeConfig: {}
 });

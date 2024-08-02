@@ -78,7 +78,7 @@
         </tr>
         <tr class="">
           <td :colspan="headerColumns.length" class="p-0">
-            <GuestManagementRowDetail
+            <GuestsGuestManagementRowDetail
               :guests="guest.details"
               :class="isExpanded ? 'block' : 'hidden'"
             />
@@ -87,12 +87,12 @@
       </tbody>
     </table>
   </div>
-  <CreateGuestDialog
+  <GuestsCreateGuestDialog
     v-model:controller="createGuestDialogDisplayController"
     @update:guests="emits('update:guests')"
   />
 
-  <DeleteGuestDialog
+  <GuestsDeleteGuestDialog
     v-if="deleteGuestDialogIsShow"
     :guest-id="deleteGuestDialogData.guestId"
     :guest-name="deleteGuestDialogData.guestName"
@@ -103,12 +103,6 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
-import GuestManagementRowDetail from "./GuestManagementRowDetail.vue";
-import DeleteGuestDialog from "./DeleteGuestDialog.vue";
-import CreateGuestDialog from "./CreateGuestDialog/CreateGuestDialog.vue";
-import type { GuestManagement } from "types/GuestManagement/guestManagement.type";
-import { useDialogDisplayController } from "../../composables/admin/useDialogDisplayController";
-import { useDeleteGuestDialog } from "../../composables/admin/useDeleteGuestDialog";
 type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 type GuestManagementTableData = GuestManagement & { isExpanded: boolean };
 const createGuestDialogDisplayController = useDialogDisplayController();

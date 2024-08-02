@@ -39,12 +39,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import type { IGuestSpecialNeed } from "types/apis/guest.type";
-import type {
-  GroupGuestManagementDetail,
-  SingleGuestManagementDetail,
-} from "types/GuestManagement/guestManagement.type";
-
 type GuestManagementRowDetailProps = {
   guests: (SingleGuestManagementDetail | GroupGuestManagementDetail)[];
 };

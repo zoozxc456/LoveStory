@@ -1,13 +1,11 @@
 <template>
   <div class="w-full mx-auto">
     <div class="header text-center text-2xl">禮金管理</div>
-    <GiftManagementTable :gifts="gifts" />
+    <GiftsGiftManagementTable :gifts="gifts" />
   </div>
 </template>
 
 <script setup lang="ts">
-import GiftManagementTable from "../components/gifts/GiftManagementTable.vue";
-
 export type GiftManagement = {
   guestName: string;
   guestRelationship: string;

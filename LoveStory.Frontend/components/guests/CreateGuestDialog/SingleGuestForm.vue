@@ -26,7 +26,7 @@
 
       <div>
         <h6>賓客關係</h6>
-        <RelationshopDropDownList
+        <GuestsRelationshopDropDownList
           v-model:relationship.trim="data.guestRelationship"
         />
       </div>
@@ -56,7 +56,9 @@
           特殊需求
         </h6>
         <div class="flex-1">
-          <SpecialNeedDropDownList v-model:special-needs="data.specialNeeds" />
+          <GuestsCreateGuestDialogSpecialNeedDropDownList
+            v-model:special-needs="data.specialNeeds"
+          />
         </div>
       </div>
 
@@ -100,17 +102,6 @@
 </template>
 
 <script setup lang="ts">
-import RelationshopDropDownList from "../RelationshopDropDownList.vue";
-import SpecialNeedDropDownList from "./SpecialNeedDropDownList.vue";
-export type CreateGuestFormDataType = {
-  guestName: string;
-  guestRelationship: string;
-  guestType: string;
-  isAttended: boolean;
-  remark: string;
-  specialNeeds: string[];
-};
-
 const data = defineModel<CreateGuestFormDataType>({ default: {} });
 
 const emits = defineEmits<{

@@ -1,5 +1,3 @@
-import type { IUser } from "./user.type";
-
 export interface IBanquetTable {
   banquetTableId: string;
   maxSeatAmount: number;

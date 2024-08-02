@@ -1,6 +1,3 @@
-import type { AddFamilyGuestRequest, AddGuestManagementRequest, GetGuestManagementResponse, IGuest } from "types/apis/guest.type";
-import type { ErrorResponse } from "types/apis/index.type";
-
 const fetchAllGuests = async () => useFetch<GetGuestManagementResponse, ErrorResponse>("http://localhost:5066/api/Guest", {
   server: true,
   lazy: false,
