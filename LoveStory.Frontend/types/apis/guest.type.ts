@@ -1,5 +1,4 @@
 import type { IBanquetTable } from "./banquetTable.type";
-import type { ApiResponse } from "./index.type";
 import type { IUser } from "./user.type";
 
 export interface IGuest {
@@ -39,3 +38,11 @@ export interface IGuestGroup {
 
 export type GetGuestManagementResponse = IGuest[];
 export type AddGuestManagementRequest = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'>;
+export type AddFamilyGuestRequest = CreateFamilyGuestFormDataType;
+
+type CreateFamilyGuestFormDataType = {
+  familyName: string;
+  relationship: string;
+  isAttended: boolean;
+  attendance: (Pick<IGuest, 'guestName' | 'remark'> & { specialNeeds: string[]; })[];
+};

@@ -1,4 +1,4 @@
-import type { AddGuestManagementRequest, GetGuestManagementResponse, IGuest } from "types/apis/guest.type";
+import type { AddFamilyGuestRequest, AddGuestManagementRequest, GetGuestManagementResponse, IGuest } from "types/apis/guest.type";
 import type { ErrorResponse } from "types/apis/index.type";
 
 const fetchAllGuests = async () => useFetch<GetGuestManagementResponse, ErrorResponse>("http://localhost:5066/api/Guest", {
@@ -11,5 +11,6 @@ const fetchAllGuests = async () => useFetch<GetGuestManagementResponse, ErrorRes
 });
 
 const addGuest = async (data: AddGuestManagementRequest) => useFetch<any, ErrorResponse>('http://localhost:5066/api/Guest', { method: 'POST', body: data });
+const addFamilyGuest = async (data: AddFamilyGuestRequest) => useFetch<any, ErrorResponse>('http://localhost:5066/api/Guest/Family', { method: 'POST', body: data });
 const deleteGuest = async (data: Pick<IGuest, 'guestId'>) => useAsyncData<any, ErrorResponse>(`http://localhost:5066/api/Guest/${data}`, () => $fetch(`http://localhost:5066/api/Guest/${data}`, { method: 'DELETE' }));
-export { fetchAllGuests, addGuest, deleteGuest };
+export { fetchAllGuests, addGuest, addFamilyGuest, deleteGuest };

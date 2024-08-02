@@ -21,7 +21,7 @@ public class GuestController(IServiceProvider provider) : Controller
     [HttpPost]
     public async Task<IActionResult> AddGuest([FromBody] CreateGuestRequestModel request)
     {
-        var isSuccess = await _guestService.CreateNewGuest(new GuestDto
+        var toBeCreatedGuestDto = new GuestDto
         {
             GuestName = request.GuestName,
             Remark = request.Remark,
@@ -30,10 +30,62 @@ public class GuestController(IServiceProvider provider) : Controller
             CreateAt = DateTime.Now,
             Creator = new UserDto
             {
-                UserId = Guid.Parse("d31d634b-a157-4e60-8e0c-1058c50ac96d"),
+                UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
+                Username = "admin"
+            }
+        };
+
+        toBeCreatedGuestDto.SpecialNeeds = request.SpecialNeeds.Select(x => new GuestSpecialNeedDto
+        {
+            SpecialNeedContent = x,
+            CreateAt = DateTime.Now,
+            Guest = toBeCreatedGuestDto,
+            Creator = new UserDto
+            {
+                UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
                 Username = "admin"
             }
         });
+
+        var isSuccess = await _guestService.CreateNewGuest(toBeCreatedGuestDto);
+        return Ok(isSuccess);
+    }
+
+    [HttpPost("Family")]
+    public async Task<IActionResult> AddFamilyGuest([FromBody] CreateFamilyGuestRequestModel request)
+    {
+        var toBeCreatedGuestDtoList = request.Attendance.Select(x =>
+        {
+            var toBeCreatedGuestDto = new GuestDto
+            {
+                GuestName = x.GuestName,
+                Remark = x.Remark,
+                GuestRelationship = request.Relationship,
+                IsAttended = request.IsAttended,
+                CreateAt = DateTime.Now,
+                Creator = new UserDto
+                {
+                    UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
+                    Username = "admin"
+                }
+            };
+
+            toBeCreatedGuestDto.SpecialNeeds = x.SpecialNeeds.Select(need => new GuestSpecialNeedDto
+            {
+                SpecialNeedContent = need,
+                CreateAt = DateTime.Now,
+                Guest = toBeCreatedGuestDto,
+                Creator = new UserDto
+                {
+                    UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
+                    Username = "admin"
+                }
+            });
+
+            return toBeCreatedGuestDto;
+        });
+
+        var isSuccess = await _guestService.CreateFamilyGuest(request.FamilyName,toBeCreatedGuestDtoList.ToList());
         return Ok(isSuccess);
     }
 

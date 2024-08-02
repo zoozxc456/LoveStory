@@ -9,19 +9,53 @@ namespace LoveStory.Core.Services;
 public class GuestService(IServiceProvider provider) : IGuestService, IGuestManagementService
 {
     private readonly IRepository<GuestData> _guestRepository = provider.GetRequiredService<IRepository<GuestData>>();
+    private readonly IGuestGroupRepository _guestGroupRepository = provider.GetRequiredService<IGuestGroupRepository>();
 
     public IEnumerable<GuestDto> GetAllGuests() => _guestRepository.GetAll().Select(x => ConvertToDtoFromData(x));
+
     public async Task<bool> CreateNewGuest(GuestDto guestDto)
     {
-       return await _guestRepository.InsertAsync(new GuestData
+        return await _guestRepository.InsertAsync(new GuestData
         {
             GuestName = guestDto.GuestName,
             GuestRelationship = guestDto.GuestRelationship,
             IsAttended = guestDto.IsAttended,
             Remark = guestDto.Remark,
             CreatorId = guestDto.Creator.UserId,
-            CreateAt = guestDto.CreateAt
+            CreateAt = guestDto.CreateAt,
+            SpecialNeeds = guestDto.SpecialNeeds.Select(ConvertToDataToDto).ToList()
         });
+    }
+
+    public async Task<bool> CreateFamilyGuest(string familyName, List<GuestDto> guestDtoList)
+    {
+        var (isSuccess, groupId) = await _guestGroupRepository.CreateWithIdAsync(new GuestGroupData
+        {
+            GuestGroupName = familyName,
+            CreateAt = DateTime.Now,
+            CreatorId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
+            Remark = ""
+        });
+
+        if (isSuccess)
+        {
+            var guestDatas = guestDtoList.Select(x => new GuestData
+            {
+                GuestName = x.GuestName,
+                GuestRelationship = x.GuestRelationship,
+                IsAttended = x.IsAttended,
+                Remark = x.Remark,
+                CreatorId = x.Creator.UserId,
+                CreateAt = DateTime.Now,
+                SpecialNeeds = x.SpecialNeeds.Select(ConvertToDataToDto).ToList(),
+                GuestGroupId = groupId
+            }).ToList();
+            isSuccess = await _guestRepository.InsertMultipleAsync(guestDatas);
+
+            return isSuccess;
+        }
+
+        return isSuccess;
     }
 
     public async Task<bool> DeleteGuestById(Guid guestId)
@@ -35,6 +69,14 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
     public IEnumerable<GuestDto> GetAllGroupGuests() => GetAllGuests().Where(x => x.GuestGroup != null);
 
     public IEnumerable<GuestDto> GetAllSingleGuests() => GetAllGuests().Where(x => x.GuestGroup == null);
+
+    public static GuestSpecialNeedData ConvertToDataToDto(GuestSpecialNeedDto dto) => new()
+    {
+        SpecialNeedContent = dto.SpecialNeedContent,
+        GuestId = dto.Guest.GuestId,
+        CreateAt = dto.CreateAt,
+        CreatorId = dto.Creator.UserId
+    };
 
     private static GuestDto ConvertToDtoFromData(GuestData data) => new()
     {

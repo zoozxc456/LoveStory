@@ -17,7 +17,7 @@ builder.Services.AddScoped<IRepository<UserData>, GenericRepository<UserData>>()
 builder.Services.AddScoped<IRepository<BanquetTableData>, GenericRepository<BanquetTableData>>();
 builder.Services.AddScoped<IRepository<GuestData>, GuestRepository>();
 builder.Services.AddScoped<IRepository<GuestAttendanceData>, GenericRepository<GuestAttendanceData>>();
-builder.Services.AddScoped<IRepository<GuestGroupData>, GenericRepository<GuestGroupData>>();
+builder.Services.AddScoped<IGuestGroupRepository, GuestGroupRepository>();
 builder.Services.AddScoped<IRepository<GuestSpecialNeedData>, GenericRepository<GuestSpecialNeedData>>();
 
 builder.Services.AddDbContext<LoveStoryContext>(option =>

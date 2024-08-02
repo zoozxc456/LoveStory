@@ -27,5 +27,5 @@ public class GuestGroupData
 
     [InverseProperty("CreatedGroups")] public UserData Creator { get; set; }
 
-    public ICollection<GuestData> Guests { get; set; } = new List<GuestData>();
+    public IEnumerable<GuestData> Guests { get; set; } = new List<GuestData>();
 }

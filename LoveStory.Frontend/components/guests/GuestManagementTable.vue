@@ -4,7 +4,7 @@
       <button
         class="select-none rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white duration-150 ease-in-out py-2 px-6 text-center align-middle font-sans text-sm font-bold uppercases hadow-md transition-all hover:shadow-lg focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         type="button"
-        @click="handleShowCreateGuestDialog"
+        @click="createGuestDialogDisplayController.onShow"
       >
         新增賓客
       </button>
@@ -88,9 +88,8 @@
     </table>
   </div>
   <CreateGuestDialog
-    v-if="createGuestDialogIsShow"
-    @guest-add="handleCreateGuest"
-    @close-dialog="handleCancelCreateGuestDialog"
+    v-model:controller="createGuestDialogDisplayController"
+    @update:guests="emits('update:guests')"
   />
 
   <DeleteGuestDialog
@@ -105,14 +104,14 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import GuestManagementRowDetail from "./GuestManagementRowDetail.vue";
-import CreateGuestDialog from "./CreateGuestDialog.vue";
 import DeleteGuestDialog from "./DeleteGuestDialog.vue";
+import CreateGuestDialog from "./CreateGuestDialog/CreateGuestDialog.vue";
 import type { GuestManagement } from "types/GuestManagement/guestManagement.type";
 import { useDialogDisplayController } from "../../composables/admin/useDialogDisplayController";
 import { useDeleteGuestDialog } from "../../composables/admin/useDeleteGuestDialog";
-import { useCreateGuestDialog } from "../../composables/admin/useCreateGuestDialog";
 type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 type GuestManagementTableData = GuestManagement & { isExpanded: boolean };
+const createGuestDialogDisplayController = useDialogDisplayController();
 
 const props = defineProps<GuestManagementTableProps>();
 const emits = defineEmits(["update:guests"]);
@@ -123,13 +122,6 @@ const {
   handleCancel: handleCancelDeleteGuestDialog,
   handleDeleteGuestById,
 } = useDeleteGuestDialog(useDialogDisplayController(), emits);
-
-const {
-  isShow: createGuestDialogIsShow,
-  handleTriggerShowDialog: handleShowCreateGuestDialog,
-  handleCancel: handleCancelCreateGuestDialog,
-  handleCreateGuest,
-} = useCreateGuestDialog(useDialogDisplayController(), emits);
 
 const expandStatusRecord = ref<Record<string, boolean>>({});
 
