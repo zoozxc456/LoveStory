@@ -1,6 +1,6 @@
 <template>
-  <div class="relative h-11 w-full min-w-[200px] mt-3">
-    <div ref="dropDownListElementRef">
+  <CommonDropDownList>
+    <template #presentation>
       <input
         class="w-full h-full px-3 py-3 font-sans text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 border-t-transparent text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
         placeholder=" "
@@ -13,9 +13,11 @@
       >
         賓客關係
       </label>
+    </template>
+    <template #list>
       <div
         class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-        :class="[displayController.isShow ? 'block' : 'hidden']"
+        :class="[displayController.state.isShow ? 'block' : 'hidden']"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
@@ -34,8 +36,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </CommonDropDownList>
 </template>
 
 <style scoped lang="scss"></style>
@@ -47,34 +49,11 @@ const relations = [
 ];
 
 const relationshipModelValue = defineModel<string>("relationship");
-const dropDownListElementRef = ref<HTMLDivElement | null>(null);
-
-const displayController = reactive({
-  isShow: false,
-  onShow: () => (displayController.isShow = true),
-  onClose: () => (displayController.isShow = false),
-  onToggle: () => (displayController.isShow = !displayController.isShow),
-});
+const displayController: IDialogDisplayController =
+  useDialogDisplayController();
 
 const handleSelectItem = (relationship: string) => {
   relationshipModelValue.value = relationship;
   displayController.onClose();
 };
-
-const handleClickOutside = ({ target }: MouseEvent) => {
-  if (
-    dropDownListElementRef.value &&
-    !dropDownListElementRef.value.contains(target as HTMLElement)
-  ) {
-    displayController.onClose();
-  }
-};
-
-onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("click", handleClickOutside);
-});
 </script>
