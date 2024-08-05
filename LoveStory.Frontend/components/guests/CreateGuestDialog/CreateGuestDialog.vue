@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="model?.state.isShow"
+    v-if="model.state.isShow"
     class="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
   >
     <guests-create-guest-dialog-select-guest-type-form
@@ -10,16 +10,16 @@
       @cancel="handleCancel"
     />
 
-    <guests-create-guest-dialog-single-guest-form
+    <SingleGuestForm
       v-if="step == 2 && guestType == 'single'"
-      v-model:model-value="data"
+      v-model:model-value="SingleGuestFormData"
       @cancel="handleCancel"
       @on-select="handleSelect"
     />
 
-    <guests-create-guest-dialog-family-guest-form
+    <FamilyGuestForm
       v-if="step == 2 && guestType == 'family'"
-      v-model:model-value="FamilyData"
+      v-model:model-value="FamilyGuestFormData"
       v-model:attendance-number="attendanceNumber"
       @cancel="handleCancel"
       @on-select="handleSelect"
@@ -30,15 +30,18 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import FamilyGuestForm from "../FamilyGuestForm.vue";
+import SingleGuestForm from "../SingleGuestForm.vue";
+
 const step = ref<number>(1);
 const guestType = ref<GuestType | null>(null);
 
 const emits = defineEmits(["update:guests"]);
-const model = defineModel<IDialogDisplayController>("controller");
+const model = defineModel<IDialogDisplayController>("controller", {
+  required: true,
+});
 
 const handleSelectType = (modelValue: GuestType | null) => {
-  console.log(modelValue);
-  console.log(guestType.value);
   step.value = 2;
 };
 
@@ -49,21 +52,21 @@ const handleCancel = () => {
 
 const handleSelect = async () => {
   if (guestType.value === "single") {
-    console.log(data);
-    await handleCreateGuest(data);
+    await handleCreateGuest();
   } else {
-    await handleCreateFamilyGuest(FamilyData);
+    await handleCreateFamilyGuest();
   }
 
   emits("update:guests");
-  model.value?.onClose();
+  model.value.onClose();
   step.value = 1;
   guestType.value = null;
 };
 
-const { data, handleCreateGuest } = useCreateGuestDialog();
+const { data: SingleGuestFormData, handleCreateGuest } =
+  useCreateSingleGuestDialog();
 const {
-  data: FamilyData,
+  data: FamilyGuestFormData,
   attendanceNumber,
   handleCreateGuest: handleCreateFamilyGuest,
 } = useCreateFamilyGuest();

@@ -60,7 +60,7 @@ public class GuestController(IServiceProvider provider) : Controller
             {
                 GuestName = x.GuestName,
                 Remark = x.Remark,
-                GuestRelationship = request.Relationship,
+                GuestRelationship = request.GuestRelationship,
                 IsAttended = request.IsAttended,
                 CreateAt = DateTime.Now,
                 Creator = new UserDto

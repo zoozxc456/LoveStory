@@ -1,7 +1,7 @@
-export type CreateSingleGuestFormDataType = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'> & { specialNeeds: string[]; };
-export type CreateFamilyGuestFormDataType = {
+export type SingleGuestFormDataType = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'> & { specialNeeds: string[]; };
+export type FamilyGuestFormDataType = {
   familyName: string;
-  relationship: string;
+  guestRelationship: string;
   isAttended: boolean;
   attendance: FamilyAttendanceDataType[];
 };

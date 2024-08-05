@@ -12,7 +12,7 @@ public class CreateGuestRequestModel
 public class CreateFamilyGuestRequestModel
 {
     public required string FamilyName { get; init; }
-    public required string Relationship { get; init; }
+    public required string GuestRelationship { get; init; }
     public required bool IsAttended { get; init; }
     public List<CreateFamilyGuestPersonRequestModel> Attendance { get; init; }
 }

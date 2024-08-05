@@ -1,3 +1,5 @@
+import type { FamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+
 export interface IGuest {
   guestId: string;
   guestName: string;
@@ -35,11 +37,4 @@ export interface IGuestGroup {
 
 export type GetGuestManagementResponse = IGuest[];
 export type AddGuestManagementRequest = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'>;
-export type AddFamilyGuestRequest = CreateFamilyGuestFormDataType;
-
-type CreateFamilyGuestFormDataType = {
-  familyName: string;
-  relationship: string;
-  isAttended: boolean;
-  attendance: (Pick<IGuest, 'guestName' | 'remark'> & { specialNeeds: string[]; })[];
-};
+export type AddFamilyGuestRequest = FamilyGuestFormDataType;

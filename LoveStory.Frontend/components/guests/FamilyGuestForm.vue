@@ -22,7 +22,7 @@
       <div>
         <h6>賓客關係</h6>
         <GuestsRelationshipDropDownList
-          v-model:relationship.trim="data.relationship"
+          v-model:relationship.trim="data.guestRelationship"
         />
       </div>
 
@@ -99,7 +99,7 @@
                 特殊需求
               </h6>
               <div class="flex-1">
-                <GuestsCreateGuestDialogSpecialNeedDropDownList
+                <SpecialNeedDropDownList
                   v-model:special-needs="guest.specialNeeds"
                 />
               </div>
@@ -148,8 +148,10 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import type { FamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import SpecialNeedDropDownList from "./SpecialNeedDropDownList.vue";
 
-const data = defineModel<CreateFamilyGuestFormDataType>({ default: {} });
+const data = defineModel<FamilyGuestFormDataType>({ required: true });
 const attendanceNumber = defineModel<number>("attendanceNumber", {
   default: 2,
 });

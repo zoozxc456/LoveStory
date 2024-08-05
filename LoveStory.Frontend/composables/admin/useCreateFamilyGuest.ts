@@ -1,24 +1,27 @@
-export const useCreateFamilyGuest = () => {
-  const attendanceNumber = ref<number>(2);
+import type { FamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 
-  const data = reactive<CreateFamilyGuestFormDataType>({
+export const useCreateFamilyGuest = () => {
+  const initialAttendanceNumber = 2;
+  const attendanceNumber = ref<number>(initialAttendanceNumber);
+
+  const data = reactive<FamilyGuestFormDataType>({
     familyName: "",
-    relationship: "",
+    guestRelationship: "",
     isAttended: false,
-    attendance: [...Array(attendanceNumber.value)].map<FamilyAttendanceDataType>(() => ({
+    attendance: Array.from(Array(initialAttendanceNumber)).map(() => ({
       guestName: "",
       remark: "",
       specialNeeds: [],
     }))
   });
 
-  const handleCreateGuest = async (formData: CreateFamilyGuestFormDataType) => {
-    if (validFormData(formData)) {
-      await addFamilyGuest(formData);
+  const handleCreateGuest = async () => {
+    if (validFormData(data)) {
+      await addFamilyGuest(data);
     }
   };
 
-  const validFormData = ({ }: CreateFamilyGuestFormDataType): boolean => {
+  const validFormData = ({ }: FamilyGuestFormDataType): boolean => {
     // if (guestName === "") return false;
     // if (guestRelationship === "") return false;
     // if (guestType === "") return false;
@@ -26,7 +29,7 @@ export const useCreateFamilyGuest = () => {
     return true;
   };
 
-  watch(attendanceNumber, (newVal, oldVal) => {
+  watch(() => data.attendance.length, (newVal, oldVal) => {
     if (newVal > oldVal) {
       data.attendance.push({
         guestName: "",
