@@ -9,3 +9,9 @@ export type FamilyGuestFormDataType = {
 export type FamilyAttendanceDataType = Pick<IGuest, "guestName" | "remark"> & { specialNeeds: string[]; };
 
 export type GuestType = 'single' | 'family';
+
+
+// Modify Form 
+
+export type ModifySingleGuestFormDataType = Omit<IGuest, 'seatLocation'>;
+export type ModifyFamilyGuestFormDataType = (Omit<IGuest, 'seatLocation'>)[];

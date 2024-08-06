@@ -66,6 +66,37 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
         return await _guestRepository.DeleteAsync(guest);
     }
 
+    public async Task<bool> ModifySingleGuest(GuestDto guestDto)
+    {
+        var guest = _guestRepository.GetAll().FirstOrDefault(x => x.GuestId == guestDto.GuestId);
+        if (guest == null) throw new Exception("No Data");
+
+        guest.GuestRelationship = guestDto.GuestRelationship;
+        guest.GuestName = guestDto.GuestName;
+        guest.Remark = guestDto.Remark;
+
+        guest.SpecialNeeds = guestDto.SpecialNeeds.Select(x =>
+        {
+            var guestSpecialNeedData = guest.SpecialNeeds.FirstOrDefault(g => g.SpecialNeedId == x.SpecialNeedId);
+            if (guestSpecialNeedData == null)
+            {
+                return new GuestSpecialNeedData
+                {
+                    SpecialNeedContent = x.SpecialNeedContent,
+                    GuestId = guest.GuestId,
+                    CreateAt = DateTime.Now,
+                    CreatorId = guest.CreatorId
+                };
+            }
+
+            guestSpecialNeedData.SpecialNeedContent = x.SpecialNeedContent;
+            return guestSpecialNeedData;
+        }).ToList();
+
+        var isSuccess = await _guestRepository.UpdateAsync(guest);
+        return isSuccess;
+    }
+
     public IEnumerable<GuestDto> GetAllGroupGuests() => GetAllGuests().Where(x => x.GuestGroup != null);
 
     public IEnumerable<GuestDto> GetAllSingleGuests() => GetAllGuests().Where(x => x.GuestGroup == null);

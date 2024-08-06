@@ -85,7 +85,7 @@ public class GuestController(IServiceProvider provider) : Controller
             return toBeCreatedGuestDto;
         });
 
-        var isSuccess = await _guestService.CreateFamilyGuest(request.FamilyName,toBeCreatedGuestDtoList.ToList());
+        var isSuccess = await _guestService.CreateFamilyGuest(request.FamilyName, toBeCreatedGuestDtoList.ToList());
         return Ok(isSuccess);
     }
 
@@ -93,5 +93,32 @@ public class GuestController(IServiceProvider provider) : Controller
     public async Task<IActionResult> DeleteGuestById(Guid guestId)
     {
         return Ok(await _guestService.DeleteGuestById(guestId));
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> ModifySingleGuest([FromBody] ModifySingleGuestRequestModel request)
+    {
+        var toBeModifiedGuestDto = new GuestDto
+        {
+            GuestId = request.GuestId,
+            GuestName = request.GuestName,
+            Remark = request.Remark,
+            GuestRelationship = request.GuestRelationship,
+            IsAttended = request.IsAttended,
+            CreateAt = DateTime.Now,
+            Creator = new UserDto
+            {
+                UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
+                Username = "admin"
+            },
+            SpecialNeeds = request.SpecialNeeds.Select(x => new GuestSpecialNeedDto
+            {
+                SpecialNeedId = x.SpecialNeedId,
+                SpecialNeedContent = x.SpecialNeedContent,
+            })
+        };
+
+        var isSuccess = await _guestService.ModifySingleGuest(toBeModifiedGuestDto);
+        return Ok(isSuccess);
     }
 }

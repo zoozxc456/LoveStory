@@ -64,6 +64,7 @@
             <button
               type="button"
               class="px-4 py-2 mx-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
+              @click="handleShowModifyGuestDialog(guest)"
             >
               修改
             </button>
@@ -99,13 +100,23 @@
     @close-dialog="handleCancelDeleteGuestDialog"
     @delete-guest="handleDeleteGuestById"
   />
+
+  <GuestsModifyGuestDialog
+    v-if="modifyGuestDialogDisplayController.state.isShow"
+    v-model:display-controller="modifyGuestDialogDisplayController"
+    :guest-data="(temp as GuestManagement)"
+  />
 </template>
 
 <script setup lang="ts">
 import dayjs from "dayjs";
 type GuestManagementTableProps = { guestManagements: GuestManagement[] };
-type GuestManagementTableData = GuestManagement & { isExpanded: boolean };
+export type GuestManagementTableData = GuestManagement & {
+  isExpanded: boolean;
+};
 const createGuestDialogDisplayController = useDialogDisplayController();
+const modifyGuestDialogDisplayController = useDialogDisplayController();
+const temp = ref<GuestManagement | null>(null);
 
 const props = defineProps<GuestManagementTableProps>();
 const emits = defineEmits(["update:guests"]);
@@ -152,5 +163,10 @@ const unionForSpecialNeeds = (guestManagement: GuestManagement): string[] => {
 
 const aggregateSpecialNeedsForGuest = (guest: GuestManagement): string => {
   return unionForSpecialNeeds(guest).join(",");
+};
+
+const handleShowModifyGuestDialog = (guest: GuestManagement) => {
+  temp.value = guest;
+  modifyGuestDialogDisplayController.onShow();
 };
 </script>
