@@ -14,7 +14,7 @@
           <input
             class="w-full h-full px-3 py-3 font-sans text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
             placeholder=" "
-            v-model.trim="data.familyName"
+            v-model.trim="data.guestGroupName"
           />
         </div>
       </div>
@@ -99,7 +99,7 @@
                 特殊需求
               </h6>
               <div class="flex-1">
-                <SpecialNeedDropDownList
+                <GuestsModifyGuestDialogSpecialNeedDropDownList
                   v-model:special-needs="guest.specialNeeds"
                 />
               </div>
@@ -148,10 +148,9 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import type { FamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
-import SpecialNeedDropDownList from "./SpecialNeedDropDownList.vue";
+import type { FamilyGuestFormDataType, ModifyFamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 
-const data = defineModel<FamilyGuestFormDataType>({ required: true });
+const data = defineModel<ModifyFamilyGuestFormDataType>({ required: true });
 const attendanceNumber = defineModel<number>("attendanceNumber", {
   default: 2,
 });

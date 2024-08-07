@@ -121,4 +121,32 @@ public class GuestController(IServiceProvider provider) : Controller
         var isSuccess = await _guestService.ModifySingleGuest(toBeModifiedGuestDto);
         return Ok(isSuccess);
     }
+
+    [HttpPut("Family")]
+    public async Task<IActionResult> ModifyFamilyGuests([FromBody] ModifyFamilyGuestRequestModel request)
+    {
+        var toBeModifiedGuestDtoList = request.Attendance.Select(attendance => new GuestDto
+        {
+            GuestId = attendance.GuestId,
+            GuestName = attendance.GuestName,
+            GuestRelationship = request.GuestRelationship,
+            Remark = attendance.Remark,
+            IsAttended = request.IsAttended,
+            SpecialNeeds = attendance.SpecialNeeds.Select(x => new GuestSpecialNeedDto
+            {
+                SpecialNeedId = x.SpecialNeedId,
+                SpecialNeedContent = x.SpecialNeedContent,
+            }),
+            GuestGroup = new GuestGroupDto
+            {
+                GuestGroupId = request.GuestGroupId,
+                GuestGroupName = request.GuestGroupName
+            }
+        }).ToList();
+
+
+        var isSuccess = await _guestService.ModifyFamilyGuest(toBeModifiedGuestDtoList);
+
+        return Ok(isSuccess);
+    }
 }

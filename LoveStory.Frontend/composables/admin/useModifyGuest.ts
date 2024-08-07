@@ -40,22 +40,33 @@ export const useModifySingleGuest = () => {
 export const useModifyFamilyGuest = () => {
   const attendanceNumber = ref<number>(0);
 
-  const data = reactive<FamilyGuestFormDataType>({
-    familyName: "",
+  const data = reactive<ModifyFamilyGuestFormDataType>({
+    guestGroupName: "",
     guestRelationship: "",
     isAttended: false,
-    attendance: []
+    attendance: [],
+    guestGroupId: ""
   });
 
-  const converter = (guestManagementData: GuestManagement): void => {
-    data.familyName = guestManagementData.guestName;
+  const converter = (guestManagementData: GroupGuestManagement): void => {
+    console.log(guestManagementData);
+    data.guestGroupId = guestManagementData.details[0].guestGroup?.guestGroupId ?? "";
+    data.guestGroupName = guestManagementData.guestName;
     data.guestRelationship = guestManagementData.guestRelationship;
     data.isAttended = guestManagementData.details[0].isAttended;
-    data.attendance = guestManagementData.details.map<FamilyAttendanceDataType>(detail => ({
-      guestName: detail.guestName,
-      remark: detail.remark,
-      specialNeeds: detail.specialNeeds.map(need => need.specialNeedContent)
-    }));
+    data.attendance = (guestManagementData.details as GroupGuestManagementDetail[]).map((detail) => (
+      {
+        guestName: detail.guestName,
+        remark: detail.remark,
+        specialNeeds: detail.specialNeeds,
+        guestRelationship: guestManagementData.guestRelationship,
+        guestId: detail.guestId,
+        createAt: detail.createAt,
+        creator: detail.creator,
+        isAttended: detail.isAttended,
+        guestGroup: detail.guestGroup
+      })
+    );
 
     attendanceNumber.value = data.attendance.length;
   };
@@ -64,7 +75,7 @@ export const useModifyFamilyGuest = () => {
     console.log(`===== Start Console.log for handle family modify =====`);
     console.log(data);
     console.log(`===== End Console.log for handle family modify =====`);
-    // modifySingleGuest(data);
+    modifyFamilyGuest(data);
   };
 
 
@@ -73,7 +84,16 @@ export const useModifyFamilyGuest = () => {
       data.attendance.push({
         guestName: "",
         remark: "",
-        specialNeeds: []
+        specialNeeds: [],
+        guestId: "00000000-0000-0000-0000-000000000000",
+        guestRelationship: "",
+        guestGroup: null,
+        isAttended: false,
+        createAt: new Date(),
+        creator: {
+          userId: "00000000-0000-0000-0000-000000000000",
+          username: ""
+        }
       });
     }
 

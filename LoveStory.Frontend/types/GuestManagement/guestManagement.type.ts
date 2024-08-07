@@ -1,6 +1,6 @@
 // Guest Management Detail Types
 export type SingleGuestManagementDetail = Omit<IGuest, 'guestRelationship' | 'guestGroup'>;
-export type GroupGuestManagementDetail = SingleGuestManagementDetail;
+export type GroupGuestManagementDetail =  Omit<IGuest, 'guestRelationship'>;
 
 // Guest Management Types
 type BasicGuestManagement = Pick<IGuest, 'guestId' | 'guestRelationship' | 'createAt' | 'creator' | 'guestName'>;

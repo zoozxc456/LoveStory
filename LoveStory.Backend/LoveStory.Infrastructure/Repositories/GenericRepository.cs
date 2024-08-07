@@ -18,7 +18,7 @@ public class GenericRepository<T>(LoveStoryContext context) : IRepository<T> whe
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> InsertMultipleAsync(ICollection<T> entities)
+    public async Task<bool> InsertMultipleAsync(IEnumerable<T> entities)
     {
         await context.Set<T>().AddRangeAsync(entities);
         return await context.SaveChangesAsync() > 0;
@@ -30,9 +30,13 @@ public class GenericRepository<T>(LoveStoryContext context) : IRepository<T> whe
         return await context.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> UpdateMultipleAsync(ICollection<T> entities)
+    public async Task<bool> UpdateMultipleAsync(List<T> entities)
     {
-        context.Attach(entities).State = EntityState.Modified;
+        entities.ForEach(entity =>
+        {
+            context.Attach(entity).State = EntityState.Modified;
+        });
+        // context.Attach(entities.First()).State = EntityState.Modified;
         return await context.SaveChangesAsync() > 0;
     }
 

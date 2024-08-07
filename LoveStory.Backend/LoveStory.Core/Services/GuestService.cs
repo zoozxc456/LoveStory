@@ -97,6 +97,85 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
         return isSuccess;
     }
 
+    public async Task<bool> ModifyFamilyGuest(List<GuestDto> guestDtoList)
+    {
+        var groupGuests = _guestRepository.GetAll().ToList().Where(guest=>guest.GuestGroupId.Equals(guestDtoList.First().GuestGroup?.GuestGroupId)).ToList();
+        var toBeModifiedGuests = groupGuests
+            .Where(guest => guestDtoList.Any(dto => dto.GuestId == guest.GuestId))
+            .ToList();
+
+        var toBeCreatedGuests = guestDtoList
+            .ExceptBy(toBeModifiedGuests.Select(x => x.GuestId), dto => dto.GuestId)
+            .Select(dto => new GuestData
+            {
+                GuestName = dto.GuestName,
+                GuestRelationship = dto.GuestRelationship,
+                Remark = dto.Remark,
+                IsAttended = dto.IsAttended,
+                SpecialNeeds = dto.SpecialNeeds.Select(need => new GuestSpecialNeedData
+                {
+                    GuestId = dto.GuestId,
+                    SpecialNeedContent = need.SpecialNeedContent,
+                    CreateAt = DateTime.Now,
+                    CreatorId = need.Creator.UserId
+                }).ToList(),
+                GuestGroupId = dto.GuestGroup?.GuestGroupId,
+                CreateAt = DateTime.Now,
+                CreatorId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
+            })
+            .ToList();
+
+        toBeModifiedGuests.ForEach(guest =>
+        {
+            var targetDto = guestDtoList.FirstOrDefault(x => x.GuestId == guest.GuestId);
+            if (targetDto == null) return;
+
+            guest.GuestName = targetDto.GuestName;
+            guest.GuestRelationship = targetDto.GuestRelationship;
+            guest.Remark = guest.Remark;
+            guest.IsAttended = guest.IsAttended;
+            guest.GuestGroupId = guest.GuestGroupId;
+            guest.SpecialNeeds = targetDto.SpecialNeeds.Select(x =>
+            {
+                var guestSpecialNeedData = guest.SpecialNeeds.FirstOrDefault(g => g.SpecialNeedId == x.SpecialNeedId);
+                if (guestSpecialNeedData == null)
+                {
+                    return new GuestSpecialNeedData
+                    {
+                        SpecialNeedContent = x.SpecialNeedContent,
+                        GuestId = guest.GuestId,
+                        CreateAt = DateTime.Now,
+                        CreatorId = guest.CreatorId
+                    };
+                }
+
+                guestSpecialNeedData.SpecialNeedContent = x.SpecialNeedContent;
+                return guestSpecialNeedData;
+            }).ToList();
+        });
+
+        var toBeDeletedGuests = _guestRepository.GetAll().ToList().Where(x=>x.GuestGroupId == guestDtoList[0].GuestGroup?.GuestGroupId).ExceptBy(guestDtoList.Select(x=>x.GuestId),x=>x.GuestId).ToList();
+
+        var isSuccess = true;
+
+        if (!toBeCreatedGuests.Count.Equals(0))
+        {
+            isSuccess &= await _guestRepository.InsertMultipleAsync(toBeCreatedGuests);
+        }
+
+        if (!toBeModifiedGuests.Count.Equals(0))
+        {
+            isSuccess &= await _guestRepository.UpdateMultipleAsync(toBeModifiedGuests);
+        }
+
+        if (!toBeDeletedGuests.Count.Equals(0))
+        {
+            isSuccess &= await _guestRepository.DeleteMultipleAsync(toBeDeletedGuests);
+        }
+        
+        return isSuccess;
+    }
+
     public IEnumerable<GuestDto> GetAllGroupGuests() => GetAllGuests().Where(x => x.GuestGroup != null);
 
     public IEnumerable<GuestDto> GetAllSingleGuests() => GetAllGuests().Where(x => x.GuestGroup == null);

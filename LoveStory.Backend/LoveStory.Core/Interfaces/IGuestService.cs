@@ -10,4 +10,5 @@ public interface IGuestService
     Task<bool> DeleteGuestById(Guid guestId);
 
     Task<bool> ModifySingleGuest(GuestDto guestDto);
+    Task<bool> ModifyFamilyGuest(List<GuestDto> guestDtoList);
 }
