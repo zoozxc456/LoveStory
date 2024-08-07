@@ -1,3 +1,4 @@
+using AutoMapper;
 using LoveStory.Core.DTOs;
 using LoveStory.Core.Interfaces;
 using LoveStory.Infrastructure.Data;
@@ -10,21 +11,13 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
 {
     private readonly IRepository<GuestData> _guestRepository = provider.GetRequiredService<IRepository<GuestData>>();
     private readonly IGuestGroupRepository _guestGroupRepository = provider.GetRequiredService<IGuestGroupRepository>();
-
-    public IEnumerable<GuestDto> GetAllGuests() => _guestRepository.GetAll().Select(x => ConvertToDtoFromData(x));
+    private readonly IMapper _mapper = provider.GetRequiredService<IMapper>();
+    public IEnumerable<GuestDto> GetAllGuests() => _guestRepository.GetAll().Select(x => _mapper.Map<GuestDto>(x));
 
     public async Task<bool> CreateNewGuest(GuestDto guestDto)
     {
-        return await _guestRepository.InsertAsync(new GuestData
-        {
-            GuestName = guestDto.GuestName,
-            GuestRelationship = guestDto.GuestRelationship,
-            IsAttended = guestDto.IsAttended,
-            Remark = guestDto.Remark,
-            CreatorId = guestDto.Creator.UserId,
-            CreateAt = guestDto.CreateAt,
-            SpecialNeeds = guestDto.SpecialNeeds.Select(ConvertToDataToDto).ToList()
-        });
+        var guestData = _mapper.Map<GuestData>(guestDto);
+        return await _guestRepository.InsertAsync(guestData);
     }
 
     public async Task<bool> CreateFamilyGuest(string familyName, List<GuestDto> guestDtoList)
@@ -39,18 +32,9 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
 
         if (isSuccess)
         {
-            var guestDatas = guestDtoList.Select(x => new GuestData
-            {
-                GuestName = x.GuestName,
-                GuestRelationship = x.GuestRelationship,
-                IsAttended = x.IsAttended,
-                Remark = x.Remark,
-                CreatorId = x.Creator.UserId,
-                CreateAt = DateTime.Now,
-                SpecialNeeds = x.SpecialNeeds.Select(ConvertToDataToDto).ToList(),
-                GuestGroupId = groupId
-            }).ToList();
-            isSuccess = await _guestRepository.InsertMultipleAsync(guestDatas);
+            var toBeCreatedGuests = guestDtoList.Select(x => _mapper.Map<GuestData>(x)).ToList();
+            toBeCreatedGuests.ForEach(guest => { guest.GuestGroupId = groupId; });
+            isSuccess = await _guestRepository.InsertMultipleAsync(toBeCreatedGuests);
 
             return isSuccess;
         }
@@ -99,30 +83,15 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
 
     public async Task<bool> ModifyFamilyGuest(List<GuestDto> guestDtoList)
     {
-        var groupGuests = _guestRepository.GetAll().ToList().Where(guest=>guest.GuestGroupId.Equals(guestDtoList.First().GuestGroup?.GuestGroupId)).ToList();
+        var groupGuests = _guestRepository.GetAll().ToList()
+            .Where(guest => guest.GuestGroupId.Equals(guestDtoList.First().GuestGroup?.GuestGroupId)).ToList();
         var toBeModifiedGuests = groupGuests
             .Where(guest => guestDtoList.Any(dto => dto.GuestId == guest.GuestId))
             .ToList();
 
         var toBeCreatedGuests = guestDtoList
             .ExceptBy(toBeModifiedGuests.Select(x => x.GuestId), dto => dto.GuestId)
-            .Select(dto => new GuestData
-            {
-                GuestName = dto.GuestName,
-                GuestRelationship = dto.GuestRelationship,
-                Remark = dto.Remark,
-                IsAttended = dto.IsAttended,
-                SpecialNeeds = dto.SpecialNeeds.Select(need => new GuestSpecialNeedData
-                {
-                    GuestId = dto.GuestId,
-                    SpecialNeedContent = need.SpecialNeedContent,
-                    CreateAt = DateTime.Now,
-                    CreatorId = need.Creator.UserId
-                }).ToList(),
-                GuestGroupId = dto.GuestGroup?.GuestGroupId,
-                CreateAt = DateTime.Now,
-                CreatorId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
-            })
+            .Select(dto => _mapper.Map<GuestData>(dto))
             .ToList();
 
         toBeModifiedGuests.ForEach(guest =>
@@ -154,7 +123,9 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
             }).ToList();
         });
 
-        var toBeDeletedGuests = _guestRepository.GetAll().ToList().Where(x=>x.GuestGroupId == guestDtoList[0].GuestGroup?.GuestGroupId).ExceptBy(guestDtoList.Select(x=>x.GuestId),x=>x.GuestId).ToList();
+        var toBeDeletedGuests = _guestRepository.GetAll().ToList()
+            .Where(x => x.GuestGroupId == guestDtoList[0].GuestGroup?.GuestGroupId)
+            .ExceptBy(guestDtoList.Select(x => x.GuestId), x => x.GuestId).ToList();
 
         var isSuccess = true;
 
@@ -172,74 +143,13 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
         {
             isSuccess &= await _guestRepository.DeleteMultipleAsync(toBeDeletedGuests);
         }
-        
+
         return isSuccess;
     }
 
     public IEnumerable<GuestDto> GetAllGroupGuests() => GetAllGuests().Where(x => x.GuestGroup != null);
 
     public IEnumerable<GuestDto> GetAllSingleGuests() => GetAllGuests().Where(x => x.GuestGroup == null);
-
-    public static GuestSpecialNeedData ConvertToDataToDto(GuestSpecialNeedDto dto) => new()
-    {
-        SpecialNeedContent = dto.SpecialNeedContent,
-        GuestId = dto.Guest.GuestId,
-        CreateAt = dto.CreateAt,
-        CreatorId = dto.Creator.UserId
-    };
-
-    private static GuestDto ConvertToDtoFromData(GuestData data) => new()
-    {
-        GuestId = data.GuestId,
-        GuestName = data.GuestName,
-        GuestRelationship = data.GuestRelationship,
-        IsAttended = data.IsAttended,
-        Remark = data.Remark,
-        CreateAt = data.CreateAt,
-        GuestGroup = ConvertToDtoFromData(data.GuestGroup),
-        SeatLocation = ConvertToDtoFromData(data.SeatLocation),
-        Creator = ConvertToDtoFromData(data.Creator),
-        SpecialNeeds = data.SpecialNeeds.Select(ConvertToDtoFromData)
-    };
-
-    private static GuestGroupDto? ConvertToDtoFromData(GuestGroupData? data) => data == null
-        ? null
-        : new()
-        {
-            GuestGroupId = data.GuestGroupId,
-            GuestGroupName = data.GuestGroupName,
-            Remark = data.Remark,
-            CreateAt = data.CreateAt,
-            Creator = ConvertToDtoFromData(data.Creator)
-        };
-
-    private static UserDto ConvertToDtoFromData(UserData data) => new()
-    {
-        UserId = data.UserId,
-        Username = data.Username
-    };
-
-    private static BanquetTableDto? ConvertToDtoFromData(BanquetTableData? data) => data == null
-        ? null
-        : new()
-        {
-            BanquetTableId = data.BanquetTableId,
-            MaxSeatAmount = data.MaxSeatAmount,
-            MinSeatAmount = data.MinSeatAmount,
-            TableAlias = data.TableAlias,
-            Remark = data.Remark,
-            CreateAt = data.CreateAt,
-            Creator = ConvertToDtoFromData(data.Creator)
-        };
-
-    private static GuestSpecialNeedDto ConvertToDtoFromData(GuestSpecialNeedData data) => new()
-    {
-        SpecialNeedId = data.SpecialNeedId,
-        SpecialNeedContent = data.SpecialNeedContent,
-        Guest = ConvertToDtoFromData(data.Guest),
-        CreateAt = data.CreateAt,
-        Creator = ConvertToDtoFromData(data.Creator)
-    };
 
     public GetGuestManagementDto GetAllGuestManagement() => new()
     {

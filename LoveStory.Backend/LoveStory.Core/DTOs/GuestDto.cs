@@ -8,7 +8,7 @@ public class GuestDto
     public string GuestName { get; set; } = string.Empty;
     public string GuestRelationship { get; set; } = string.Empty;
     public GuestGroupDto? GuestGroup { get; set; }
-    public BanquetTableDto? SeatLocation { get; set; } = new();
+    public BanquetTableDto? SeatLocation { get; set; }
     public bool IsAttended { get; set; }
     public string Remark { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; }
