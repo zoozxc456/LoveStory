@@ -2,7 +2,7 @@ using AutoMapper;
 using LoveStory.Core.DTOs;
 using LoveStory.Infrastructure.Data;
 
-namespace LoveStory.Core.Extensions;
+namespace LoveStory.Core.Mappers;
 
 public class Mapper : Profile
 {

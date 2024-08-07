@@ -1,4 +1,3 @@
-using AutoMapper;
 using LoveStory.Core.Interfaces;
 using LoveStory.Core.Services;
 using LoveStory.Infrastructure.Contexts;
@@ -6,7 +5,7 @@ using LoveStory.Infrastructure.Data;
 using LoveStory.Infrastructure.Interfaces;
 using LoveStory.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Mapper = LoveStory.Core.Extensions.Mapper;
+using Mapper = LoveStory.Core.Mappers.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
