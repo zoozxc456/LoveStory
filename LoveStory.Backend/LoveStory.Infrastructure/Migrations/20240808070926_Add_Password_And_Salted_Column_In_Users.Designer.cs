@@ -4,6 +4,7 @@ using LoveStory.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoveStory.Infrastructure.Migrations
 {
     [DbContext(typeof(LoveStoryContext))]
-    partial class LoveStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240808070926_Add_Password_And_Salted_Column_In_Users")]
+    partial class Add_Password_And_Salted_Column_In_Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
