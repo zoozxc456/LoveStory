@@ -41,6 +41,7 @@ public class ModifySingleGuestRequestModel
     public required bool IsAttended { get; init; }
     public required string Remark { get; init; }
     public required List<ModifySpecialNeedRequestModel> SpecialNeeds { get; init; }
+    public required ModifyGuestSeatLocationRequestModel? SeatLocation { get; init; }
 }
 
 public class ModifyFamilyGuestRequestModel
@@ -66,4 +67,10 @@ public class ModifySpecialNeedRequestModel
 {
     public Guid SpecialNeedId { get; set; }
     public string SpecialNeedContent { get; set; } = string.Empty;
+}
+
+public class ModifyGuestSeatLocationRequestModel
+{
+    public required Guid BanquetTableId { get; init; }
+    public required string Remark { get; init; }
 }

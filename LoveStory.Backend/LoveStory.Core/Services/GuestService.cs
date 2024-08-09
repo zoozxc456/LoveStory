@@ -58,7 +58,8 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
         guest.GuestRelationship = guestDto.GuestRelationship;
         guest.GuestName = guestDto.GuestName;
         guest.Remark = guestDto.Remark;
-
+        guest.IsAttended = guestDto.IsAttended;
+        guest.SeatLocationId = guestDto.SeatLocation?.BanquetTableId;
         guest.SpecialNeeds = guestDto.SpecialNeeds.Select(x =>
         {
             var guestSpecialNeedData = guest.SpecialNeeds.FirstOrDefault(g => g.SpecialNeedId == x.SpecialNeedId);

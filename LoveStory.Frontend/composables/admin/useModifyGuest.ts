@@ -13,6 +13,9 @@ export const useModifySingleGuest = () => {
     creator: {
       userId: "",
       username: ""
+    },
+    seatLocation: {
+      banquetTableId: ""
     }
   });
 
@@ -25,6 +28,7 @@ export const useModifySingleGuest = () => {
     data.specialNeeds = guestManagementData.details[0].specialNeeds;
     data.createAt = guestManagementData.createAt;
     data.creator = guestManagementData.creator;
+    data.seatLocation = guestManagementData.details[0].seatLocation
   };
 
   const handleModifyGuest = async () => {
@@ -64,7 +68,8 @@ export const useModifyFamilyGuest = () => {
         createAt: detail.createAt,
         creator: detail.creator,
         isAttended: detail.isAttended,
-        guestGroup: detail.guestGroup
+        guestGroup: detail.guestGroup,
+        seatLocation: detail.seatLocation
       })
     );
 
@@ -93,6 +98,9 @@ export const useModifyFamilyGuest = () => {
         creator: {
           userId: "00000000-0000-0000-0000-000000000000",
           username: ""
+        },
+        seatLocation: {
+          banquetTableId: ""
         }
       });
     }

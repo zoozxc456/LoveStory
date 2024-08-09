@@ -13,7 +13,7 @@ export type GuestType = 'single' | 'family';
 
 // Modify Form 
 
-export type ModifySingleGuestFormDataType = Omit<IGuest, 'seatLocation'>;
+export type ModifySingleGuestFormDataType = Omit<IGuest, 'seatLocation'> & { seatLocation: Pick<IBanquetTable, 'banquetTableId'>; };
 // export type ModifyFamilyGuestFormDataType = (Omit<IGuest, 'seatLocation'>)[];
 
 // export type ModifyFamilyGuestFormDataType = ({

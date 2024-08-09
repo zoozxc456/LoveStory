@@ -49,6 +49,21 @@
         </div>
       </div>
 
+      <div class="flex w-full items-center" v-if="data.isAttended">
+        <h6
+          class="flex-1 block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-inherit"
+        >
+          桌位
+        </h6>
+        <div class="flex-1">
+          <GuestsSeatLocationDropDownList
+            :tables="tables"
+            v-model:model="data.seatLocation"
+            v-model:display-controller="displayController"
+          />
+        </div>
+      </div>
+
       <div class="w-full">
         <h6
           class="flex-1 block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-inherit"
@@ -110,6 +125,9 @@ const emits = defineEmits<{
   "on-select": [];
   cancel: [];
 }>();
+
+const displayController = useDialogDisplayController();
+const { data: tables } = useBanquetTable();
 
 watch(
   () => data.value,
