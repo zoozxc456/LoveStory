@@ -43,6 +43,22 @@
           </div>
         </div>
       </div>
+
+      <div class="flex w-full items-center" v-if="data.isAttended">
+        <h6
+          class="flex-1 block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-inherit"
+        >
+          桌位
+        </h6>
+        <div class="flex-1">
+          <GuestsSeatLocationDropDownList
+            :tables="tables"
+            v-model:model="data.seatLocation"
+            v-model:display-controller="displayController"
+          />
+        </div>
+      </div>
+
       <div class="flex gap-2 items-center">
         <div class="flex-1">
           <h6>參與人數</h6>
@@ -148,7 +164,10 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import type { FamilyGuestFormDataType, ModifyFamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import type {
+  FamilyGuestFormDataType,
+  ModifyFamilyGuestFormDataType,
+} from "types/GuestManagement/guestFormData.type";
 
 const data = defineModel<ModifyFamilyGuestFormDataType>({ required: true });
 const attendanceNumber = defineModel<number>("attendanceNumber", {
@@ -167,4 +186,7 @@ const handleCollsapeClick = (index: number) => {
     ? collsapeCollection.delete(index)
     : collsapeCollection.add(index);
 };
+
+const { data: tables } = useBanquetTable();
+const displayController = useDialogDisplayController();
 </script>

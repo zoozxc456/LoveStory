@@ -28,7 +28,7 @@ export const useModifySingleGuest = () => {
     data.specialNeeds = guestManagementData.details[0].specialNeeds;
     data.createAt = guestManagementData.createAt;
     data.creator = guestManagementData.creator;
-    data.seatLocation = guestManagementData.details[0].seatLocation
+    data.seatLocation = guestManagementData.details[0].seatLocation;
   };
 
   const handleModifyGuest = async () => {
@@ -49,7 +49,10 @@ export const useModifyFamilyGuest = () => {
     guestRelationship: "",
     isAttended: false,
     attendance: [],
-    guestGroupId: ""
+    guestGroupId: "",
+    seatLocation: {
+      banquetTableId: ""
+    }
   });
 
   const converter = (guestManagementData: GroupGuestManagement): void => {
@@ -73,6 +76,7 @@ export const useModifyFamilyGuest = () => {
       })
     );
 
+    data.seatLocation = guestManagementData.details[0].seatLocation;
     attendanceNumber.value = data.attendance.length;
   };
 

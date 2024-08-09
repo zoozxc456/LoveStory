@@ -95,6 +95,14 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
             .Select(dto => _mapper.Map<GuestData>(dto))
             .ToList();
 
+        toBeCreatedGuests.ForEach(guest =>
+        {
+            guest.GuestGroupId = guest.GuestGroup?.GuestGroupId;
+            guest.GuestGroup = null;
+            guest.CreatorId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60");
+            guest.CreateAt = DateTime.Now;
+        });
+
         toBeModifiedGuests.ForEach(guest =>
         {
             var targetDto = guestDtoList.FirstOrDefault(x => x.GuestId == guest.GuestId);
@@ -102,6 +110,7 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
 
             guest.GuestName = targetDto.GuestName;
             guest.GuestRelationship = targetDto.GuestRelationship;
+            guest.SeatLocationId = targetDto.SeatLocation?.BanquetTableId;
             guest.Remark = guest.Remark;
             guest.IsAttended = guest.IsAttended;
             guest.GuestGroupId = guest.GuestGroupId;

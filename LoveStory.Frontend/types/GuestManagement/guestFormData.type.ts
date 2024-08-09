@@ -25,4 +25,4 @@ export type ModifySingleGuestFormDataType = Omit<IGuest, 'seatLocation'> & { sea
 //   attendance: ModifySingleGuestFormDataType[];
 // });
 
-export type ModifyFamilyGuestFormDataType = Pick<IGuestGroup, "guestGroupId" | "guestGroupName"> & Pick<IGuest, "guestRelationship" | "isAttended"> & { attendance: ModifySingleGuestFormDataType[]; };
+export type ModifyFamilyGuestFormDataType = Pick<IGuestGroup, "guestGroupId" | "guestGroupName"> & Pick<IGuest, "guestRelationship" | "isAttended"> & { attendance: ModifySingleGuestFormDataType[]; seatLocation: Pick<IBanquetTable, 'banquetTableId'>; };

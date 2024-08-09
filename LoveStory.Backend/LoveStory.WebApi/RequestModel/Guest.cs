@@ -51,6 +51,7 @@ public class ModifyFamilyGuestRequestModel
     public required string GuestGroupName { get; init; }
     public required string GuestRelationship { get; init; }
     public required bool IsAttended { get; init; }
+    public required ModifyGuestSeatLocationRequestModel? SeatLocation { get; init; }
     public List<ModifyFamilyGuestPersonRequestModel> Attendance { get; init; }
 }
 
