@@ -10,7 +10,7 @@ const fetchAllGuests = async () => useFetch<GetGuestManagementResponse, ErrorRes
 });
 
 const addGuest = async (data: AddGuestManagementRequest) => useAsyncData<any, ErrorResponse>('http://localhost:5066/api/Guest', () => $fetch('http://localhost:5066/api/Guest', { method: 'POST', body: data }));
-const addFamilyGuest = async (data: AddFamilyGuestRequest) => useFetch<any, ErrorResponse>('http://localhost:5066/api/Guest/Family', { method: 'POST', body: data });
+const addFamilyGuest = async (data: AddFamilyGuestRequest) => useAsyncData<any, ErrorResponse>('http://localhost:5066/api/Guest/Family', () => $fetch('http://localhost:5066/api/Guest/Family', { method: 'POST', body: data }));
 const deleteGuest = async (data: Pick<IGuest, 'guestId'>) => useAsyncData<any, ErrorResponse>(`http://localhost:5066/api/Guest/${data}`, () => $fetch(`http://localhost:5066/api/Guest/${data}`, { method: 'DELETE' }));
 
 const modifySingleGuest = async (data: ModifySingleGuestRequest) => useAsyncData<any, ErrorResponse>('http://localhost:5066/api/Guest', () => $fetch('http://localhost:5066/api/Guest', { method: 'PUT', body: data }));

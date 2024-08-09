@@ -4,6 +4,7 @@ export type FamilyGuestFormDataType = {
   guestRelationship: string;
   isAttended: boolean;
   attendance: FamilyAttendanceDataType[];
+  seatLocation: Pick<IBanquetTable, 'banquetTableId'>;
 };
 
 export type FamilyAttendanceDataType = Pick<IGuest, "guestName" | "remark"> & { specialNeeds: string[]; };

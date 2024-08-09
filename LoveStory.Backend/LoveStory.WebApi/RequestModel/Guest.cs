@@ -23,6 +23,7 @@ public class CreateFamilyGuestRequestModel
     public required string FamilyName { get; init; }
     public required string GuestRelationship { get; init; }
     public required bool IsAttended { get; init; }
+    public required CreateGuestSeatLocationRequestModel? SeatLocation { get; init; }
     public List<CreateFamilyGuestPersonRequestModel> Attendance { get; init; }
 }
 

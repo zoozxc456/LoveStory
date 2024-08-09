@@ -12,7 +12,10 @@ export const useCreateFamilyGuest = () => {
       guestName: "",
       remark: "",
       specialNeeds: [],
-    }))
+    })),
+    seatLocation: {
+      banquetTableId: ""
+    }
   });
 
   const handleCreateGuest = async () => {
