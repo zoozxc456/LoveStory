@@ -189,7 +189,7 @@ public class GuestController(IServiceProvider provider) : Controller
         }).ToList();
 
 
-        var isSuccess = await _guestService.ModifyFamilyGuest(toBeModifiedGuestDtoList);
+        var isSuccess = await _guestService.ModifyFamilyGuest(request.GuestGroupId,request.GuestGroupName,toBeModifiedGuestDtoList);
 
         return Ok(isSuccess);
     }

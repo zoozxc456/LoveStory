@@ -82,7 +82,7 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
         return isSuccess;
     }
 
-    public async Task<bool> ModifyFamilyGuest(List<GuestDto> guestDtoList)
+    public async Task<bool> ModifyFamilyGuest(Guid groupId, string groupName, List<GuestDto> guestDtoList)
     {
         var groupGuests = _guestRepository.GetAll().ToList()
             .Where(guest => guest.GuestGroupId.Equals(guestDtoList.First().GuestGroup?.GuestGroupId)).ToList();
@@ -138,6 +138,11 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
             .ExceptBy(guestDtoList.Select(x => x.GuestId), x => x.GuestId).ToList();
 
         var isSuccess = true;
+
+        var group = await _guestGroupRepository.GetOneAsync(group => group.GuestGroupId == groupId);
+        if (group == null) throw new Exception("No Group");
+        group.GuestGroupName = groupName;
+        isSuccess &= await _guestGroupRepository.UpdateAsync(group);
 
         if (!toBeCreatedGuests.Count.Equals(0))
         {
