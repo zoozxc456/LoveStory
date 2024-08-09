@@ -6,7 +6,7 @@
       <h4
         class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900"
       >
-        新增新賓客資料
+        修改賓客資料
       </h4>
       <div>
         <h6>賓客名稱</h6>
@@ -100,7 +100,7 @@
           type="button"
           @click="emits('on-select')"
         >
-          新增
+          修改
         </button>
       </div>
       <div class="flex-1">
