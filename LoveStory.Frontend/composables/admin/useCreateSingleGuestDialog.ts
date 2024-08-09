@@ -7,9 +7,7 @@ export const useCreateSingleGuestDialog = () => {
     isAttended: false,
     remark: "",
     specialNeeds: [],
-    seatLocation: {
-      banquetTableId: ""
-    }
+    seatLocation: null
   });
 
   const handleCreateGuest = async () => {
@@ -27,7 +25,18 @@ export const useCreateSingleGuestDialog = () => {
     return true;
   };
 
+  const reset = () => {
+    Object.assign(data, {
+      guestName: "",
+      guestRelationship: "",
+      isAttended: false,
+      remark: "",
+      specialNeeds: [],
+      seatLocation: null
+    });
+  };
+
   return {
-    data, handleCreateGuest
+    data, handleCreateGuest, reset
   };
 };

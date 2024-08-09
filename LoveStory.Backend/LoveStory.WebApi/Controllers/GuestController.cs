@@ -38,7 +38,6 @@ public class GuestController(IServiceProvider provider) : Controller
                 : new BanquetTableDto
                 {
                     BanquetTableId = request.SeatLocation.BanquetTableId,
-                    Remark = request.SeatLocation.Remark,
                     Creator = new UserDto
                     {
                         UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
@@ -79,7 +78,6 @@ public class GuestController(IServiceProvider provider) : Controller
                     : new BanquetTableDto
                     {
                         BanquetTableId = request.SeatLocation.BanquetTableId,
-                        Remark = request.SeatLocation.Remark,
                         Creator = new UserDto
                         {
                             UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
@@ -133,7 +131,6 @@ public class GuestController(IServiceProvider provider) : Controller
                 : new BanquetTableDto
                 {
                     BanquetTableId = request.SeatLocation.BanquetTableId,
-                    Remark = request.SeatLocation.Remark,
                     Creator = new UserDto
                     {
                         UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
@@ -183,7 +180,6 @@ public class GuestController(IServiceProvider provider) : Controller
                 : new BanquetTableDto
                 {
                     BanquetTableId = request.SeatLocation.BanquetTableId,
-                    Remark = request.SeatLocation.Remark,
                     Creator = new UserDto
                     {
                         UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),

@@ -14,9 +14,7 @@ export const useModifySingleGuest = () => {
       userId: "",
       username: ""
     },
-    seatLocation: {
-      banquetTableId: ""
-    }
+    seatLocation: null
   });
 
   const converter = (guestManagementData: GuestManagement): void => {
@@ -32,13 +30,28 @@ export const useModifySingleGuest = () => {
   };
 
   const handleModifyGuest = async () => {
-    console.log(`===== Start Console.log for handle single modify =====`);
-    console.log(data);
-    modifySingleGuest(data);
-    console.log(`===== End Console.log for handle single modify =====`);
+    await modifySingleGuest(data);
   };
 
-  return { data, handleModifyGuest, converter };
+  const reset = () => {
+    Object.assign(data, {
+      guestName: "",
+      guestRelationship: "",
+      isAttended: false,
+      remark: "",
+      specialNeeds: [],
+      guestId: "",
+      guestGroup: null,
+      createAt: new Date(),
+      creator: {
+        userId: "",
+        username: ""
+      },
+      seatLocation: null
+    });
+  };
+
+  return { data, handleModifyGuest, converter, reset };
 };
 
 export const useModifyFamilyGuest = () => {
@@ -50,9 +63,7 @@ export const useModifyFamilyGuest = () => {
     isAttended: false,
     attendance: [],
     guestGroupId: "",
-    seatLocation: {
-      banquetTableId: ""
-    }
+    seatLocation: null
   });
 
   const converter = (guestManagementData: GroupGuestManagement): void => {
@@ -81,12 +92,21 @@ export const useModifyFamilyGuest = () => {
   };
 
   const handleModifyGuest = async () => {
-    console.log(`===== Start Console.log for handle family modify =====`);
-    console.log(data);
-    console.log(`===== End Console.log for handle family modify =====`);
-    modifyFamilyGuest(data);
+    await modifyFamilyGuest(data);
   };
 
+  const reset = () => {
+    Object.assign(data, {
+      guestGroupName: "",
+      guestRelationship: "",
+      isAttended: false,
+      attendance: [],
+      guestGroupId: "",
+      seatLocation: null
+    });
+
+    attendanceNumber.value = 0;
+  };
 
   watch(() => attendanceNumber.value, (newVal, oldVal) => {
     if (newVal > oldVal && oldVal !== 0) {
@@ -103,14 +123,12 @@ export const useModifyFamilyGuest = () => {
           userId: "00000000-0000-0000-0000-000000000000",
           username: ""
         },
-        seatLocation: {
-          banquetTableId: ""
-        }
+        seatLocation: null
       });
     }
 
     else if (newVal < oldVal) data.attendance.pop();
   });
 
-  return { data, attendanceNumber, handleModifyGuest, converter };
+  return { data, attendanceNumber, handleModifyGuest, converter, reset };
 };

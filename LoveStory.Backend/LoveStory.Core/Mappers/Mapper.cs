@@ -20,7 +20,7 @@ public class Mapper : Profile
         CreateMap<GuestGroupDto,GuestGroupData>().ReverseMap();
         CreateMap<GuestDto,GuestData>()
             .ForMember(d=>d.SeatLocation,opt=>opt.Ignore())
-            .ForMember(d=>d.SeatLocationId,opt=>opt.MapFrom(s=>s.SeatLocation == null ? default: s.SeatLocation.BanquetTableId))
+            .ForMember(d=>d.SeatLocationId,opt=>opt.MapFrom(s=>s.SeatLocation == null ? (Guid?)null: s.SeatLocation.BanquetTableId))
             .ForMember(d=>d.Creator,opt=>opt.Ignore())
             .ForMember(d=>d.CreatorId ,opt=>opt.MapFrom(s=>s.Creator.UserId))
             .ReverseMap();

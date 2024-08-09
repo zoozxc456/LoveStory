@@ -13,9 +13,7 @@ export const useCreateFamilyGuest = () => {
       remark: "",
       specialNeeds: [],
     })),
-    seatLocation: {
-      banquetTableId: ""
-    }
+    seatLocation: null
   });
 
   const handleCreateGuest = async () => {
@@ -32,6 +30,22 @@ export const useCreateFamilyGuest = () => {
     return true;
   };
 
+  const reset = () => {
+    Object.assign(data, {
+      familyName: "",
+      guestRelationship: "",
+      isAttended: false,
+      attendance: Array.from(Array(initialAttendanceNumber)).map(() => ({
+        guestName: "",
+        remark: "",
+        specialNeeds: [],
+      })),
+      seatLocation: null
+    });
+
+    attendanceNumber.value = initialAttendanceNumber;
+  };
+
   watch(() => data.attendance.length, (newVal, oldVal) => {
     if (newVal > oldVal) {
       data.attendance.push({
@@ -45,6 +59,6 @@ export const useCreateFamilyGuest = () => {
   });
 
   return {
-    data, attendanceNumber, handleCreateGuest
+    data, attendanceNumber, handleCreateGuest, reset
   };
 };

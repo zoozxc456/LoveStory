@@ -47,15 +47,20 @@ const handleSelectType = (modelValue: GuestType | null) => {
 
 const handleCancel = () => {
   if (step.value === 1) model.value?.onClose();
-  else step.value--;
+  else {
+    resetSingleGuestFormData();
+    resetFamilyGuestFormData();
+    step.value--;
+  }
 };
 
 const handleSelect = async () => {
-  console.log(guestType.value);
   if (guestType.value === "single") {
     await handleCreateGuest();
+    resetSingleGuestFormData();
   } else {
     await handleCreateFamilyGuest();
+    resetFamilyGuestFormData();
   }
 
   emits("update:guests");
@@ -64,11 +69,15 @@ const handleSelect = async () => {
   guestType.value = null;
 };
 
-const { data: SingleGuestFormData, handleCreateGuest } =
-  useCreateSingleGuestDialog();
+const {
+  data: SingleGuestFormData,
+  handleCreateGuest,
+  reset: resetSingleGuestFormData,
+} = useCreateSingleGuestDialog();
 const {
   data: FamilyGuestFormData,
   attendanceNumber,
   handleCreateGuest: handleCreateFamilyGuest,
+  reset: resetFamilyGuestFormData,
 } = useCreateFamilyGuest();
 </script>

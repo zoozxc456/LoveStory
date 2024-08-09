@@ -102,9 +102,9 @@
   />
 
   <GuestsModifyGuestDialog
-    v-if="modifyGuestDialogDisplayController.state.isShow"
     v-model:display-controller="modifyGuestDialogDisplayController"
     :guest-data="(temp as GuestManagement)"
+    @update:guests="emits('update:guests')"
   />
 </template>
 

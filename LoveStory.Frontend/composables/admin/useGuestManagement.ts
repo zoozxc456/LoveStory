@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import type { NuxtError } from "nuxt/app";
 
 const dateTimeAscendingComparer = (x: Date, y: Date): number => dayjs(x).unix() - dayjs(y).unix();
 
@@ -38,7 +39,7 @@ const convertToGuestManagementList = (data: IGuest[]): GuestManagement[] => {
 
 export function useGuestManagement() {
   const guests: Ref<IGuest[] | null> = ref(null);
-  const error: Ref<ErrorResponse | null> = ref(null);
+  const error: Ref<NuxtError<ErrorResponse> | null> = ref(null);
   const isLoading = ref(true);
 
   const fetchGuests = async () => {
@@ -55,7 +56,7 @@ export function useGuestManagement() {
 
   const computedGuests = computed<GuestManagement[]>(() => convertToGuestManagementList(guests.value || []).toSorted((a, b) => dateTimeAscendingComparer(a.createAt, b.createAt)));
 
-  const refreshGuests = () => {
+  const refreshGuests = async () => {
     fetchGuests();
   };
 

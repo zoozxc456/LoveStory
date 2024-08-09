@@ -1,13 +1,6 @@
-import type { ModifyFamilyGuestRequest, ModifySingleGuestRequest } from "types/apis/guest.type";
+import type { GetGuestManagementResponse, ModifyFamilyGuestRequest, ModifySingleGuestRequest } from "types/apis/guest.type";
 
-const fetchAllGuests = async () => useFetch<GetGuestManagementResponse, ErrorResponse>("http://localhost:5066/api/Guest", {
-  server: true,
-  lazy: false,
-  retry: 3,
-  onResponseError({ response }) {
-    console.error('API error:', response._data);
-  }
-});
+const fetchAllGuests = async () => useAsyncData<GetGuestManagementResponse, ErrorResponse>("http://localhost:5066/api/Guest", () => $fetch<GetGuestManagementResponse>("http://localhost:5066/api/Guest"), { server: true, lazy: false });
 
 const addGuest = async (data: AddGuestManagementRequest) => useAsyncData<any, ErrorResponse>('http://localhost:5066/api/Guest', () => $fetch('http://localhost:5066/api/Guest', { method: 'POST', body: data }));
 const addFamilyGuest = async (data: AddFamilyGuestRequest) => useAsyncData<any, ErrorResponse>('http://localhost:5066/api/Guest/Family', () => $fetch('http://localhost:5066/api/Guest/Family', { method: 'POST', body: data }));

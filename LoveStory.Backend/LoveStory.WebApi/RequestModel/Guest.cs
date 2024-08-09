@@ -15,7 +15,6 @@ public class CreateGuestRequestModel
 public class CreateGuestSeatLocationRequestModel
 {
     public required Guid BanquetTableId { get; init; }
-    public required string Remark { get; init; }
 }
 
 public class CreateFamilyGuestRequestModel
@@ -74,5 +73,4 @@ public class ModifySpecialNeedRequestModel
 public class ModifyGuestSeatLocationRequestModel
 {
     public required Guid BanquetTableId { get; init; }
-    public required string Remark { get; init; }
 }
