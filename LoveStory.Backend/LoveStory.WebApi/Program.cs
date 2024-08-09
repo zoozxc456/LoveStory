@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGuestService, GuestService>();
 builder.Services.AddScoped<IGuestManagementService, GuestService>();
+builder.Services.AddScoped<IBanquetTableService, BanquetTableService>();
 builder.Services.AddScoped<IRepository<UserData>, GenericRepository<UserData>>();
 builder.Services.AddScoped<IRepository<BanquetTableData>, GenericRepository<BanquetTableData>>();
 builder.Services.AddScoped<IRepository<GuestData>, GuestRepository>();

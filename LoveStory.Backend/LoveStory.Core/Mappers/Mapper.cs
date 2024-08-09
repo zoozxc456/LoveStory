@@ -19,9 +19,14 @@ public class Mapper : Profile
         CreateMap<GuestAttendanceDto,GuestAttendanceData>().ReverseMap();
         CreateMap<GuestGroupDto,GuestGroupData>().ReverseMap();
         CreateMap<GuestDto,GuestData>()
+            .ForMember(d=>d.SeatLocation,opt=>opt.Ignore())
+            .ForMember(d=>d.SeatLocationId,opt=>opt.MapFrom(s=>s.SeatLocation == null ? default: s.SeatLocation.BanquetTableId))
             .ForMember(d=>d.Creator,opt=>opt.Ignore())
             .ForMember(d=>d.CreatorId ,opt=>opt.MapFrom(s=>s.Creator.UserId))
             .ReverseMap();
-        CreateMap<BanquetTableDto,BanquetTableData>().ReverseMap();
+        CreateMap<BanquetTableDto,BanquetTableData>()
+            .ForMember(d=>d.Creator,opt=>opt.Ignore())
+            .ForMember(d=>d.CreatorId,opt=>opt.MapFrom(s=>s.Creator.UserId))
+            .ReverseMap();
     }
 }

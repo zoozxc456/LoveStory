@@ -6,11 +6,16 @@ export const useCreateSingleGuestDialog = () => {
     guestRelationship: "",
     isAttended: false,
     remark: "",
-    specialNeeds: []
+    specialNeeds: [],
+    seatLocation: {
+      banquetTableId: ""
+    }
   });
 
   const handleCreateGuest = async () => {
+    console.log(data, 'call');
     if (validFormData(data)) {
+      console.log(data);
       await addGuest(data);
     }
   };

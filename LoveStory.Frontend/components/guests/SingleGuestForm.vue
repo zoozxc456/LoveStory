@@ -49,6 +49,22 @@
         </div>
       </div>
 
+      <div class="flex w-full items-center" v-if="data.isAttended">
+        <h6
+          class="flex-1 block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-inherit"
+        >
+          桌位
+        </h6>
+        <div class="flex-1">
+          <GuestsSeatLocationDropDownList
+            :tables="tables"
+            v-model:model="data.seatLocation"
+            v-model:display-controller="displayController"
+            @update:model="handleUpdate"
+          />
+        </div>
+      </div>
+
       <div class="w-full">
         <h6
           class="flex-1 block font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-inherit"
@@ -56,9 +72,7 @@
           特殊需求
         </h6>
         <div class="flex-1">
-          <SpecialNeedDropDownList
-            v-model:special-needs="data.specialNeeds"
-          />
+          <SpecialNeedDropDownList v-model:special-needs="data.specialNeeds" />
         </div>
       </div>
 
@@ -104,6 +118,7 @@
 <script setup lang="ts">
 import type { SingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 import SpecialNeedDropDownList from "./SpecialNeedDropDownList.vue";
+import { useBanquetTable } from "../../composables/admin/useBanquetTable";
 
 const data = defineModel<SingleGuestFormDataType>({ default: {} });
 
@@ -111,4 +126,16 @@ const emits = defineEmits<{
   "on-select": [];
   cancel: [];
 }>();
+
+const selectTable = ref<IBanquetTable | null>(null);
+const displayController = useDialogDisplayController();
+
+const { data: tables } = useBanquetTable();
+watchEffect(() => {
+  console.log(tables.value);
+});
+
+const handleUpdate = (model: any) => {
+  console.log(model);
+};
 </script>

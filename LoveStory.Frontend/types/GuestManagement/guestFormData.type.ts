@@ -1,4 +1,4 @@
-export type SingleGuestFormDataType = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'> & { specialNeeds: string[]; };
+export type SingleGuestFormDataType = Pick<IGuest, 'guestName' | 'guestRelationship' | 'isAttended' | 'remark'> & { specialNeeds: string[]; seatLocation: Pick<IBanquetTable, 'banquetTableId'>; };
 export type FamilyGuestFormDataType = {
   familyName: string;
   guestRelationship: string;

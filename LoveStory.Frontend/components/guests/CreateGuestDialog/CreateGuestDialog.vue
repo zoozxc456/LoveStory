@@ -51,6 +51,7 @@ const handleCancel = () => {
 };
 
 const handleSelect = async () => {
+  console.log(guestType.value);
   if (guestType.value === "single") {
     await handleCreateGuest();
   } else {

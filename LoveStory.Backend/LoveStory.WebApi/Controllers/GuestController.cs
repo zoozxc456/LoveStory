@@ -32,7 +32,19 @@ public class GuestController(IServiceProvider provider) : Controller
             {
                 UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
                 Username = "admin"
-            }
+            },
+            SeatLocation = request.SeatLocation == null
+                ? null
+                : new BanquetTableDto
+                {
+                    BanquetTableId = request.SeatLocation.BanquetTableId,
+                    Remark = request.SeatLocation.Remark,
+                    Creator = new UserDto
+                    {
+                        UserId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60"),
+                        Username = "admin"
+                    }
+                }
         };
 
         toBeCreatedGuestDto.SpecialNeeds = request.SpecialNeeds.Select(x => new GuestSpecialNeedDto

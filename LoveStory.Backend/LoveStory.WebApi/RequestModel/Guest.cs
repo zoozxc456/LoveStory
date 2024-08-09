@@ -1,3 +1,5 @@
+using LoveStory.Core.DTOs;
+
 namespace LoveStory.WebApi.RequestModel;
 
 public class CreateGuestRequestModel
@@ -7,6 +9,13 @@ public class CreateGuestRequestModel
     public required bool IsAttended { get; init; }
     public required string Remark { get; init; }
     public required List<string> SpecialNeeds { get; init; }
+    public required CreateGuestSeatLocationRequestModel? SeatLocation { get; init; }
+}
+
+public class CreateGuestSeatLocationRequestModel
+{
+    public required Guid BanquetTableId { get; init; }
+    public required string Remark { get; init; }
 }
 
 public class CreateFamilyGuestRequestModel
