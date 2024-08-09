@@ -128,11 +128,4 @@ const emits = defineEmits<{
 
 const displayController = useDialogDisplayController();
 const { data: tables } = useBanquetTable();
-
-watch(
-  () => data.value,
-  () => {
-    console.log(data.value);
-  }
-);
 </script>

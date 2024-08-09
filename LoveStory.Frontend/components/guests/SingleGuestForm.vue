@@ -60,7 +60,6 @@
             :tables="tables"
             v-model:model="data.seatLocation"
             v-model:display-controller="displayController"
-            @update:model="handleUpdate"
           />
         </div>
       </div>
@@ -126,16 +125,7 @@ const emits = defineEmits<{
   "on-select": [];
   cancel: [];
 }>();
-
-const selectTable = ref<IBanquetTable | null>(null);
 const displayController = useDialogDisplayController();
 
 const { data: tables } = useBanquetTable();
-watchEffect(() => {
-  console.log(tables.value);
-});
-
-const handleUpdate = (model: any) => {
-  console.log(model);
-};
 </script>

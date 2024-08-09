@@ -67,7 +67,6 @@ export const useModifyFamilyGuest = () => {
   });
 
   const converter = (guestManagementData: GroupGuestManagement): void => {
-    console.log(guestManagementData);
     data.guestGroupId = guestManagementData.details[0].guestGroup?.guestGroupId ?? "";
     data.guestGroupName = guestManagementData.guestName;
     data.guestRelationship = guestManagementData.guestRelationship;

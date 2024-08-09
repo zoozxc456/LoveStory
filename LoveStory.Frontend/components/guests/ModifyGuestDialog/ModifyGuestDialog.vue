@@ -73,9 +73,4 @@ watch(
     else familyGuestConverter(props.guestData);
   }
 );
-
-watchEffect(() => {
-  if (props.guestData !== null) {
-  }
-});
 </script>

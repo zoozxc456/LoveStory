@@ -41,7 +41,7 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-type Props = {
+type SeatLocationDropDownListProps = {
   tables: IBanquetTable[];
 };
 
@@ -57,7 +57,7 @@ const model = defineModel<Pick<IBanquetTable, "banquetTableId"> | null>(
   }
 );
 
-const props = defineProps<Props>();
+const props = defineProps<SeatLocationDropDownListProps>();
 
 const handleSelectItem = (id: string) => {
   model.value = props.tables.find((x) => x.banquetTableId === id) || null;

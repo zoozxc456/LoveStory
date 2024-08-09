@@ -11,9 +11,7 @@ export const useCreateSingleGuestDialog = () => {
   });
 
   const handleCreateGuest = async () => {
-    console.log(data, 'call');
     if (validFormData(data)) {
-      console.log(data);
       await addGuest(data);
     }
   };

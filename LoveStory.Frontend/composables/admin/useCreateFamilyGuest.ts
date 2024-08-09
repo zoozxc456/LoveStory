@@ -23,10 +23,6 @@ export const useCreateFamilyGuest = () => {
   };
 
   const validFormData = ({ }: FamilyGuestFormDataType): boolean => {
-    // if (guestName === "") return false;
-    // if (guestRelationship === "") return false;
-    // if (guestType === "") return false;
-
     return true;
   };
 

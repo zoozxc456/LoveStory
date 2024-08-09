@@ -11,18 +11,7 @@ export type FamilyAttendanceDataType = Pick<IGuest, "guestName" | "remark"> & { 
 
 export type GuestType = 'single' | 'family';
 
-
 // Modify Form 
 
 export type ModifySingleGuestFormDataType = Omit<IGuest, 'seatLocation'> & { seatLocation: Pick<IBanquetTable, 'banquetTableId'> | null; };
-// export type ModifyFamilyGuestFormDataType = (Omit<IGuest, 'seatLocation'>)[];
-
-// export type ModifyFamilyGuestFormDataType = ({
-//   groupId: string;
-//   familyName: string;
-//   guestRelationship: string;
-//   isAttended: boolean;
-//   attendance: ModifySingleGuestFormDataType[];
-// });
-
 export type ModifyFamilyGuestFormDataType = Pick<IGuestGroup, "guestGroupId" | "guestGroupName"> & Pick<IGuest, "guestRelationship" | "isAttended"> & { attendance: ModifySingleGuestFormDataType[]; seatLocation: Pick<IBanquetTable, 'banquetTableId'> | null; };

@@ -164,10 +164,7 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import type {
-  FamilyGuestFormDataType,
-  ModifyFamilyGuestFormDataType,
-} from "types/GuestManagement/guestFormData.type";
+import type { ModifyFamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 
 const data = defineModel<ModifyFamilyGuestFormDataType>({ required: true });
 const attendanceNumber = defineModel<number>("attendanceNumber", {
