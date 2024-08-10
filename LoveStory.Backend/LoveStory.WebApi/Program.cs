@@ -5,6 +5,7 @@ using LoveStory.Infrastructure.Data;
 using LoveStory.Infrastructure.Interfaces;
 using LoveStory.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Mapper = LoveStory.Core.Mappers.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +13,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGuestService, GuestService>();
+builder.Services.AddScoped<IGuestManagementService, GuestService>();
+builder.Services.AddScoped<IBanquetTableService, BanquetTableService>();
 builder.Services.AddScoped<IRepository<UserData>, GenericRepository<UserData>>();
 builder.Services.AddScoped<IRepository<BanquetTableData>, GenericRepository<BanquetTableData>>();
 builder.Services.AddScoped<IRepository<GuestData>, GuestRepository>();
 builder.Services.AddScoped<IRepository<GuestAttendanceData>, GenericRepository<GuestAttendanceData>>();
-builder.Services.AddScoped<IRepository<GuestGroupData>, GenericRepository<GuestGroupData>>();
+builder.Services.AddScoped<IGuestGroupRepository, GuestGroupRepository>();
 builder.Services.AddScoped<IRepository<GuestSpecialNeedData>, GenericRepository<GuestSpecialNeedData>>();
+builder.Services.AddAutoMapper(typeof(Mapper));
 
 builder.Services.AddDbContext<LoveStoryContext>(option =>
 {

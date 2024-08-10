@@ -29,7 +29,7 @@ public class GuestData
     [ForeignKey("SeatLocation")]
     public Guid? SeatLocationId { get; set; }
 
-    public BanquetTableData? SeatLocation { get; set; } = new();
+    public BanquetTableData? SeatLocation { get; set; }
 
     [Column("is_attended")] public bool IsAttended { get; set; }
 
@@ -42,8 +42,8 @@ public class GuestData
     [ForeignKey("Creator")]
     public Guid CreatorId { get; set; }
 
-    [InverseProperty("CreatedGuests")] public UserData Creator { get; set; } = new();
+    [InverseProperty("CreatedGuests")] public UserData Creator { get; set; }
 
-    public GuestAttendanceData GuestAttendance { get; set; } = new();
+    public GuestAttendanceData? GuestAttendance { get; set; }
     public ICollection<GuestSpecialNeedData> SpecialNeeds { get; set; } = new List<GuestSpecialNeedData>();
 }

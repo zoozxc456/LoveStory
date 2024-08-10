@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace LoveStory.Core.DTOs;
 
 public class GuestDto
@@ -6,11 +8,11 @@ public class GuestDto
     public string GuestName { get; set; } = string.Empty;
     public string GuestRelationship { get; set; } = string.Empty;
     public GuestGroupDto? GuestGroup { get; set; }
-    public BanquetTableDto? SeatLocation { get; set; } = new();
+    public BanquetTableDto? SeatLocation { get; set; }
     public bool IsAttended { get; set; }
     public string Remark { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; }
-    public UserDto Creator { get; set; } = new();
+    public UserDto Creator { get; set; }
     public IEnumerable<GuestSpecialNeedDto> SpecialNeeds { get; set; } = [];
 }
 
@@ -20,7 +22,7 @@ public class GuestGroupDto
     public string GuestGroupName { get; set; } = string.Empty;
     public string Remark { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; }
-    public UserDto Creator { get; set; } = new();
+    public UserDto Creator { get; set; }
 }
 
 public class UserDto
@@ -40,9 +42,9 @@ public class GuestSpecialNeedDto
 {
     public Guid SpecialNeedId { get; set; }
     public string SpecialNeedContent { get; set; } = string.Empty;
-    public GuestDto Guest { get; set; } = new();
+    [JsonIgnore] public GuestDto Guest { get; set; }
     public DateTime CreateAt { get; set; }
-    public UserDto Creator { get; set; } = new();
+    public UserDto Creator { get; set; }
 }
 
 public class BanquetTableDto
@@ -53,5 +55,5 @@ public class BanquetTableDto
     public int MinSeatAmount { get; set; }
     public string Remark { get; set; } = string.Empty;
     public DateTime CreateAt { get; set; }
-    public UserDto Creator { get; set; } = new();
+    public UserDto Creator { get; set; }
 }

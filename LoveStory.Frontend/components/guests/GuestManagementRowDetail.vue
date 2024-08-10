@@ -3,7 +3,13 @@
     <div
       class="h-5/6 mx-6 my-auto border-gray-400 border rounded-md"
       :data-id="guestId"
-      v-for="{ guestName, specialNeeds, guestId, seat, remark } in props.guests"
+      v-for="{
+        guestName,
+        specialNeeds,
+        guestId,
+        seatLocation,
+        remark,
+      } in props.guests"
     >
       <div
         class="h-1/4 text-center flex justify-center items-center guest-name"
@@ -13,11 +19,13 @@
       <div class="h-3/4 w-full text-center">
         <div class="grid grid-cols-2 py-1 seat">
           <div class="label">宴席座位</div>
-          <div class="content">{{ seat }}</div>
+          <div class="content">{{ seatLocation?.tableAlias ?? "" }}</div>
         </div>
         <div class="grid grid-cols-2 py-1 special-needs">
           <div class="label">特殊需求</div>
-          <div class="content">{{ specialNeeds.join(",") }}</div>
+          <div class="content">
+            {{ specialNeedContents(specialNeeds).join(",") }}
+          </div>
         </div>
         <div class="grid grid-cols-2 py-1 remark">
           <div class="label">備註</div>
@@ -31,11 +39,11 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import type { GuestManagement } from "pages/Guests.vue";
-
 type GuestManagementRowDetailProps = {
-  guests: GuestManagement[];
+  guests: (SingleGuestManagementDetail | GroupGuestManagementDetail)[];
 };
 
 const props = defineProps<GuestManagementRowDetailProps>();
+const specialNeedContents = (specialNeeds: IGuestSpecialNeed[]): string[] =>
+  specialNeeds.map((needs) => needs.specialNeedContent);
 </script>

@@ -19,7 +19,7 @@ public class GuestSpecialNeedData
     [ForeignKey("Guest")]
     public Guid GuestId { get; set; }
 
-    public GuestData Guest { get; set; } = new();
+    public GuestData Guest { get; set; }
 
     [Column("create_at")] public DateTime CreateAt { get; set; }
 
@@ -28,5 +28,5 @@ public class GuestSpecialNeedData
     public Guid CreatorId { get; set; }
 
     [InverseProperty("CreatedSpecialNeeds")]
-    public UserData Creator { get; set; } = new();
+    public UserData Creator { get; set; }
 }

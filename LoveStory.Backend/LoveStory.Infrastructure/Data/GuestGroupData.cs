@@ -25,7 +25,7 @@ public class GuestGroupData
     [ForeignKey("Creator")]
     public Guid CreatorId { get; set; }
 
-    [InverseProperty("CreatedGroups")] public UserData Creator { get; set; } = new();
+    [InverseProperty("CreatedGroups")] public UserData Creator { get; set; }
 
-    public ICollection<GuestData> Guests { get; set; } = new List<GuestData>();
+    public IEnumerable<GuestData> Guests { get; set; } = new List<GuestData>();
 }

@@ -264,7 +264,7 @@ namespace LoveStory.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LoveStory.Infrastructure.Data.GuestGroupData", "GroupGroup")
+                    b.HasOne("LoveStory.Infrastructure.Data.GuestGroupData", "GuestGroup")
                         .WithMany("Guests")
                         .HasForeignKey("GuestGroupId");
 
@@ -274,7 +274,7 @@ namespace LoveStory.Infrastructure.Migrations
 
                     b.Navigation("Creator");
 
-                    b.Navigation("GroupGroup");
+                    b.Navigation("GuestGroup");
 
                     b.Navigation("SeatLocation");
                 });
@@ -316,8 +316,7 @@ namespace LoveStory.Infrastructure.Migrations
 
             modelBuilder.Entity("LoveStory.Infrastructure.Data.GuestData", b =>
                 {
-                    b.Navigation("GuestAttendance")
-                        .IsRequired();
+                    b.Navigation("GuestAttendance");
 
                     b.Navigation("SpecialNeeds");
                 });
