@@ -1,7 +1,7 @@
 using System.Text;
 using LoveStory.Core.Securities;
 
-namespace LoveStory.UnitTest.Services;
+namespace LoveStory.UnitTest.Securities;
 
 [TestFixture]
 public class Argon2HashProviderTest
