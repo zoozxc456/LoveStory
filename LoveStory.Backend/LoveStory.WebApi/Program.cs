@@ -1,4 +1,5 @@
 using LoveStory.Core.Interfaces;
+using LoveStory.Core.Securities;
 using LoveStory.Core.Services;
 using LoveStory.Infrastructure.Contexts;
 using LoveStory.Infrastructure.Data;
@@ -14,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGuestService, GuestService>();
 builder.Services.AddScoped<IGuestManagementService, GuestService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IBanquetTableService, BanquetTableService>();
 builder.Services.AddScoped<IRepository<UserData>, GenericRepository<UserData>>();
 builder.Services.AddScoped<IRepository<BanquetTableData>, GenericRepository<BanquetTableData>>();
@@ -21,6 +23,9 @@ builder.Services.AddScoped<IRepository<GuestData>, GuestRepository>();
 builder.Services.AddScoped<IRepository<GuestAttendanceData>, GenericRepository<GuestAttendanceData>>();
 builder.Services.AddScoped<IGuestGroupRepository, GuestGroupRepository>();
 builder.Services.AddScoped<IRepository<GuestSpecialNeedData>, GenericRepository<GuestSpecialNeedData>>();
+builder.Services.AddSingleton<IHashProvider, Argon2HashProvider>();
+builder.Services.AddSingleton<IAccessTokenProvider, JwtAccessTokenProvider>();
+
 builder.Services.AddAutoMapper(typeof(Mapper));
 
 builder.Services.AddDbContext<LoveStoryContext>(option =>

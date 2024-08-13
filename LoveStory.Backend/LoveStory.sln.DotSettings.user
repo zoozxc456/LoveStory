@@ -5,6 +5,10 @@
       &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Controllers.UserControllerTest&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest.GetAllGuests_GivenEmptyParameter_ShouldReturnAllGuestList&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenCorrectAuthData_ShouldReturnOkStatus&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenCorrectAuthData_ShouldReturnOkResult&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.Argon2HashProviderTest&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFolder&gt;B1B81B6E-E842-495A-BD09-3A8FEBB3778C/d:Services&lt;/ProjectFolder&gt;
   &lt;/Or&gt;
@@ -31,5 +35,8 @@
     &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.Argon2HashProviderTest.HashPassword_GivenSpecificPasswordAndSaltString_ShouldReturnHashedPassword&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest.ValidateAccessToken_GivenInvalidAccessToken_ShouldReturnFalse&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenCorrectAuthData_ShouldReturnOkResult&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenNotExistAuthData_ShouldBeThrowException&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
