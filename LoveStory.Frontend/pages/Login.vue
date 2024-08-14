@@ -54,7 +54,7 @@
                 <input
                   class="w-full h-full px-3 py-3 text-gray-700 font-sans text-sm font-normal transition-all border rounded-md outline outline-0 placeholder-shown:border focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0"
                   placeholder=" "
-                  v-model="loginForm.username"
+                  v-model="authFormData.username"
                 />
               </div>
               <div class="py-5">
@@ -65,12 +65,13 @@
                   class="w-full h-full px-3 py-3 text-gray-700 font-sans text-sm font-normal transition-all border rounded-md outline outline-0 placeholder-shown:border focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0"
                   placeholder=" "
                   type="password"
-                  v-model="loginForm.password"
+                  v-model="authFormData.password"
                 />
               </div>
               <div class="py-5">
                 <button
                   class="w-full bg-red-300 h-12 border border-red-300 rounded-sm font-inria-sans text-xl text-white font-bold hover:bg-red-400 hover:border-red-400 active:bg-red-500 active:border-red-500"
+                  @click.stop="authenticateUser"
                 >
                   Sign In
                 </button>
@@ -145,13 +146,16 @@
 </template>
 
 <script setup lang="ts">
-import Logo from "../assets/images/Logo.png";
 import img from "../assets/images/img.png";
 definePageMeta({ layout: "login-layout" });
-const loginForm = reactive<{ username: string; password: string }>({
-  username: "",
-  password: "",
-});
 
-const handleSubmit = () => {};
+const { authFormData, authenticateUser, isLoading, errorMessage } =
+  useOriginalAuth();
+
+watchEffect(() => {
+  if (isLoading.value === false && errorMessage.value !== "") {
+    alert(errorMessage.value);
+    errorMessage.value = "";
+  }
+});
 </script>
