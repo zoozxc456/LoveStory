@@ -5,12 +5,53 @@
       &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Controllers.UserControllerTest&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest.GetAllGuests_GivenEmptyParameter_ShouldReturnAllGuestList&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenCorrectAuthData_ShouldReturnOkStatus&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenCorrectAuthData_ShouldReturnOkResult&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.Argon2HashProviderTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest.GenerateAccessToken_GivenValidCredentials_ShouldReturnCorrectToken&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFolder&gt;B1B81B6E-E842-495A-BD09-3A8FEBB3778C/d:Services&lt;/ProjectFolder&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d6c0faa7_002Ddd11_002D4560_002Dbe42_002Db7c1399f31bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GuestControllerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9c0f4d3f_002Da42b_002D4520_002Db253_002Dbd87aae75d62/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="JwtAccessTokenProviderTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+    &lt;Project Location="/Users/mingyu/Documents/lovestory/LoveStory.Backend/LoveStory.IntegrationTest" Presentation="&amp;lt;LoveStory.IntegrationTest&amp;gt;" /&gt;
+  &lt;/Or&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d6c0faa7_002Ddd11_002D4560_002Dbe42_002Db7c1399f31bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GuestControllerTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.GuestControllerTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.UsersControllerTest.Login_GivenEmptyParameter_ShouldReturnOkResult&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.UsersControllerTest.Login_GivenValidLoginRequestModel_ShouldReturnOkResult&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.LoginServiceTest.IsValid_GiveEmptyParameter_ShouldReturnTrue&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.LoginServiceTest.IsValid_GivenCorrectLoginRequestDto_ShouldReturnTrue&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.LoginServiceTest.ValidIsMatchUserPassword_GivenCorrectHashedPasswordAndUserPassword_ShouldReturnTrue&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.LoginServiceTest.HashPassword_GivenRawPassword_ShouldReturnCorrectHashedPassword&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest.HashPassword_GivenSpecificPasswordString_ShouldReturnHashedPassword&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest.HashPassword_GivenSpecificPasswordAndSaltString_ShouldReturnHashedPassword&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest.VerifyPassword_GivenCorrectSpecificPasswordAndHashedPassword_ShouldReturnTrue&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest.CompareHashes_GivenTwoSameBytesArray_ShouldReturnTrue&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest.CompareHashes_GivenTwoDifferentBytesArray_ShouldReturnFalse&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest.VerifyPassword_GivenErrorSpecificPasswordAndHashedPassword_ShouldReturnFalse&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest.CreateSalt_GivenEmptyParameter_ShouldReturnBytesOfSize16&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.LoginServiceTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Services.Argon2HashProviderTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenCorrectAuthData_ShouldReturnOkStatus&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.Argon2HashProviderTest.HashPassword_GivenSpecificPasswordAndSaltString_ShouldReturnHashedPassword&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest.ValidateAccessToken_GivenInvalidAccessToken_ShouldReturnFalse&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenCorrectAuthData_ShouldReturnOkResult&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest.AuthOriginLogin_GivenNotExistAuthData_ShouldBeThrowException&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::B0ABF153-0EF6-4A1C-8066-501621C50362::net8.0::LoveStory.IntegrationTest.Controllers.AuthControllerTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f9357da9_002D260d_002D41b6_002Da632_002D12bbaf018682/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GenerateAccessToken_GivenValidCredentials_ShouldReturnCorrectToken" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::B1B81B6E-E842-495A-BD09-3A8FEBB3778C::net8.0::LoveStory.UnitTest.Securities.JwtAccessTokenProviderTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

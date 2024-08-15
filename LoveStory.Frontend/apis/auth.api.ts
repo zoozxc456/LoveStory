@@ -1,0 +1,1 @@
+export const originalAuth = async (data: OriginalAuthRequest) => useAsyncData<OriginalAuthResponse, ErrorResponse>('OriginAuthApi', () => $fetch<OriginalAuthResponse>('http://localhost:5066/api/Auth/Origin', { method: "POST", body: data }));

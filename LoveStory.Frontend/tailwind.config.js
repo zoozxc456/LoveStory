@@ -8,7 +8,12 @@ module.exports = {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      italianno: ['"Italianno"', "cursive"],
+      "inria-sans": ['"Inria Sans"', "sans-serif"],
+      millerstone: ['"Millerstone"',"cursive"],
+    },
   },
+
   plugins: [],
 };

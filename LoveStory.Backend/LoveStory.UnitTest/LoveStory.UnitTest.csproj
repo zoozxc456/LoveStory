@@ -22,4 +22,8 @@
         <Using Include="NUnit.Framework"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\LoveStory.Core\LoveStory.Core.csproj" />
+    </ItemGroup>
+
 </Project>

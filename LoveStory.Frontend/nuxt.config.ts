@@ -16,6 +16,9 @@ export default defineNuxtConfig({
       'composables',
       'composables/*/index.{ts,js,mjs,mts}',
       'composables/**',
+      'utils',
+      'utils/*/index.{ts,js,mjs,mts}',
+      'utils/**',
       'types',
       'types/*/index.{ts,js,mjs,mts}',
       'types/**'

@@ -12,5 +12,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+definePageMeta({ layout: "admin-layout" });
 const { guests, isLoading, refreshGuests } = useGuestManagement();
 </script>

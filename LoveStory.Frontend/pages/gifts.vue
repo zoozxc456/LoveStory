@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "admin-layout" });
 export type GiftManagement = {
   guestName: string;
   guestRelationship: string;
