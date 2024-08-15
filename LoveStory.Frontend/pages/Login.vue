@@ -93,6 +93,43 @@
       </div>
     </div>
   </div>
+
+  <div
+    class="h-screen w-screen absolute top-0 z-[9999] bg-black/80"
+    v-if="isLoading"
+  >
+    <div class="relative w-full h-full">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <span class="text-white text-2xl font-bold"> Loading ... </span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="h-screen w-screen absolute top-0 z-[9999] bg-black/80"
+    v-if="errorMessageDialogDisplayController.state.isShow"
+  >
+    <div class="relative w-full h-full">
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] border border-slate-100 rounded-md bg-rose-100 text-red-700 text-2xl text-center font-bold leading-relaxed"
+      >
+        <div class="relative w-full h-full flex flex-col justify-center">
+          <div
+            class="absolute top-4 right-6 hover:cursor-pointer"
+            @click="handleCloseErrorMessageDialog"
+          >
+            <font-awesome-icon
+              :icon="['fas', 'xmark']"
+              size="1x"
+              class="text-white"
+            />
+          </div>
+          <p>Your Username or Password is Incorrect.</p>
+          <p>Please Try It Again.</p>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- <div class="min-h-screen bg-pink-50 flex items-center justify-center">
     <div
       class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border border-pink-100"
@@ -147,15 +184,21 @@
 
 <script setup lang="ts">
 import img from "../assets/images/img.png";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 definePageMeta({ layout: "login-layout" });
 
 const { authFormData, authenticateUser, isLoading, errorMessage } =
   useOriginalAuth();
 
+const errorMessageDialogDisplayController = useDialogDisplayController();
+
 watchEffect(() => {
   if (isLoading.value === false && errorMessage.value !== "") {
-    alert(errorMessage.value);
-    errorMessage.value = "";
+    errorMessageDialogDisplayController.onShow();
   }
 });
+
+const handleCloseErrorMessageDialog = () => {
+  errorMessageDialogDisplayController.onClose();
+};
 </script>
