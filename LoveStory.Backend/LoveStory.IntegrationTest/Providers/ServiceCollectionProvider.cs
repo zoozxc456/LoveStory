@@ -7,7 +7,9 @@ using LoveStory.Infrastructure.Data;
 using LoveStory.Infrastructure.Interfaces;
 using LoveStory.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 
 namespace LoveStory.IntegrationTest.Providers;
 
@@ -26,8 +28,18 @@ public class ServiceCollectionProvider
 
     private void SetServices()
     {
+        const string Issuer = "Test.Application.Issuer";
+        const string Audience = "Test.Application.Audience";
+        const string SecretKey = "ksD0o3bFJwQqT+/b8LShXcXJOmSP/ZlD7Hw4bQjZODVZlsDo+V7G8vgtqB2QjT13";
+        var configuration = Substitute.For<IConfiguration>();
+        configuration = Substitute.For<IConfiguration>();
+        configuration.GetSection("JwtConfig:Issuer").Value.Returns(Issuer);
+        configuration.GetSection("JwtConfig:WebAudience").Value.Returns(Audience);
+        configuration.GetSection("JwtConfig:SecretKey").Value.Returns(SecretKey);
+
         _serviceCollection.AddControllers();
         _serviceCollection.AddDbContext<LoveStoryContext>(option => option.UseInMemoryDatabase("love_story"));
+        _serviceCollection.AddSingleton(configuration);
         _serviceCollection.AddScoped<IGuestService, GuestService>();
         _serviceCollection.AddScoped<IGuestManagementService, GuestService>();
         _serviceCollection.AddScoped<ILoginService, LoginService>();

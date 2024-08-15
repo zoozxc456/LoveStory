@@ -1,34 +1,41 @@
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using LoveStory.Core.DTOs;
 using LoveStory.Core.Securities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using NSubstitute;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace LoveStory.UnitTest.Securities;
 
 [TestFixture]
 public class JwtAccessTokenProviderTest
 {
-    const string Issuer = "LoveStory.Auth.Issuer";
-    const string Audience = "LoveStory.Web.Application";
-    const string SecretKey = "LoveStory.Credential.Authenticate.SecretKey@202407.CreateByMinions.BuildInTaiwan";
+    const string Issuer = "Test.Application.Issuer";
+    const string Audience = "Test.Application.Audience";
+    const string SecretKey = "ksD0o3bFJwQqT+/b8LShXcXJOmSP/ZlD7Hw4bQjZODVZlsDo+V7G8vgtqB2QjT13";
 
     private JwtAccessTokenProvider _provider;
-    private List<Claim> _jwtSecurityClaims;
-    private DateTime _issueDateTime, _expiredDateTime;
+    private IDictionary<string, object> _jwtSecurityClaims;
+    private DateTime _issueDateTime, _expiredDateTime, _notBeforeDateTime;
     private SymmetricSecurityKey _symmetricSecurityKey;
     private SigningCredentials _credentials;
     private JwtSecurityToken _jwtSecurityToken;
     private string _jwtTokenString;
+    private IConfiguration _configuration;
+    private SecurityTokenDescriptor _securityTokenDescriptor;
 
     [SetUp]
     public void SetUp()
     {
-        _provider = new JwtAccessTokenProvider();
-        _jwtSecurityClaims = [];
+        _configuration = Substitute.For<IConfiguration>();
+        _configuration.GetSection("JwtConfig:Issuer").Value.Returns(Issuer);
+        _configuration.GetSection("JwtConfig:WebAudience").Value.Returns(Audience);
+        _configuration.GetSection("JwtConfig:SecretKey").Value.Returns(SecretKey);
+        _provider = new JwtAccessTokenProvider(_configuration);
+        _jwtSecurityClaims = new Dictionary<string, object>();
         _jwtTokenString = string.Empty;
     }
 
@@ -57,22 +64,26 @@ public class JwtAccessTokenProviderTest
         {
             Username = "admin",
             IssueAt = new DateTime(2024, 1, 1, 13, 00, 00),
-            Expired = new DateTime(2024, 1, 1, 13, 30, 00)
+            Expired = new DateTime(2024, 1, 1, 13, 30, 00),
+            NotBefore = new DateTime(2024, 1, 1, 13, 00, 00)
         };
 
         var token = _provider.GenerateAccessToken(credentials);
 
-        Assert.That(token, Is.EqualTo("eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJMb3ZlU3RvcnkuQXV0aC5Jc3N1ZXIiLCJzdWIiOiJhZG1pbiIsImF1ZCI6IkxvdmVTdG9yeS5XZWIuQXBwbGljYXRpb24iLCJpYXQiOiIyMDI0LzEvMSAxOjAwOjAwIiwiZXhwIjoxNzA0MDg3MDAwfQ.VMwPerYFj7fojM7QOJm9dH8f7OElBVPUltdzfk-C7feIOn9roCxxXD1_1ZbFR-TCtbW39Q3_d4aUSQmeqot59w"));
+        Assert.That(token,
+            Is.EqualTo(
+                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJUZXN0LkFwcGxpY2F0aW9uLklzc3VlciIsInN1YiI6ImFkbWluIiwiYXVkIjoiVGVzdC5BcHBsaWNhdGlvbi5BdWRpZW5jZSIsImlhdCI6MTcwNDA4NTIwMCwiZXhwIjoxNzA0MDg3MDAwLCJuYmYiOjE3MDQwODUyMDB9.YOfUaq7-mlP7KafRba6d24TLYn09I7eKED6twHrfjR1IeZhqTiOACFxtkhBErsFWmENOAgESamsq1_gv4w30iQ"));
     }
 
     private void SetValidAccessTokenScenario()
     {
         SetValidIssueDateTime();
         SetValidExpiredDateTime();
+        SetValidNotBeforeDateTime();
         SetJwtSecurityClaims();
         SetSymmetricSecurityKey();
         SetCredentials();
-        SetJwtSecurityToken();
+        SetSecurityTokenDescriptor();
         SetJwtTokenString();
     }
 
@@ -80,23 +91,25 @@ public class JwtAccessTokenProviderTest
     {
         SetInvalidIssueDateTime();
         SetInvalidExpiredDateTime();
+        SetInvalidNotBeforeDateTime();
         SetJwtSecurityClaims();
         SetSymmetricSecurityKey();
         SetCredentials();
-        SetJwtSecurityToken();
+        SetSecurityTokenDescriptor();
         SetJwtTokenString();
     }
 
     private void SetJwtSecurityClaims()
     {
-        _jwtSecurityClaims =
-        [
-            new Claim(JwtRegisteredClaimNames.Iss, Issuer),
-            new Claim(JwtRegisteredClaimNames.Sub, "test_user"),
-            new Claim(JwtRegisteredClaimNames.Aud, Audience),
-            new Claim(JwtRegisteredClaimNames.Iat, _issueDateTime.ToString(CultureInfo.InvariantCulture)),
-            new Claim(JwtRegisteredClaimNames.Exp, _expiredDateTime.ToString(CultureInfo.InvariantCulture))
-        ];
+        _jwtSecurityClaims = new Dictionary<string, object>
+        {
+            { JwtRegisteredClaimNames.Iss, Issuer },
+            { JwtRegisteredClaimNames.Sub, "test_user" },
+            { JwtRegisteredClaimNames.Aud, Audience },
+            { JwtRegisteredClaimNames.Iat, _issueDateTime },
+            { JwtRegisteredClaimNames.Exp, _expiredDateTime },
+            { JwtRegisteredClaimNames.Nbf, _notBeforeDateTime }
+        };
     }
 
     private void SetValidIssueDateTime()
@@ -109,6 +122,10 @@ public class JwtAccessTokenProviderTest
         _expiredDateTime = _issueDateTime.AddMinutes(30);
     }
 
+    private void SetValidNotBeforeDateTime()
+    {
+        _notBeforeDateTime = _issueDateTime;
+    }
 
     private void SetInvalidIssueDateTime()
     {
@@ -120,6 +137,11 @@ public class JwtAccessTokenProviderTest
         _issueDateTime = DateTime.Parse("2024-01-01T00:30:00");
     }
 
+    private void SetInvalidNotBeforeDateTime()
+    {
+        _notBeforeDateTime = DateTime.Parse("2024-01-01T00:00:00");
+    }
+
     private void SetSymmetricSecurityKey()
     {
         _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
@@ -127,14 +149,19 @@ public class JwtAccessTokenProviderTest
 
     private void SetJwtTokenString()
     {
-        _jwtTokenString = new JwtSecurityTokenHandler().WriteToken(_jwtSecurityToken);
+        _jwtTokenString = new JsonWebTokenHandler().CreateToken(_securityTokenDescriptor);
     }
 
-    private void SetJwtSecurityToken()
+    private void SetSecurityTokenDescriptor()
     {
-        _jwtSecurityToken = new JwtSecurityToken(claims: _jwtSecurityClaims,
-            signingCredentials: _credentials,
-            expires: _expiredDateTime);
+        _securityTokenDescriptor = new SecurityTokenDescriptor
+        {
+            Claims = _jwtSecurityClaims,
+            SigningCredentials = _credentials,
+            IssuedAt = _issueDateTime,
+            Expires = _expiredDateTime,
+            NotBefore = _notBeforeDateTime
+        };
     }
 
     private void SetCredentials()

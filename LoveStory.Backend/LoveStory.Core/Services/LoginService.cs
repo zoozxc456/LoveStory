@@ -27,7 +27,8 @@ public class LoginService(
         {
             Username = user.Username,
             IssueAt = DateTime.Now,
-            Expired = DateTime.Now.AddMinutes(30)
+            Expired = DateTime.Now.AddMinutes(30),
+            NotBefore = DateTime.Now
         });
 
         return (true, accessToken);
