@@ -11,3 +11,4 @@ export const setAccessToken: (token: string, options?: CookieOptions<string> & {
 
 export const getAccessToken = () => useCookie(ACCESSTOKEN_COOKIE_KEY).value;
 export const hasAccessToken = () => !!useCookie(ACCESSTOKEN_COOKIE_KEY).value;
+export const removeAccessToken = () => useCookie(ACCESSTOKEN_COOKIE_KEY).value = null;
