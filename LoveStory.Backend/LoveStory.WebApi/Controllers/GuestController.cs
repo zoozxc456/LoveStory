@@ -1,10 +1,12 @@
 using LoveStory.Core.DTOs;
 using LoveStory.Core.Interfaces;
 using LoveStory.WebApi.RequestModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoveStory.WebApi.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class GuestController(IServiceProvider provider) : Controller

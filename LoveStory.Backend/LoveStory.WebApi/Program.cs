@@ -1,3 +1,4 @@
+using System.Text;
 using LoveStory.Core.Interfaces;
 using LoveStory.Core.Securities;
 using LoveStory.Core.Services;
@@ -5,14 +6,46 @@ using LoveStory.Infrastructure.Contexts;
 using LoveStory.Infrastructure.Data;
 using LoveStory.Infrastructure.Interfaces;
 using LoveStory.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Mapper = LoveStory.Core.Mappers.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+// 註冊 Swagger 產生器
+builder.Services.AddSwaggerGen(options =>
+    {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JWT Authorization Tests"
+        });
+
+        // catch Api Token
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        });
+    }
+);
 builder.Services.AddScoped<IGuestService, GuestService>();
 builder.Services.AddScoped<IGuestManagementService, GuestService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
@@ -45,6 +78,21 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    var secretKey = builder.Configuration.GetSection("JwtConfig:SecretKey").Value ?? string.Empty;
+    opt.IncludeErrorDetails = true;
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration.GetSection("JwtConfig:Issuer").Value,
+        ValidAudience = builder.Configuration.GetSection("JwtConfig:WebAudience").Value,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -53,8 +101,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCors("policy");
-
 // app.UseHttpsRedirection();
 app.MapControllers();
 
