@@ -1,0 +1,19 @@
+stages:
+  - build
+  - deploy
+
+build-STAGING:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - apt-get install -y sshpass
+    - cd LoveStory.Backend
+  script:
+    - dotnet restore
+    - dotnet publish -c Release -o out
+    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r out $SSH_ACCOUNT@$STAGING_BACKEND_DEPLOY_PATH
+  tags:
+    - dotnet8
+    
