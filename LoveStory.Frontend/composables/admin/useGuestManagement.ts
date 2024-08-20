@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
-import type { NuxtError } from "nuxt/app";
+const fetchGuestManagementRequest = async () => useFetch<GetGuestManagementResponse, ErrorResponse>('/api/admin/guests', { method: "GET", headers: generateJwtAuthorizeHeader() });
 
 const dateTimeAscendingComparer = (x: Date, y: Date): number => dayjs(x).unix() - dayjs(y).unix();
-
 const processSingleDetail = (guest: IGuest): SingleGuestManagementDetail => guest;
 const processSingleGuest = (data: IGuest[]): SingleGuestManagement[] => data.map((guest) => ({
   guestId: guest.guestId,
@@ -39,12 +38,12 @@ const convertToGuestManagementList = (data: IGuest[]): GuestManagement[] => {
 
 export function useGuestManagement() {
   const guests: Ref<IGuest[] | null> = ref(null);
-  const error: Ref<NuxtError<ErrorResponse> | null> = ref(null);
+  const error: Ref<ErrorResponse | null> = ref(null);
   const isLoading = ref(true);
 
   const fetchGuests = async () => {
     isLoading.value = true;
-    const { data, error: fetchError } = await fetchAllGuests();
+    const { data, error: fetchError } = await fetchGuestManagementRequest();
     if (fetchError.value) {
       error.value = fetchError.value;
     } else {
