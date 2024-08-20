@@ -1,4 +1,4 @@
-const createFamilyGuestRequest = async (data: AddFamilyGuestRequest) => useFetch<any, ErrorResponse>('/api/admin/guests/family', { method: 'POST', body: data, headers: generateJwtAuthorizeHeader() });
+const createFamilyGuestRequest = async (data: AddFamilyGuestRequest) => $fetch('/api/admin/guests/family', { method: 'POST', body: data, headers: generateJwtAuthorizeHeader() });
 
 export const useCreateFamilyGuest = () => {
   const initialAttendanceNumber = 2;
