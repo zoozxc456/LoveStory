@@ -3,8 +3,6 @@ const generateJwtAuthorizationHeader = () => {
   return ({ Authorization: `Bearer ${getAccessToken()}` });
 };
 
-const deleteGuest = async (data: Pick<IGuest, 'guestId'>) => useAsyncData<any, ErrorResponse>(`http://localhost:5066/api/Guest/${data}`, () => $fetch(`http://localhost:5066/api/Guest/${data}`, { method: 'DELETE', headers: { ...generateJwtAuthorizationHeader() } }));
-
 const modifySingleGuest = async (data: ModifySingleGuestRequest) => useAsyncData<any, ErrorResponse>('http://localhost:5066/api/Guest', () => $fetch('http://localhost:5066/api/Guest', { method: 'PUT', body: data, headers: { ...generateJwtAuthorizationHeader() } }));
 const modifyFamilyGuest = async (data: ModifyFamilyGuestRequest) => useAsyncData<any, ErrorResponse>('http://localhost:5066/api/Guest/Family', () => $fetch('http://localhost:5066/api/Guest/Family', { method: 'PUT', body: data, headers: { ...generateJwtAuthorizationHeader() } }));
-export { fetchAllGuests, addGuest, addFamilyGuest, deleteGuest, modifySingleGuest, modifyFamilyGuest };
+export { modifySingleGuest, modifyFamilyGuest };

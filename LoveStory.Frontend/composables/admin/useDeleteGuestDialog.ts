@@ -1,3 +1,5 @@
+const deleteGuestRequest = async (id: Pick<IGuest, 'guestId'>) => $fetch(`/api/admin/guests/${id}`, { method: 'DELETE', headers: { ...generateJwtAuthorizeHeader() } });
+
 export const useDeleteGuestDialog = (displayController: IDialogDisplayController, emits: (event: 'update:guests') => void) => {
   const data = reactive<Pick<IGuest, 'guestId' | 'guestName'>>({
     guestId: '',
@@ -5,7 +7,7 @@ export const useDeleteGuestDialog = (displayController: IDialogDisplayController
   });
 
   const handleDeleteGuestById = async (guestId: Pick<IGuest, 'guestId'>) => {
-    await deleteGuest(guestId);
+    await deleteGuestRequest(guestId);
     emits('update:guests');
     displayController.onClose();
   };
