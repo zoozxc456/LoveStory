@@ -1,3 +1,5 @@
+const originalAuthRequest = async (data: OriginalAuthRequest) => useFetch<OriginalAuthResponse, ErrorResponse>('/api/auth', { method: "POST", body: data });
+
 export const useOriginalAuth = () => {
   const authFormData = reactive<OriginalAuthRequest>({
     username: "",
@@ -9,8 +11,7 @@ export const useOriginalAuth = () => {
 
   const authenticateUser = async () => {
     isLoading.value = true;
-
-    const { data } = await originalAuth(authFormData);
+    const { data } = await originalAuthRequest(authFormData);
     if (data !== null && data.value !== null && data.value.isSuccess) {
       setAccessToken(data.value.accessToken);
       navigateTo({ path: '/' });
