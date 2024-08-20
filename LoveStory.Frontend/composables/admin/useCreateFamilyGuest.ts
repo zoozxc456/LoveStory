@@ -1,4 +1,4 @@
-import type { FamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+const createFamilyGuestRequest = async (data: AddFamilyGuestRequest) => $fetch('/api/admin/guests/family', { method: 'POST', body: data, headers: generateJwtAuthorizeHeader() });
 
 export const useCreateFamilyGuest = () => {
   const initialAttendanceNumber = 2;
@@ -18,7 +18,7 @@ export const useCreateFamilyGuest = () => {
 
   const handleCreateGuest = async () => {
     if (validFormData(data)) {
-      await addFamilyGuest(data);
+      await createFamilyGuestRequest(data);
     }
   };
 

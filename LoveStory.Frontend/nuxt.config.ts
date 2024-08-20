@@ -25,4 +25,7 @@ export default defineNuxtConfig({
     ]
   },
   plugins: [{ src: '~/plugins/font-awesome.ts' }],
+  runtimeConfig: {
+    backendServiceBaseApiAddress: '',
+  }
 });

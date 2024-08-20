@@ -1,4 +1,4 @@
-import type { SingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+const createSingleGuestRequest = async (data: AddGuestManagementRequest) => $fetch('/api/admin/guests/single', { method: "POST", body: data, headers: generateJwtAuthorizeHeader() });
 
 export const useCreateSingleGuestDialog = () => {
   const data = reactive<SingleGuestFormDataType>({
@@ -12,7 +12,7 @@ export const useCreateSingleGuestDialog = () => {
 
   const handleCreateGuest = async () => {
     if (validFormData(data)) {
-      await addGuest(data);
+      await createSingleGuestRequest(data);
     }
   };
 
