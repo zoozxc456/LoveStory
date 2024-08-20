@@ -1,5 +1,8 @@
 import type { ModifySingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 
+const modifySingleGuestRequest = async (data: ModifySingleGuestRequest) => $fetch('/api/admin/guests/single', { method: 'PUT', body: data, headers: generateJwtAuthorizeHeader() });
+const modifyFamilyGuestsRequest = async (data: ModifyFamilyGuestRequest) => $fetch('/api/admin/guests/family', { method: 'PUT', body: data, headers: generateJwtAuthorizeHeader() });
+
 export const useModifySingleGuest = () => {
   const data = reactive<ModifySingleGuestFormDataType>({
     guestName: "",
@@ -30,7 +33,7 @@ export const useModifySingleGuest = () => {
   };
 
   const handleModifyGuest = async () => {
-    await modifySingleGuest(data);
+    await modifySingleGuestRequest(data);
   };
 
   const reset = () => {
@@ -91,7 +94,7 @@ export const useModifyFamilyGuest = () => {
   };
 
   const handleModifyGuest = async () => {
-    await modifyFamilyGuest(data);
+    await modifyFamilyGuestsRequest(data);
   };
 
   const reset = () => {
