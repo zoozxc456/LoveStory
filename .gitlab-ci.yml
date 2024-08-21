@@ -33,7 +33,7 @@ build-Frontend-STAGING:
     - cd LoveStory.Frontend
   script:
     - sed -i 's/=BACKEND_SERVICE_BASE_API_ADDRESS/=$STG_BACKEND_SERVICE_BASE_API_ADDRESS/g' .env.staging
-    - bun install && bunx nuxi build:staging
+    - bun install && bun run build:staging
     - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r .output $SSH_ACCOUNT@$STAGING_FRONTEND_DEPLOY_PATH
   tags:
     - dotnet8
