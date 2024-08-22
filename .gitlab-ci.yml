@@ -1,8 +1,7 @@
 stages:
   - build
-  - deploy
 
-build-Backend-STAGING:
+build-deploy-Backend-STAGING:
   stage: build
   image: mcr.microsoft.com/dotnet/sdk:8.0
   before_script:
@@ -10,6 +9,10 @@ build-Backend-STAGING:
     - apt-get install -y openssh-client
     - apt-get install -y sshpass
     - cd LoveStory.Backend
+    - sed -i "s/\[STG_LOVE_STORY_SQL_SERVER_CONNECTION_STRING\]/$STAGING_BACKEND_SQLSERVER_CONNECTION_STRING/g" LoveStory.WebApi/appsettings.Staging.json
+    - sed -i "s/\[STG_JWT_CONFIG_WEB_AUDIENCE\]/$BACKEND_JWTCONFIG_WEBAUDIENCE/g" LoveStory.WebApi/appsettings.Staging.json
+    - sed -i "s/\[STG_JWT_CONFIG_SECRET_KEY\]/$BACKEND_JWTCONFIG_SECRETKEY/g" LoveStory.WebApi/appsettings.Staging.json
+    - sed -i "s/\[STG_JWT_CONFIG_ISSUER\]/$BACKEND_JWTCONFIG_ISSUER/g" LoveStory.WebApi/appsettings.Staging.json
   script:
     - dotnet restore
     - dotnet publish -c Release -o out
@@ -19,7 +22,7 @@ build-Backend-STAGING:
   tags:
     - dotnet8
   
-build-Frontend-STAGING:
+build-deploy-Frontend-STAGING:
   stage: build
   image: mcr.microsoft.com/dotnet/sdk:8.0
   before_script:
