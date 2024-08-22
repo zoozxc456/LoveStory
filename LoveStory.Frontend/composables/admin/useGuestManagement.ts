@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-const fetchGuestManagementRequest = async () => useFetch<GetGuestManagementResponse, ErrorResponse>('/api/admin/guests', { method: "GET", headers: generateJwtAuthorizeHeader() });
+const fetchGuestManagementRequest = async () => useAsyncData<GetGuestManagementResponse, ErrorResponse>('fetch-guest-management', () => $fetch<GetGuestManagementResponse>('/api/admin/guests', { method: "GET", headers: generateJwtAuthorizeHeader() }));
 
 const dateTimeAscendingComparer = (x: Date, y: Date): number => dayjs(x).unix() - dayjs(y).unix();
 const processSingleDetail = (guest: IGuest): SingleGuestManagementDetail => guest;
@@ -45,7 +45,7 @@ export function useGuestManagement() {
     isLoading.value = true;
     const { data, error: fetchError } = await fetchGuestManagementRequest();
     if (fetchError.value) {
-      error.value = fetchError.value;
+      error.value = fetchError.value.data || { error: fetchError.value.message, status: fetchError.value.statusCode };
     } else {
       guests.value = data.value || [];
     }
