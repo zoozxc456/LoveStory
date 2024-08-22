@@ -11,7 +11,12 @@ module.exports = {
     fontFamily: {
       italianno: ['"Italianno"', "cursive"],
       "inria-sans": ['"Inria Sans"', "sans-serif"],
-      millerstone: ['"Millerstone"',"cursive"],
+      millerstone: ['"Millerstone"', "cursive"],
+    },
+    extend: {
+      screens: {
+        mini: { max: "360px" },
+      },
     },
   },
 
