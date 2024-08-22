@@ -1,11 +1,14 @@
 <template>
-  <div class="w-full mx-auto">
-    <div class="header text-center text-2xl">賓客管理</div>
-    <div class="h-12"></div>
-    <GuestsGuestManagementTable
-      :guest-managements="guests"
-      @update:guests="refreshGuests"
-    />
+  <div class="w-full h-full mx-auto">
+    <div class="header h-[10%] flex justify-center items-center text-2xl">
+      賓客管理
+    </div>
+    <div class="content h-[89%] max-h-[89%] mx-4">
+      <GuestsGuestManagementTable
+        :guest-managements="guests"
+        @update:guests="refreshGuests"
+      />
+    </div>
   </div>
 </template>
 
