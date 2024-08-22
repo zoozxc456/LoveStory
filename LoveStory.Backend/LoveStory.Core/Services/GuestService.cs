@@ -46,8 +46,19 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
     {
         var guest = await _guestRepository.GetOneAsync(guest => guest.GuestId == guestId);
         if (guest == null) return false;
+        if (guest.GuestGroupId is null) return await _guestRepository.DeleteAsync(guest);
+        return await DeleteFamilyGuestsByGroupId(guest.GuestGroupId.Value);
+    }
 
-        return await _guestRepository.DeleteAsync(guest);
+    public async Task<bool> DeleteFamilyGuestsByGroupId(Guid groupId)
+    {
+        var group = await _guestGroupRepository.GetOneAsync(x => x.GuestGroupId == groupId);
+        if (group is null) throw new Exception("No This Group");
+        
+        var inGroupGuests = _guestRepository.GetAll().Where(x => x.GuestGroupId == groupId).ToList();
+
+        return await _guestRepository.DeleteMultipleAsync(inGroupGuests) &&
+               await _guestGroupRepository.DeleteAsync(group);
     }
 
     public async Task<bool> ModifySingleGuest(GuestDto guestDto)
