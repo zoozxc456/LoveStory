@@ -5,7 +5,7 @@
   "scripts": {
     "build:staging": "nuxt build --dotenv .env.staging",
     "build:uat": "nuxt build --dotenv .env.uat",
-    "build:prod": "nuxt build --dotenv .env.prod",
+    "build:prod": "nuxt build --dotenv .env.production",
     "dev": "nuxt dev --dotenv .env.local",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
