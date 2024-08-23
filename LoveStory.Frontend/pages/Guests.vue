@@ -8,6 +8,10 @@
         :guest-managements="guests"
         @update:guests="refreshGuests"
       />
+      <GuestsMobileGuestManagementTable
+        :guest-managements="guests"
+        @update:guests="refreshGuests"
+      />
     </div>
   </div>
 </template>

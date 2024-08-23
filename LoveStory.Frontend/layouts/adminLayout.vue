@@ -4,7 +4,7 @@
       :class="['absolute top-0 z-10 h-[10%]', 'lg:hidden']"
     />
     <CommonNavigationBar :class="['hidden lg:block lg:w-[15%] lg:h-full']" />
-    <div :class="['h-[89%] w-full', 'lg:w-[85%] lg:h-[89%]']">
+    <div :class="['h-[89%] w-full', 'lg:w-[85%] lg:h-full']">
       <slot></slot>
     </div>
   </div>

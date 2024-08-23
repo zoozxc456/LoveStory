@@ -17,7 +17,7 @@
     </div>
     <div
       class="w-full bg-pink-100/80 transition-all duration-1000 -z-10 absolute p-3 text-rose-300"
-      :class="[isExpandedMenu ? 'top-[100%]' : '-top-[150%]']"
+      :class="[isExpandedMenu ? 'top-[100%]' : '-top-[200%]']"
     >
       <NuxtLink
         v-for="{ to, displayText, icon } in navItems"
