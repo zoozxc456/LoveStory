@@ -49,7 +49,7 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const model = defineModel<string[]>("specialNeeds");
 
-const displayController = useDialogDisplayController();
+const displayController = useDisplayController();
 const items: string[] = ["素食", "兒童椅"];
 
 const handleSelectItem = (item: string) => {
