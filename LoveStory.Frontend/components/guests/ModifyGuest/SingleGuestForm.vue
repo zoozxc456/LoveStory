@@ -71,7 +71,7 @@
           特殊需求
         </h6>
         <div class="flex-1">
-          <GuestsModifyGuestDialogSpecialNeedDropDownList
+          <GuestsModifyGuestSpecialNeedDropDownList
             v-model:special-needs="data.specialNeeds"
           />
         </div>
@@ -126,6 +126,6 @@ const emits = defineEmits<{
   cancel: [];
 }>();
 
-const displayController = useDialogDisplayController();
+const displayController = useDisplayController();
 const { data: tables } = useBanquetTable();
 </script>

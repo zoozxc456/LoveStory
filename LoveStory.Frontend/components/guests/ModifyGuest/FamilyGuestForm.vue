@@ -115,7 +115,7 @@
                 特殊需求
               </h6>
               <div class="flex-1">
-                <GuestsModifyGuestDialogSpecialNeedDropDownList
+                <GuestsModifyGuestSpecialNeedDropDownList
                   v-model:special-needs="guest.specialNeeds"
                 />
               </div>
@@ -185,5 +185,5 @@ const handleCollsapeClick = (index: number) => {
 };
 
 const { data: tables } = useBanquetTable();
-const displayController = useDialogDisplayController();
+const displayController = useDisplayController();
 </script>

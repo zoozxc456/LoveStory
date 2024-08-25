@@ -8,8 +8,9 @@ export interface ICreateGuest<T> extends IBasicGuestOperate<T> {
   handleCreate: () => Promise<void>;
 }
 
-export interface IModifyGuest<T> extends IBasicGuestOperate<T> {
+export interface IModifyGuest<T,K> extends IBasicGuestOperate<T> {
   handleModify: () => Promise<void>;
+  convert: (data: K) => void;
 }
 
 export interface IDeleteGuest<T> extends IBasicGuestOperate<T> {

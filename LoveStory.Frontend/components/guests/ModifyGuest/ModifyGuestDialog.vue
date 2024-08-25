@@ -3,17 +3,17 @@
     v-if="displayController.state.isShow"
     class="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
   >
-    <GuestsModifyGuestDialogSingleGuestForm
+    <GuestsModifyGuestSingleGuestForm
       v-if="guestData?.guestType === 'single'"
-      v-model:model-value="singleGuestFormData"
+      v-model:model-value="singleGuestFormState.data"
       @on-select="handleSelect"
       @cancel="handleCancel"
     />
 
-    <GuestsModifyGuestDialogFamilyGuestForm
+    <GuestsModifyGuestFamilyGuestForm
       v-else-if="guestData?.guestType === 'group'"
-      v-model:model-value="familyGuestFormData"
-      v-model:attendance-number="attendanceNumber"
+      v-model:model-value="familyGuestFormState.data"
+      v-model:attendance-number="familyGuestFormState.attendanceNumber"
       @on-select="handleSelect"
       @cancel="handleCancel"
     />
@@ -27,7 +27,7 @@ type ModifyGuestDialogProps = {
   guestData: GuestManagement;
 };
 
-const displayController = defineModel<IDialogDisplayController>(
+const displayController = defineModel<IDisplayController>(
   "displayController",
   { required: true }
 );
@@ -36,19 +36,18 @@ const props = defineProps<ModifyGuestDialogProps>();
 const emits = defineEmits<{ "update:guests": [] }>();
 
 const {
-  data: singleGuestFormData,
-  handleModifyGuest: handleModifySingleGuest,
-  converter: singleGuestConverter,
-  reset: resetSingleGuestFormData,
-} = useModifySingleGuest();
+  state: singleGuestFormState,
+  handleModify: handleModifySingleGuest,
+  convert: singleGuestConverter,
+  clean: cleanSingleGuestForm,
+} = useModifySingleGuest(useModifySingleGuestFormDataValidator());
 
 const {
-  data: familyGuestFormData,
-  attendanceNumber,
-  handleModifyGuest: handleModifyFamilyGuest,
-  converter: familyGuestConverter,
-  reset: resetFamilyGuestFormData,
-} = useModifyFamilyGuest();
+  state: familyGuestFormState,
+  handleModify: handleModifyFamilyGuest,
+  convert: familyGuestConverter,
+  clean: cleanFamilyGuestForm,
+} = useModifyFamilyGuest(useModifyFamilyGuestFormDataValidator());
 
 const handleSelect = async () => {
   if (props.guestData.guestType === "single") await handleModifySingleGuest();
@@ -59,8 +58,8 @@ const handleSelect = async () => {
 };
 
 const handleCancel = () => {
-  if (props.guestData.guestType === "single") resetSingleGuestFormData();
-  else resetFamilyGuestFormData();
+  if (props.guestData.guestType === "single") cleanSingleGuestForm();
+  else cleanFamilyGuestForm();
 
   displayController.value.onClose();
 };

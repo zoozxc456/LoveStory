@@ -51,7 +51,7 @@ const model = defineModel<IGuestSpecialNeed[]>("specialNeeds", {
   required: true,
 });
 
-const displayController = useDialogDisplayController();
+const displayController = useDisplayController();
 const items: string[] = ["素食", "兒童椅"];
 
 const handleSelectItem = (item: string) => {
