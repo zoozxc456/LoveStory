@@ -40,12 +40,11 @@ public class JwtAccessTokenProviderTest
     }
 
     [Test]
-    public void ValidateAccessToken_GivenValidAccessToken_ShouldReturnTrue()
+    public void ValidateAccessToken_GivenValidAccessToken_ShouldReturnValidPrincipal()
     {
         SetValidAccessTokenScenario();
         var result = _provider.ValidateAccessToken(_jwtTokenString);
-
-        Assert.That(result, Is.True);
+        Assert.That(result.IsValid, Is.True);
     }
 
     [Test]
@@ -54,7 +53,7 @@ public class JwtAccessTokenProviderTest
         SetInvalidAccessTokenScenario();
         var result = _provider.ValidateAccessToken(_jwtTokenString);
 
-        Assert.That(result, Is.False);
+        Assert.That(result.IsValid, Is.False);
     }
 
     [Test]
@@ -72,7 +71,7 @@ public class JwtAccessTokenProviderTest
 
         Assert.That(token,
             Is.EqualTo(
-                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJUZXN0LkFwcGxpY2F0aW9uLklzc3VlciIsInN1YiI6ImFkbWluIiwiYXVkIjoiVGVzdC5BcHBsaWNhdGlvbi5BdWRpZW5jZSIsImlhdCI6MTcwNDA4NTIwMCwiZXhwIjoxNzA0MDg3MDAwLCJuYmYiOjE3MDQwODUyMDB9.YOfUaq7-mlP7KafRba6d24TLYn09I7eKED6twHrfjR1IeZhqTiOACFxtkhBErsFWmENOAgESamsq1_gv4w30iQ"));
+                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJUZXN0LkFwcGxpY2F0aW9uLklzc3VlciIsInN1YiI6ImFkbWluIiwiYXVkIjoiVGVzdC5BcHBsaWNhdGlvbi5BdWRpZW5jZSIsImV4cCI6MTcwNDA4NzAwMCwiaWF0IjoxNzA0MDg1MjAwLCJuYmYiOjE3MDQwODUyMDB9.Gttyy6CIDRpMlguDDj9D3FLhYuQJ8DoYO0ptpFDvCEji5ph1_ajufRQRJ30vxg9lXXykr8KJKUvQYUit6LCNog"));
     }
 
     private void SetValidAccessTokenScenario()

@@ -1,9 +1,10 @@
 using LoveStory.Core.DTOs;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LoveStory.Core.Interfaces;
 
 public interface IAccessTokenProvider
 {
     public string GenerateAccessToken(AuthOriginLoginAccessTokenDto dto);
-    public bool ValidateAccessToken(string accessToken);
+    public TokenValidationResult ValidateAccessToken(string accessToken);
 }

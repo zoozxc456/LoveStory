@@ -1,6 +1,3 @@
-using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using LoveStory.Core.DTOs;
 using LoveStory.Core.Interfaces;
@@ -55,7 +52,7 @@ public class JwtAccessTokenProvider : IAccessTokenProvider
         };
     }
 
-    public bool ValidateAccessToken(string accessToken)
+    public TokenValidationResult ValidateAccessToken(string accessToken)
     {
         try
         {
@@ -73,13 +70,11 @@ public class JwtAccessTokenProvider : IAccessTokenProvider
                 ClockSkew = TimeSpan.Zero
             };
 
-            var principal = new JsonWebTokenHandler().ValidateToken(accessToken, validationParameters);
-
-            return principal.IsValid;
+            return new JsonWebTokenHandler().ValidateTokenAsync(accessToken, validationParameters).Result;
         }
         catch (Exception e)
         {
-            return false;
+            throw new Exception(e.ToString());
         }
     }
 }
