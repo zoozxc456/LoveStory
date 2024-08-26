@@ -54,7 +54,7 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
     {
         var group = await _guestGroupRepository.GetOneAsync(x => x.GuestGroupId == groupId);
         if (group is null) throw new Exception("No This Group");
-        
+
         var inGroupGuests = _guestRepository.GetAll().Where(x => x.GuestGroupId == groupId).ToList();
 
         return await _guestRepository.DeleteMultipleAsync(inGroupGuests) &&
@@ -112,6 +112,12 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
             guest.GuestGroup = null;
             guest.CreatorId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60");
             guest.CreateAt = DateTime.Now;
+            guest.SpecialNeeds.ToList()
+                .ForEach(need =>
+                {
+                    need.CreatorId = Guid.Parse("3d9d1f27-34e5-4310-bb88-9399cb5dad60");
+                    need.CreateAt = DateTime.Now;
+                });
         });
 
         toBeModifiedGuests.ForEach(guest =>
