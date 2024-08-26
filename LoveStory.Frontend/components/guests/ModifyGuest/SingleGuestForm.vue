@@ -128,4 +128,10 @@ const emits = defineEmits<{
 
 const displayController = useDisplayController();
 const { data: tables } = useBanquetTable();
+
+watchEffect(() => {
+  console.log(`===== Start Console.log for data =====`);
+  console.log(data);
+  console.log(`===== End Console.log for data =====`);
+});
 </script>

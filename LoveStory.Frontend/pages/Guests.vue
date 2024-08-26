@@ -24,6 +24,7 @@
       <GuestsGuestManagementTable
         :guest-managements="guests"
         @update:guests="refreshGuests"
+        @request:modify="handlers.onRequestModifyGuest"
       />
       <GuestsMobileGuestManagementTable
         :guest-managements="guests"
@@ -46,13 +47,13 @@
       @delete-guest="handleDeleteGuestById"
     /> -->
 
-    <!-- <GuestsModifyGuestDialog
+    <GuestsModifyGuestDialog
       v-model:display-controller="
         dialogDisplayControllers['modify-guest-dialog']
       "
       :guest-type="toBeModifiedGuestType"
       @modified="onModifiedGuest"
-    /> -->
+    />
   </div>
 </template>
 
@@ -73,5 +74,22 @@ const dialogDisplayControllers = reactive<{
   "delete-guest-dialog": useDisplayController(),
 });
 
+const handlers = {
+  onRequestModifyGuest: (guest: GuestManagement) => {
+    if (guest.guestType === "single") {
+      useModifySingleGuestStore().convert(guest);
+      toBeModifiedGuestType.value = "single";
+    } else {
+      useModifyFamilyGuestStore().convert(guest);
+      toBeModifiedGuestType.value = "family";
+    }
+
+    dialogDisplayControllers["modify-guest-dialog"].onShow();
+  },
+};
+const toBeModifiedGuestType = ref<GuestType>("single");
+
 const onCreatedGuest = () => refreshGuests();
+const onModifiedGuest = () => refreshGuests();
+const onDeletedGuest = () => {};
 </script>
