@@ -1,37 +1,39 @@
 <template>
   <div
     v-if="displayController.state.isShow"
-    class="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
+    class="fixed inset-0 z-[999] h-dvh w-dvw bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
   >
-    <GuestsCreateGuestSelectGuestTypeForm
-      v-if="dialogStates.currentProccessStep == 1"
-      v-model:model-value="dialogStates.currentGuestType"
-      @update:model-value="handlers.onSelectGuestType"
-      @cancel="handlers.onCancel"
-    />
+    <div class="relative w-full h-full">
+      <GuestsCreateGuestSelectGuestTypeForm
+        v-if="dialogStates.currentProccessStep == 1"
+        v-model:model-value="dialogStates.currentGuestType"
+        @update:model-value="handlers.onSelectGuestType"
+        @cancel="handlers.onCancel"
+      />
 
-    <GuestsCreateGuestSingleGuestForm
-      v-if="
-        dialogStates.currentProccessStep == 2 &&
-        dialogStates.currentGuestType == 'single'
-      "
-      v-model:model-value="createSingleGuestProvider.state.data"
-      @cancel="handlers.onBack"
-      @on-select="handlers.onCreate"
-    />
+      <GuestsCreateGuestSingleGuestForm
+        v-if="
+          dialogStates.currentProccessStep == 2 &&
+          dialogStates.currentGuestType == 'single'
+        "
+        v-model:model-value="createSingleGuestProvider.state.data"
+        @cancel="handlers.onBack"
+        @on-select="handlers.onCreate"
+      />
 
-    <GuestsCreateGuestFamilyGuestForm
-      v-if="
-        dialogStates.currentProccessStep == 2 &&
-        dialogStates.currentGuestType == 'family'
-      "
-      v-model:model-value="createFamilyGuestProvider.state.data"
-      v-model:attendance-number="
-        createFamilyGuestProvider.state.attendanceNumber
-      "
-      @cancel="handlers.onBack"
-      @on-select="handlers.onCreate"
-    />
+      <GuestsCreateGuestFamilyGuestForm
+        v-if="
+          dialogStates.currentProccessStep == 2 &&
+          dialogStates.currentGuestType == 'family'
+        "
+        v-model:model-value="createFamilyGuestProvider.state.data"
+        v-model:attendance-number="
+          createFamilyGuestProvider.state.attendanceNumber
+        "
+        @cancel="handlers.onBack"
+        @on-select="handlers.onCreate"
+      />
+    </div>
   </div>
 </template>
 

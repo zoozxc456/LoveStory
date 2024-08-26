@@ -93,7 +93,7 @@
             </h6>
           </div>
           <div
-            class="px-4 py-2 border border-t-transparent rounded-b"
+            class="px-4 py-2 border rounded-b"
             v-show="collsapeCollection.has(index)"
           >
             <div class="flex gap-2 items-center">
