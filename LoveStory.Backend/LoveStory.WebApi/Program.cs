@@ -10,10 +10,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using Mapper = LoveStory.Core.Mappers.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Verbose()
+    .WriteTo.Console()
+    .WriteTo.File($"logs/log-{DateTime.Now:yyyy-MM-dd}.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
+builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 // 註冊 Swagger 產生器
