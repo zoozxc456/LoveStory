@@ -15,7 +15,7 @@ build-deploy-Backend-STAGING:
     - sed -i "s/\[STG_JWT_CONFIG_ISSUER\]/$BACKEND_JWTCONFIG_ISSUER/g" LoveStory.WebApi/appsettings.Staging.json
   script:
     - dotnet restore
-    - dotnet publish -c Release -o out
+    - dotnet publish -c Release -o out -p:IsTransformWebConfigDisabled=true -p:EnvironmentName=Staging
     - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@stg-lovestory-api.coreop.local "powershell.exe Stop-Website -Name stg-lovestory"
     - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r out $SSH_ACCOUNT@$STAGING_BACKEND_DEPLOY_PATH
     - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@stg-lovestory-api.coreop.local "powershell.exe Start-Website -Name stg-lovestory"
@@ -55,7 +55,7 @@ build-deploy-Backend-UAT:
     - sed -i "s/\[UAT_JWT_CONFIG_ISSUER\]/$BACKEND_JWTCONFIG_ISSUER/g" LoveStory.WebApi/appsettings.UAT.json
   script:
     - dotnet restore
-    - dotnet publish -c Release -o out
+    - dotnet publish -c Release -o out -p:IsTransformWebConfigDisabled=true -p:EnvironmentName=UAT
     - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@uat-lovestory-api.coreop.local "powershell.exe Stop-Website -Name uat-lovestory"
     - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r out $SSH_ACCOUNT@$UAT_BACKEND_DEPLOY_PATH
     - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@uat-lovestory-api.coreop.local "powershell.exe Start-Website -Name uat-lovestory"
@@ -103,7 +103,7 @@ build-deploy-Backend-Production:
     - sed -i "s/\[DEFAULT_JWT_CONFIG_ISSUER\]/$BACKEND_JWTCONFIG_ISSUER/g" LoveStory.WebApi/appsettings.json
   script:
     - dotnet restore
-    - dotnet publish -c Release -o out
+    - dotnet publish -c Release -o out -p:IsTransformWebConfigDisabled=true -p:EnvironmentName=Production
     - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@lovestory-api.coreop.local "powershell.exe Stop-Website -Name producation-lovestory"
     - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r out $SSH_ACCOUNT@$PROD_BACKEND_DEPLOY_PATH
     - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@lovestory-api.coreop.local "powershell.exe Start-Website -Name producation-lovestory"
