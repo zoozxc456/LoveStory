@@ -27,5 +27,9 @@ export default defineNuxtConfig({
   plugins: [{ src: '~/plugins/font-awesome.ts' }],
   runtimeConfig: {
     backendServiceBaseApiAddress: process.env.NUXT_BACKEND_SERVICE_BASE_API_ADDRESS || "http://<lovestory.api.url>",
-  }
+  },
+  build: {
+    transpile: ['@fortawesome/vue-fontawesome']
+  },
+
 });
