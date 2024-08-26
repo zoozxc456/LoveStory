@@ -25,6 +25,7 @@
         :guest-managements="guests"
         @update:guests="refreshGuests"
         @request:modify="handlers.onRequestModifyGuest"
+        @request:delete="handlers.onReuestDeleteGuest"
       />
       <GuestsMobileGuestManagementTable
         :guest-managements="guests"
@@ -39,13 +40,12 @@
       @created="onCreatedGuest"
     />
 
-    <!-- <GuestsDeleteGuestDialog
-      v-if="deleteGuestDialogIsShow"
-      :guest-id="deleteGuestDialogData.guestId"
-      :guest-name="deleteGuestDialogData.guestName"
-      @close-dialog="handleCancelDeleteGuestDialog"
-      @delete-guest="handleDeleteGuestById"
-    /> -->
+    <GuestsDeleteGuestDialog
+      v-model:display-controller="
+        dialogDisplayControllers['delete-guest-dialog']
+      "
+      @deleted="onDeletedGuest"
+    />
 
     <GuestsModifyGuestDialog
       v-model:display-controller="
@@ -86,10 +86,17 @@ const handlers = {
 
     dialogDisplayControllers["modify-guest-dialog"].onShow();
   },
+  onReuestDeleteGuest: (guest: GuestManagement) => {
+    useDeleteGuestStore().$patch({
+      data: { guestId: guest.guestId, guestName: guest.guestName },
+    });
+
+    dialogDisplayControllers["delete-guest-dialog"].onShow();
+  },
 };
 const toBeModifiedGuestType = ref<GuestType>("single");
 
 const onCreatedGuest = () => refreshGuests();
 const onModifiedGuest = () => refreshGuests();
-const onDeletedGuest = () => {};
+const onDeletedGuest = () => refreshGuests();
 </script>

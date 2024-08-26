@@ -62,7 +62,7 @@
             <button
               type="button"
               class="px-4 py-2 mx-1 rounded-md border border-1 border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
-              @click="handleShowDeleteGuestDialog(guest)"
+              @click="emits('request:delete', guest)"
             >
               刪除
             </button>
@@ -79,14 +79,6 @@
       </tbody>
     </table>
   </div>
-
-  <GuestsDeleteGuestDialog
-    v-if="deleteGuestDialogIsShow"
-    :guest-id="deleteGuestDialogData.guestId"
-    :guest-name="deleteGuestDialogData.guestName"
-    @close-dialog="handleCancelDeleteGuestDialog"
-    @delete-guest="handleDeleteGuestById"
-  />
 </template>
 
 <script setup lang="ts">
@@ -97,14 +89,11 @@ export type GuestManagementTableData = GuestManagement & {
 };
 
 const props = defineProps<GuestManagementTableProps>();
-const emits = defineEmits(["update:guests", "request:modify"]);
-const {
-  data: deleteGuestDialogData,
-  isShow: deleteGuestDialogIsShow,
-  handleTriggerShowDialog: handleShowDeleteGuestDialog,
-  handleCancel: handleCancelDeleteGuestDialog,
-  handleDeleteGuestById,
-} = useDeleteGuestDialog(useDisplayController(), emits);
+const emits = defineEmits([
+  "update:guests",
+  "request:modify",
+  "request:delete",
+]);
 
 const expandStatusRecord = ref<Record<string, boolean>>({});
 
