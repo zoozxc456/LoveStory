@@ -1,6 +1,7 @@
 <template>
   <div
-    class="relative mx-auto flex w-full max-w-[36rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+    class="mx-auto flex w-4/5 max-w-[36rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+    :class="['absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2']"
   >
     <div class="flex flex-col gap-4 p-6 relative">
       <h4

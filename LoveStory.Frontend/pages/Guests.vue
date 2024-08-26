@@ -94,6 +94,9 @@ const handlers = {
     dialogDisplayControllers["delete-guest-dialog"].onShow();
   },
 };
+
+provide("request-operator-guest-events", handlers);
+
 const toBeModifiedGuestType = ref<GuestType>("single");
 
 const onCreatedGuest = () => refreshGuests();

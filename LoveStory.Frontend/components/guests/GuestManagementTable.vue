@@ -1,5 +1,5 @@
 <template>
-  <div class="relative shadow-md sm:rounded-lg h-full hidden lg:block">
+  <div class="relative shadow-md sm:rounded-lg h-full hidden lg:block overflow-y-auto">
     <table
       class="w-full max-h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-scroll"
     >
@@ -51,10 +51,10 @@
             {{ dayjs(guest.createAt).format("YYYY-MM-DD HH:mm") }}
           </td>
           <td class="px-6 py-4">{{ guest.creator.username }}</td>
-          <td class="px-6 py-4">
+          <td class="px-6 py-4 text-center">
             <button
               type="button"
-              class="px-4 py-2 mx-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
+              class="px-4 py-2 m-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
               @click="emits('request:modify', guest)"
             >
               修改

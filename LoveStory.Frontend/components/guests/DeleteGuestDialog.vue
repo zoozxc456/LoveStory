@@ -2,7 +2,7 @@
   <div
     v-if="displayController.state.isShow"
     data-dialog-backdrop-close="true"
-    class="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
+    class="fixed inset-0 z-[999] grid h-dvh w-dvw place-items-center bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
   >
     <div
       data-dialog="sign-in-dialog"

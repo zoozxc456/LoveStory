@@ -1,6 +1,7 @@
 <template>
   <div
-    class="relative mx-auto flex w-full max-w-[36rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+    class="mx-auto flex w-4/5 max-w-[36rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+    :class="['absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2']"
   >
     <div class="flex flex-col gap-4 p-6">
       <h4
@@ -76,7 +77,7 @@
       <div class="relative w-full p-2 rounded-md border">
         <label class="text-xs absolute left-2 -top-2">賓客名單</label>
         <div class="w-full" v-for="(guest, index) in data.attendance">
-          <div class="ps-3 border-b flex items-center gap-3">
+          <div class="ps-3 flex items-center gap-3">
             <div
               @click="handleCollsapeClick(index)"
               :class="[
@@ -93,7 +94,7 @@
             </h6>
           </div>
           <div
-            class="px-4 py-2 border border-t-transparent rounded-b"
+            class="px-4 py-2 border rounded-b"
             v-show="collsapeCollection.has(index)"
           >
             <div class="flex gap-2 items-center">
