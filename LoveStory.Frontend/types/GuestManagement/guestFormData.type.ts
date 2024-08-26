@@ -15,3 +15,5 @@ export type GuestType = 'single' | 'family';
 
 export type ModifySingleGuestFormDataType = Omit<IGuest, 'seatLocation'> & { seatLocation: Pick<IBanquetTable, 'banquetTableId'> | null; };
 export type ModifyFamilyGuestFormDataType = Pick<IGuestGroup, "guestGroupId" | "guestGroupName"> & Pick<IGuest, "guestRelationship" | "isAttended"> & { attendance: ModifySingleGuestFormDataType[]; seatLocation: Pick<IBanquetTable, 'banquetTableId'> | null; };
+
+export type DeleteGuestFormDataType = Pick<IGuest, 'guestId' | 'guestName'>;

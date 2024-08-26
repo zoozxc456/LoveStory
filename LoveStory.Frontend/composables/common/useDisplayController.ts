@@ -1,11 +1,11 @@
-export interface IDialogDisplayController {
+export interface IDisplayController {
   state: { isShow: boolean; };
   onShow: () => boolean;
   onClose: () => boolean;
   onToggle: () => boolean;
 }
 
-export const useDialogDisplayController = (): IDialogDisplayController => {
+export const useDisplayController = (): IDisplayController => {
   const state = reactive<{ isShow: boolean; }>({ isShow: false });
 
   const onShow = () => state.isShow = true;

@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-const previewController = useDialogDisplayController();
+const previewController = useDisplayController();
 
 const tempGuest = ref<GuestManagementTableData>({
   guestId: "",
@@ -81,8 +81,8 @@ type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 export type GuestManagementTableData = GuestManagement & {
   isExpanded: boolean;
 };
-const createGuestDialogDisplayController = useDialogDisplayController();
-const modifyGuestDialogDisplayController = useDialogDisplayController();
+const createGuestDialogDisplayController = useDisplayController();
+const modifyGuestDialogDisplayController = useDisplayController();
 const temp = ref<GuestManagement | null>(null);
 
 const props = defineProps<GuestManagementTableProps>();

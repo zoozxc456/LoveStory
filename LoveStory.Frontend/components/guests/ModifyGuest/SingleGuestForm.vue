@@ -6,7 +6,7 @@
       <h4
         class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900"
       >
-        新增新賓客資料
+        修改賓客資料
       </h4>
       <div>
         <h6>賓客名稱</h6>
@@ -71,7 +71,9 @@
           特殊需求
         </h6>
         <div class="flex-1">
-          <SpecialNeedDropDownList v-model:special-needs="data.specialNeeds" />
+          <GuestsModifyGuestSpecialNeedDropDownList
+            v-model:special-needs="data.specialNeeds"
+          />
         </div>
       </div>
 
@@ -98,7 +100,7 @@
           type="button"
           @click="emits('on-select')"
         >
-          新增
+          修改
         </button>
       </div>
       <div class="flex-1">
@@ -115,17 +117,21 @@
 </template>
 
 <script setup lang="ts">
-import type { SingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
-import SpecialNeedDropDownList from "./SpecialNeedDropDownList.vue";
-import { useBanquetTable } from "../../composables/admin/useBanquetTable";
+import type { ModifySingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 
-const data = defineModel<SingleGuestFormDataType>({ default: {} });
+const data = defineModel<ModifySingleGuestFormDataType>({ default: {} });
 
 const emits = defineEmits<{
   "on-select": [];
   cancel: [];
 }>();
-const displayController = useDialogDisplayController();
 
+const displayController = useDisplayController();
 const { data: tables } = useBanquetTable();
+
+watchEffect(() => {
+  console.log(`===== Start Console.log for data =====`);
+  console.log(data);
+  console.log(`===== End Console.log for data =====`);
+});
 </script>

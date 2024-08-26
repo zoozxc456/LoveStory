@@ -1,7 +1,7 @@
 import type { CookieOptions } from "nuxt/app";
 
 const ACCESSTOKEN_COOKIE_KEY = "accessToken";
-const DEFAULT_COOKIE_MAX_AGE = 60 * 60;
+const DEFAULT_COOKIE_MAX_AGE = 60 * 30;
 const DEFAULT_COOKIE_OPTIONS: CookieOptions<string> & { readonly?: false; } = { maxAge: DEFAULT_COOKIE_MAX_AGE };
 
 export const setAccessToken: (token: string, options?: CookieOptions<string> & { readonly?: false; }) => void = (token, options?) => {

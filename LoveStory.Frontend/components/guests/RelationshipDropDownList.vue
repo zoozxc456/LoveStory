@@ -49,8 +49,7 @@ const relations = [
 ];
 
 const relationshipModelValue = defineModel<string>("relationship");
-const displayController: IDialogDisplayController =
-  useDialogDisplayController();
+const displayController: IDisplayController = useDisplayController();
 
 const handleSelectItem = (relationship: string) => {
   relationshipModelValue.value = relationship;

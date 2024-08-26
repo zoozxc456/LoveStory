@@ -190,7 +190,7 @@ definePageMeta({ layout: "login-layout" });
 const { authFormData, authenticateUser, isLoading, errorMessage } =
   useOriginalAuth();
 
-const errorMessageDialogDisplayController = useDialogDisplayController();
+const errorMessageDialogDisplayController = useDisplayController();
 
 watchEffect(() => {
   if (isLoading.value === false && errorMessage.value !== "") {

@@ -13,9 +13,11 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.4",
     "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "nuxt": "^3.12.3",
+    "pinia": "^2.2.2",
     "vue": "latest"
   },
   "devDependencies": {

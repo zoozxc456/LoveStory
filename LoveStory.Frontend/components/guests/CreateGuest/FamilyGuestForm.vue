@@ -6,7 +6,7 @@
       <h4
         class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900"
       >
-        修改賓客資料
+        新增新賓客資料
       </h4>
       <div>
         <h6>全家福名稱</h6>
@@ -14,7 +14,7 @@
           <input
             class="w-full h-full px-3 py-3 font-sans text-sm font-normal transition-all bg-transparent border rounded-md peer border-blue-gray-200 text-blue-gray-700 outline outline-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
             placeholder=" "
-            v-model.trim="data.guestGroupName"
+            v-model.trim="data.familyName"
           />
         </div>
       </div>
@@ -115,7 +115,7 @@
                 特殊需求
               </h6>
               <div class="flex-1">
-                <GuestsModifyGuestDialogSpecialNeedDropDownList
+                <SpecialNeedDropDownList
                   v-model:special-needs="guest.specialNeeds"
                 />
               </div>
@@ -146,7 +146,7 @@
           type="button"
           @click="emits('on-select')"
         >
-          修改
+          新增
         </button>
       </div>
       <div class="flex-1">
@@ -164,9 +164,10 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import type { ModifyFamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import type { FamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import SpecialNeedDropDownList from "../SpecialNeedDropDownList.vue";
 
-const data = defineModel<ModifyFamilyGuestFormDataType>({ required: true });
+const data = defineModel<FamilyGuestFormDataType>({ required: true });
 const attendanceNumber = defineModel<number>("attendanceNumber", {
   default: 2,
 });
@@ -185,5 +186,5 @@ const handleCollsapeClick = (index: number) => {
 };
 
 const { data: tables } = useBanquetTable();
-const displayController = useDialogDisplayController();
+const displayController = useDisplayController();
 </script>

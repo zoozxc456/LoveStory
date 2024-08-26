@@ -1,14 +1,5 @@
 <template>
   <div class="relative shadow-md sm:rounded-lg h-full hidden lg:block">
-    <div class="absolute -top-12 right-0">
-      <button
-        class="select-none rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white duration-150 ease-in-out py-2 px-6 text-center align-middle font-sans text-sm font-bold uppercases hadow-md transition-all hover:shadow-lg focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-        type="button"
-        @click="createGuestDialogDisplayController.onShow"
-      >
-        新增賓客
-      </button>
-    </div>
     <table
       class="w-full max-h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-scroll"
     >
@@ -64,14 +55,14 @@
             <button
               type="button"
               class="px-4 py-2 mx-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
-              @click="handleShowModifyGuestDialog(guest)"
+              @click="emits('request:modify', guest)"
             >
               修改
             </button>
             <button
               type="button"
               class="px-4 py-2 mx-1 rounded-md border border-1 border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
-              @click="handleShowDeleteGuestDialog(guest)"
+              @click="emits('request:delete', guest)"
             >
               刪除
             </button>
@@ -88,24 +79,6 @@
       </tbody>
     </table>
   </div>
-  <GuestsCreateGuestDialog
-    v-model:controller="createGuestDialogDisplayController"
-    @update:guests="emits('update:guests')"
-  />
-
-  <GuestsDeleteGuestDialog
-    v-if="deleteGuestDialogIsShow"
-    :guest-id="deleteGuestDialogData.guestId"
-    :guest-name="deleteGuestDialogData.guestName"
-    @close-dialog="handleCancelDeleteGuestDialog"
-    @delete-guest="handleDeleteGuestById"
-  />
-
-  <GuestsModifyGuestDialog
-    v-model:display-controller="modifyGuestDialogDisplayController"
-    :guest-data="(temp as GuestManagement)"
-    @update:guests="emits('update:guests')"
-  />
 </template>
 
 <script setup lang="ts">
@@ -114,19 +87,13 @@ type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 export type GuestManagementTableData = GuestManagement & {
   isExpanded: boolean;
 };
-const createGuestDialogDisplayController = useDialogDisplayController();
-const modifyGuestDialogDisplayController = useDialogDisplayController();
-const temp = ref<GuestManagement | null>(null);
 
 const props = defineProps<GuestManagementTableProps>();
-const emits = defineEmits(["update:guests"]);
-const {
-  data: deleteGuestDialogData,
-  isShow: deleteGuestDialogIsShow,
-  handleTriggerShowDialog: handleShowDeleteGuestDialog,
-  handleCancel: handleCancelDeleteGuestDialog,
-  handleDeleteGuestById,
-} = useDeleteGuestDialog(useDialogDisplayController(), emits);
+const emits = defineEmits([
+  "update:guests",
+  "request:modify",
+  "request:delete",
+]);
 
 const expandStatusRecord = ref<Record<string, boolean>>({});
 
@@ -163,10 +130,5 @@ const unionForSpecialNeeds = (guestManagement: GuestManagement): string[] => {
 
 const aggregateSpecialNeedsForGuest = (guest: GuestManagement): string => {
   return unionForSpecialNeeds(guest).join(",");
-};
-
-const handleShowModifyGuestDialog = (guest: GuestManagement) => {
-  temp.value = guest;
-  modifyGuestDialogDisplayController.onShow();
 };
 </script>

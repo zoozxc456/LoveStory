@@ -6,7 +6,7 @@
       <h4
         class="block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900"
       >
-        修改賓客資料
+        新增新賓客資料
       </h4>
       <div>
         <h6>賓客名稱</h6>
@@ -71,9 +71,7 @@
           特殊需求
         </h6>
         <div class="flex-1">
-          <GuestsModifyGuestDialogSpecialNeedDropDownList
-            v-model:special-needs="data.specialNeeds"
-          />
+          <SpecialNeedDropDownList v-model:special-needs="data.specialNeeds" />
         </div>
       </div>
 
@@ -100,7 +98,7 @@
           type="button"
           @click="emits('on-select')"
         >
-          修改
+          新增
         </button>
       </div>
       <div class="flex-1">
@@ -117,15 +115,17 @@
 </template>
 
 <script setup lang="ts">
-import type { ModifySingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import type { SingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import SpecialNeedDropDownList from "../SpecialNeedDropDownList.vue";
+import { useBanquetTable } from "../../../composables/admin/useBanquetTable";
 
-const data = defineModel<ModifySingleGuestFormDataType>({ default: {} });
+const data = defineModel<SingleGuestFormDataType>({ default: {} });
 
 const emits = defineEmits<{
   "on-select": [];
   cancel: [];
 }>();
+const displayController = useDisplayController();
 
-const displayController = useDialogDisplayController();
 const { data: tables } = useBanquetTable();
 </script>

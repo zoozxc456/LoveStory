@@ -22,15 +22,6 @@
       >
         先生/小姐
       </div>
-      <!-- <div
-        class="flex justify-center items-center text-2xl w-32 h-32 border-solid border-pink-300 border-2 rounded-lg cursor-pointer"
-        @click.prevent="
-          model.guestType = '賢伉儷';
-          emits('on-select', 1, '賢伉儷');
-        "
-      >
-        賢伉儷
-      </div> -->
       <div
         class="flex justify-center items-center text-2xl w-32 h-32 border-solid border-pink-300 border-2 rounded-lg cursor-pointer"
         @click.prevent="model = 'family'"
