@@ -1,28 +1,36 @@
 <template>
   <div
-    v-if="model.state.isShow"
+    v-if="displayController.state.isShow"
     class="fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-80 opacity-100 backdrop-blur-sm transition-opacity duration-300"
   >
-    <SelectGuestTypeForm
-      v-if="step == 1"
-      v-model:model-value="guestType"
-      @update:model-value="handleSelectType"
-      @cancel="handleCancel"
+    <GuestsCreateGuestSelectGuestTypeForm
+      v-if="dialogStates.currentProccessStep == 1"
+      v-model:model-value="dialogStates.currentGuestType"
+      @update:model-value="handlers.onSelectGuestType"
+      @cancel="handlers.onCancel"
     />
 
-    <SingleGuestForm
-      v-if="step == 2 && guestType == 'single'"
-      v-model:model-value="singleGuestFormDataState.data"
-      @cancel="handleCancel"
-      @on-select="handleSelect"
+    <GuestsCreateGuestSingleGuestForm
+      v-if="
+        dialogStates.currentProccessStep == 2 &&
+        dialogStates.currentGuestType == 'single'
+      "
+      v-model:model-value="createSingleGuestProvider.state.data"
+      @cancel="handlers.onBack"
+      @on-select="handlers.onCreate"
     />
 
-    <FamilyGuestForm
-      v-if="step == 2 && guestType == 'family'"
-      v-model:model-value="familyGuestFormDataState.data"
-      v-model:attendance-number="familyGuestFormDataState.attendanceNumber"
-      @cancel="handleCancel"
-      @on-select="handleSelect"
+    <GuestsCreateGuestFamilyGuestForm
+      v-if="
+        dialogStates.currentProccessStep == 2 &&
+        dialogStates.currentGuestType == 'family'
+      "
+      v-model:model-value="createFamilyGuestProvider.state.data"
+      v-model:attendance-number="
+        createFamilyGuestProvider.state.attendanceNumber
+      "
+      @cancel="handlers.onBack"
+      @on-select="handlers.onCreate"
     />
   </div>
 </template>
@@ -30,57 +38,47 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import SelectGuestTypeForm from "./SelectGuestTypeForm.vue";
-import FamilyGuestForm from "./FamilyGuestForm.vue";
-import SingleGuestForm from "./SingleGuestForm.vue";
+const dialogStates = reactive<{
+  currentProccessStep: number;
+  currentGuestType: GuestType | null;
+}>({ currentProccessStep: 1, currentGuestType: null });
 
-const step = ref<number>(1);
-const guestType = ref<GuestType | null>(null);
-
-const emits = defineEmits(["update:guests"]);
-const model = defineModel<IDisplayController>("controller", {
+const emits = defineEmits<{ (e: "created"): void }>();
+const displayController = defineModel<IDisplayController>("displayController", {
   required: true,
 });
 
-const handleSelectType = (modelValue: GuestType | null) => {
-  step.value = 2;
+const [createSingleGuestProvider, createFamilyGuestProvider] = [
+  useCreateSingleGuest(useSingleGuestFormDataValidator()),
+  useCreateFamilyGuest(useFamilyGuestsFormDataValidator()),
+];
+
+const handlers = {
+  onSelectGuestType: () => {
+    dialogStates.currentProccessStep++;
+  },
+  onCancel: () => {
+    displayController.value.onClose();
+  },
+  onBack: () => {
+    createSingleGuestProvider.clean();
+    createFamilyGuestProvider.clean();
+
+    dialogStates.currentProccessStep--;
+  },
+  onCreate: async () => {
+    if (dialogStates.currentGuestType === "single")
+      await createSingleGuestProvider.handleCreate();
+    else await createFamilyGuestProvider.handleCreate();
+
+    createSingleGuestProvider.clean();
+    createFamilyGuestProvider.clean();
+
+    emits("created");
+    displayController.value.onClose();
+
+    dialogStates.currentGuestType = null;
+    dialogStates.currentProccessStep = 1;
+  },
 };
-
-const handleCancel = () => {
-  if (step.value === 1) model.value?.onClose();
-  else {
-    handleCancelSingleGuestForm();
-    handleCancelFamilyGuestForm();
-    step.value--;
-  }
-};
-
-const handleSelect = async () => {
-  if (guestType.value === "single") {
-    await handleCreateSingleGuestForm();
-    cleanSingleGuestForm();
-  } else {
-    await handleCreateFamilyGuestForm();
-    cleanFamilyGuestForm();
-  }
-
-  emits("update:guests");
-  model.value.onClose();
-  step.value = 1;
-  guestType.value = null;
-};
-
-const {
-  state: singleGuestFormDataState,
-  handleCreate: handleCreateSingleGuestForm,
-  handleCancel: handleCancelSingleGuestForm,
-  clean: cleanSingleGuestForm,
-} = useCreateSingleGuest(useSingleGuestFormDataValidator());
-
-const {
-  state: familyGuestFormDataState,
-  handleCreate: handleCreateFamilyGuestForm,
-  handleCancel: handleCancelFamilyGuestForm,
-  clean: cleanFamilyGuestForm,
-} = useCreateFamilyGuest(useFamilyGuestsFormDataValidator());
 </script>
