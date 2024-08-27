@@ -30,6 +30,11 @@ export const useUserManagementStore = defineStore("user-management", {
       if (data.role === "" || data.username === "") throw "Create User is not completed";
       await useAsyncData('create-user', () => $fetch<any>('/api/admin/users', { body: data, method: "POST", headers: generateJwtAuthorizeHeader() }));
       onCreated();
+    },
+    async modifyUserBasicInfo(data: Pick<UserManagement, 'userId' | 'username' | 'role'>, onModified: () => void) {
+      if (data.role === "" || data.username === "") throw "Modify User Basic Info is not completed";
+      await useAsyncData('modify-user-basic-info', () => $fetch<any>('/api/admin/users', { body: data, method: "PUT", headers: generateJwtAuthorizeHeader() }));
+      onModified();
     }
   }
 });

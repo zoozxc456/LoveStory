@@ -23,7 +23,7 @@
     <div class="content h-[89%] max-h-[89%] mx-4">
       <ManagementUsersUserManagementTable
         :user-managements="store.users"
-        @update:guests="() => {}"
+        @request:modify="handlers.onRequestModifyUserBasicInfo"
       />
       <!-- <GuestsGuestManagementTable
         :guest-managements="guests"
@@ -44,6 +44,13 @@
       @created="onCreatedUser"
     />
 
+    <ManagementUsersModifyUserBasicInfoDialog
+      v-model:data="toBeModifiedUser"
+      v-model:display-controller="
+        dialogDisplayControllers['modify-user-dialog']
+      "
+      @modified="onModifiedUser"
+    />
     <!-- <GuestsCreateGuestDialog
       v-model:display-controller="
         dialogDisplayControllers['create-user-dialog']
@@ -88,18 +95,24 @@ const dialogDisplayControllers = reactive<{
   "delete-user-dialog": useDisplayController(),
 });
 
-// const handlers = {
-//   onRequestModifyGuest: (guest: GuestManagement) => {
-//     if (guest.guestType === "single") {
-//       useModifySingleGuestStore().convert(guest);
-//       toBeModifiedGuestType.value = "single";
-//     } else {
-//       useModifyFamilyGuestStore().convert(guest);
-//       toBeModifiedGuestType.value = "family";
-//     }
+const toBeModifiedUser = reactive<
+  Pick<UserManagement, "userId" | "username" | "role">
+>({
+  username: "",
+  role: "",
+  userId: "",
+});
 
-//     dialogDisplayControllers["modify-guest-dialog"].onShow();
-//   },
+const handlers = {
+  onRequestModifyUserBasicInfo: ({
+    userId,
+    username,
+    role,
+  }: UserManagement) => {
+    Object.assign(toBeModifiedUser, { userId, username, role });
+    dialogDisplayControllers["modify-user-dialog"].onShow();
+  },
+};
 //   onReuestDeleteGuest: (guest: GuestManagement) => {
 //     useDeleteGuestStore().$patch({
 //       data: { guestId: guest.guestId, guestName: guest.guestName },
@@ -116,7 +129,9 @@ const toBeModifiedGuestType = ref<GuestType>("single");
 const onCreatedUser = () => {
   store.refreshUsers();
 };
-const onModifiedUser = () => {};
+const onModifiedUser = () => {
+  store.refreshUsers();
+};
 const onDeletedUser = () => {};
 
 watchEffect(() => {
