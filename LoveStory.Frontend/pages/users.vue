@@ -25,17 +25,8 @@
         :user-managements="store.users"
         @request:modify-basic-info="handlers.onRequestModifyUserBasicInfo"
         @request:modify-password-status="handlers.onRequestModifyPasswordStatus"
+        @request:delete="handlers.onRequestDeleteUser"
       />
-      <!-- <GuestsGuestManagementTable
-        :guest-managements="guests"
-        @update:guests="refreshGuests"
-        @request:modify="handlers.onRequestModifyGuest"
-        @request:delete="handlers.onReuestDeleteGuest"
-      />
-      <GuestsMobileGuestManagementTable
-        :guest-managements="guests"
-        @update:guests="refreshGuests"
-      /> -->
     </div>
 
     <ManagementUsersCreateUserDialog
@@ -60,27 +51,14 @@
       :data="tobeModifiedPasswordStatusUser"
       @modified="onModifiedPasswordStatus"
     />
-    <!-- <GuestsCreateGuestDialog
-      v-model:display-controller="
-        dialogDisplayControllers['create-user-dialog']
-      "
-      @created="onCreatedGuest"
-    />
 
-    <GuestsDeleteGuestDialog
+    <ManagementUsersDeleteUserDialog
       v-model:display-controller="
         dialogDisplayControllers['delete-user-dialog']
       "
-      @deleted="onDeletedGuest"
+      :data="toBeDeletedUser"
+      @deleted="onDeletedUser"
     />
-
-    <GuestsModifyGuestDialog
-      v-model:display-controller="
-        dialogDisplayControllers['modify-user-dialog']
-      "
-      :guest-type="toBeModifiedGuestType"
-      @modified="onModifiedGuest"
-    /> -->
   </div>
 </template>
 
@@ -121,6 +99,11 @@ const tobeModifiedPasswordStatusUser = reactive<
   userId: "",
 });
 
+const toBeDeletedUser = reactive<Pick<UserManagement, "userId" | "username">>({
+  username: "",
+  userId: "",
+});
+
 const handlers = {
   onRequestModifyUserBasicInfo: ({
     userId,
@@ -135,6 +118,10 @@ const handlers = {
     Object.assign(tobeModifiedPasswordStatusUser, { userId, username });
     dialogDisplayControllers["modify-user-password-status-dialog"].onShow();
   },
+  onRequestDeleteUser: ({ userId, username }: UserManagement) => {
+    Object.assign(toBeDeletedUser, { userId, username });
+    dialogDisplayControllers["delete-user-dialog"].onShow();
+  },
 };
 
 const onCreatedUser = () => {
@@ -142,7 +129,7 @@ const onCreatedUser = () => {
 };
 const onModifiedUserBasicInfo = () => store.refreshUsers();
 const onModifiedPasswordStatus = () => store.refreshUsers();
-const onDeletedUser = () => {};
+const onDeletedUser = () => store.refreshUsers();
 
 watchEffect(() => {
   console.log(`===== Start Console.log for user =====`);

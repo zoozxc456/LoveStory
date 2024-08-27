@@ -39,6 +39,10 @@ export const useUserManagementStore = defineStore("user-management", {
     async modifyPasswordStatus(data: Pick<UserManagement, 'userId'>, onModified: () => void) {
       await useAsyncData('modify-user-password-status', () => $fetch<any>('/api/admin/users/password/status', { method: "PATCH", body: data, headers: generateJwtAuthorizeHeader() }));
       onModified();
+    },
+    async deleteUser(data: Pick<UserManagement, 'userId'>, onDeleted: () => void) {
+      await useAsyncData('delete-user', () => $fetch<any>(`/api/admin/users/${data.userId}`, { method: "DELETE", headers: generateJwtAuthorizeHeader() }));
+      onDeleted();
     }
   }
 });
