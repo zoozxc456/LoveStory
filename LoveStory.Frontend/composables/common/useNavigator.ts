@@ -9,6 +9,7 @@ export const useNavigator = () => {
     { to: "/", displayText: "總覽", icon: "house-chimney-window" },
     { to: "/gifts", displayText: "禮金管理", icon: "gift" },
     { to: "/guests", displayText: "賓客名單", icon: "people-group" },
+    { to: "/users", displayText: "帳號管理", icon: "people-group" },
   ]);
 
   const handleLogout = () => {
