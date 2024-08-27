@@ -11,3 +11,9 @@ public class UserManagementDto : UserDto
     public string Role { get; set; } = string.Empty;
     public bool IsNeededResetPassword { get; set; }
 }
+
+public class CreateUserDto
+{
+    public required string Username { get; set; }
+    public required string Role { get; set; }
+}

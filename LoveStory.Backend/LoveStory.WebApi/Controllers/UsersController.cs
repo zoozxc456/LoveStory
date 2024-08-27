@@ -12,9 +12,16 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
     private readonly IUserService _userService = serviceProvider.GetRequiredService<IUserService>();
 
     [HttpGet]
-    public IActionResult GetAllUsers()
+    public async Task<IActionResult> GetAllUsers()
     {
-        var users = _userService.GetAllUsersAsync().Result;
+        var users = await _userService.GetAllUsersAsync();
         return Ok(users);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateNewUser([FromBody] CreateUserRequestModel request)
+    {
+        await _userService.CreateUserAsync(new CreateUserDto { Username = request.Username, Role = request.Role });
+        return Ok();
     }
 }

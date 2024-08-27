@@ -11,10 +11,31 @@ public class UserService(IServiceProvider provider) : IUserService
 {
     private readonly IMapper _mapper = provider.GetRequiredService<IMapper>();
     private readonly IRepository<UserData> _userRepository = provider.GetRequiredService<IRepository<UserData>>();
+    private readonly IHashProvider _hashProvider = provider.GetRequiredService<IHashProvider>();
 
     public Task<IEnumerable<UserManagementDto>> GetAllUsersAsync()
     {
         return Task.FromResult<IEnumerable<UserManagementDto>>(_userRepository.GetAll()
             .Select(x => _mapper.Map<UserManagementDto>(x)));
+    }
+
+    public async Task<bool> CreateUserAsync(CreateUserDto dto)
+    {
+        var (saltedString, hashedPassword) = GenerateDefaultPassword(dto.Username);
+
+        return await _userRepository.InsertAsync(new UserData
+        {
+            Username = dto.Username,
+            Role = dto.Role,
+            Password = hashedPassword,
+            Salted = saltedString,
+        });
+    }
+
+    private (string saltedString, string) GenerateDefaultPassword(string username)
+    {
+        var salted = _hashProvider.CreateSalt();
+        var defaultPassword = $"Default_Password_{username}";
+        return (salted.ToString()!, _hashProvider.HashPassword(defaultPassword, salted));
     }
 }
