@@ -21,6 +21,8 @@ public class UserService(IServiceProvider provider) : IUserService
 
     public async Task<bool> CreateUserAsync(CreateUserDto dto)
     {
+        if (await IsExistSameUsernameUser(dto.Username)) throw new Exception("It exist the Same Username User.");
+
         var (saltedString, hashedPassword) = GenerateDefaultPassword(dto.Username);
 
         return await _userRepository.InsertAsync(new UserData
@@ -31,6 +33,10 @@ public class UserService(IServiceProvider provider) : IUserService
             Salted = saltedString,
         });
     }
+
+    private async Task<bool> IsExistSameUsernameUser(string username) =>
+        await _userRepository.GetOneAsync(x => x.Username == username) != null;
+
 
     private (string saltedString, string) GenerateDefaultPassword(string username)
     {
