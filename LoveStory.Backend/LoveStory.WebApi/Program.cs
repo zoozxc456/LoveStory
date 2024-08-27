@@ -1,17 +1,9 @@
 using System.Text;
-using LoveStory.Core.Interfaces;
-using LoveStory.Core.Securities;
-using LoveStory.Core.Services;
-using LoveStory.Infrastructure.Contexts;
-using LoveStory.Infrastructure.Data;
-using LoveStory.Infrastructure.Interfaces;
-using LoveStory.Infrastructure.Repositories;
+using LoveStory.WebApi.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Mapper = LoveStory.Core.Mappers.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -53,26 +45,9 @@ builder.Services.AddSwaggerGen(options =>
         });
     }
 );
-builder.Services.AddScoped<IGuestService, GuestService>();
-builder.Services.AddScoped<IGuestManagementService, GuestService>();
-builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddScoped<IBanquetTableService, BanquetTableService>();
-builder.Services.AddScoped<IRepository<UserData>, GenericRepository<UserData>>();
-builder.Services.AddScoped<IRepository<BanquetTableData>, GenericRepository<BanquetTableData>>();
-builder.Services.AddScoped<IRepository<GuestData>, GuestRepository>();
-builder.Services.AddScoped<IRepository<GuestAttendanceData>, GenericRepository<GuestAttendanceData>>();
-builder.Services.AddScoped<IGuestGroupRepository, GuestGroupRepository>();
-builder.Services.AddScoped<IRepository<GuestSpecialNeedData>, GenericRepository<GuestSpecialNeedData>>();
-builder.Services.AddSingleton<IHashProvider, Argon2HashProvider>();
-builder.Services.AddSingleton<IAccessTokenProvider, JwtAccessTokenProvider>();
+builder.Services.InjectServices();
+builder.Services.InjectDbContexts([builder.Configuration.GetConnectionString("LoveStorySqlServer") ?? string.Empty]);
 
-builder.Services.AddAutoMapper(typeof(Mapper));
-
-builder.Services.AddDbContext<LoveStoryContext>(option =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("LoveStorySqlServer");
-    option.UseSqlServer(connectionString);
-});
 
 builder.Services.AddCors(options =>
 {
