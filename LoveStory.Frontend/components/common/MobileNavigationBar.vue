@@ -17,8 +17,8 @@
         </button>
       </div>
       <div
-        class="w-full h-[180px] bg-pink-100/80 transition-all duration-1000 -z-[1] absolute p-3 text-rose-300"
-        :class="[isExpandedMenu ? 'top-[75px]' : '-top-[180px]']"
+        class="w-full h-[215px] bg-pink-100/80 transition-all duration-1000 -z-[1] absolute p-3 text-rose-300"
+        :class="[isExpandedMenu ? 'top-[75px]' : '-top-[215px]']"
         @click="handleClickNavigator"
       >
         <NuxtLink
