@@ -31,6 +31,7 @@ public class UserService(IServiceProvider provider) : IUserService
             Role = dto.Role,
             Password = hashedPassword,
             Salted = saltedString,
+            IsNeededResetPassword = true
         });
     }
 
