@@ -35,6 +35,10 @@ export const useUserManagementStore = defineStore("user-management", {
       if (data.role === "" || data.username === "") throw "Modify User Basic Info is not completed";
       await useAsyncData('modify-user-basic-info', () => $fetch<any>('/api/admin/users', { body: data, method: "PUT", headers: generateJwtAuthorizeHeader() }));
       onModified();
+    },
+    async modifyPasswordStatus(data: Pick<UserManagement, 'userId'>, onModified: () => void) {
+      await useAsyncData('modify-user-password-status', () => $fetch<any>('/api/admin/users/password/status', { method: "PATCH", body: data, headers: generateJwtAuthorizeHeader() }));
+      onModified();
     }
   }
 });

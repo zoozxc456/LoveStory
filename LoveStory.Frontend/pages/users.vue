@@ -23,7 +23,8 @@
     <div class="content h-[89%] max-h-[89%] mx-4">
       <ManagementUsersUserManagementTable
         :user-managements="store.users"
-        @request:modify="handlers.onRequestModifyUserBasicInfo"
+        @request:modify-basic-info="handlers.onRequestModifyUserBasicInfo"
+        @request:modify-password-status="handlers.onRequestModifyPasswordStatus"
       />
       <!-- <GuestsGuestManagementTable
         :guest-managements="guests"
@@ -45,11 +46,19 @@
     />
 
     <ManagementUsersModifyUserBasicInfoDialog
-      v-model:data="toBeModifiedUser"
+      v-model:data="toBeModifiedBasicInfoUser"
       v-model:display-controller="
-        dialogDisplayControllers['modify-user-dialog']
+        dialogDisplayControllers['modify-user-basic-info-dialog']
       "
-      @modified="onModifiedUser"
+      @modified="onModifiedUserBasicInfo"
+    />
+
+    <ManagementUsersModifyPasswordStatusDialog
+      v-model:display-controller="
+        dialogDisplayControllers['modify-user-password-status-dialog']
+      "
+      :data="tobeModifiedPasswordStatusUser"
+      @modified="onModifiedPasswordStatus"
     />
     <!-- <GuestsCreateGuestDialog
       v-model:display-controller="
@@ -87,19 +96,28 @@ store.fetchAllUsers();
 const dialogDisplayControllers = reactive<{
   [key in
     | "create-user-dialog"
-    | "modify-user-dialog"
+    | "modify-user-basic-info-dialog"
+    | "modify-user-password-status-dialog"
     | "delete-user-dialog"]: IDisplayController;
 }>({
   "create-user-dialog": useDisplayController(),
-  "modify-user-dialog": useDisplayController(),
+  "modify-user-basic-info-dialog": useDisplayController(),
+  "modify-user-password-status-dialog": useDisplayController(),
   "delete-user-dialog": useDisplayController(),
 });
 
-const toBeModifiedUser = reactive<
+const toBeModifiedBasicInfoUser = reactive<
   Pick<UserManagement, "userId" | "username" | "role">
 >({
   username: "",
   role: "",
+  userId: "",
+});
+
+const tobeModifiedPasswordStatusUser = reactive<
+  Pick<UserManagement, "userId" | "username">
+>({
+  username: "",
   userId: "",
 });
 
@@ -109,29 +127,21 @@ const handlers = {
     username,
     role,
   }: UserManagement) => {
-    Object.assign(toBeModifiedUser, { userId, username, role });
-    dialogDisplayControllers["modify-user-dialog"].onShow();
+    Object.assign(toBeModifiedBasicInfoUser, { userId, username, role });
+    dialogDisplayControllers["modify-user-basic-info-dialog"].onShow();
+  },
+
+  onRequestModifyPasswordStatus: ({ userId, username }: UserManagement) => {
+    Object.assign(tobeModifiedPasswordStatusUser, { userId, username });
+    dialogDisplayControllers["modify-user-password-status-dialog"].onShow();
   },
 };
-//   onReuestDeleteGuest: (guest: GuestManagement) => {
-//     useDeleteGuestStore().$patch({
-//       data: { guestId: guest.guestId, guestName: guest.guestName },
-//     });
-
-//     dialogDisplayControllers["delete-guest-dialog"].onShow();
-//   },
-// };
-
-// provide("request-operator-guest-events", handlers);
-
-const toBeModifiedGuestType = ref<GuestType>("single");
 
 const onCreatedUser = () => {
   store.refreshUsers();
 };
-const onModifiedUser = () => {
-  store.refreshUsers();
-};
+const onModifiedUserBasicInfo = () => store.refreshUsers();
+const onModifiedPasswordStatus = () => store.refreshUsers();
 const onDeletedUser = () => {};
 
 watchEffect(() => {

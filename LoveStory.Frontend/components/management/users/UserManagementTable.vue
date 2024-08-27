@@ -34,14 +34,14 @@
             <button
               type="button"
               class="px-4 py-2 m-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
-              @click="emits('request:modify', user)"
+              @click="emits('request:modify-password-status', user)"
             >
               重設密碼
             </button>
             <button
               type="button"
               class="px-4 py-2 m-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
-              @click="emits('request:modify', user)"
+              @click="emits('request:modify-basic-info', user)"
             >
               修改
             </button>
@@ -63,7 +63,11 @@
 import dayjs from "dayjs";
 import { useUserManagementStore } from "../../../stores/management/users/useUserManagement";
 const store = useUserManagementStore();
-const emits = defineEmits(["request:modify", "request:delete"]);
+const emits = defineEmits<{
+  (e: "request:modify-basic-info", user: UserManagement): void;
+  (e: "request:modify-password-status", user: UserManagement): void;
+  (e: "request:delete", user: UserManagement): void;
+}>();
 
 const headerColumns: string[] = [
   "#",
