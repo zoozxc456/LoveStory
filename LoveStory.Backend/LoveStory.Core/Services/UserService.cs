@@ -34,9 +34,19 @@ public class UserService(IServiceProvider provider) : IUserService
         });
     }
 
+    public async Task<bool> ModifyUserBasicInfoAsync(ModifyUserBasicInfoDto dto)
+    {
+        var user = await _userRepository.GetOneAsync(user => user.UserId == dto.UserId);
+        if (user == null) throw new Exception($"UserId: {dto.UserId} is not exist.");
+
+        user.Username = dto.Username;
+        user.Role = dto.Role;
+
+        return await _userRepository.UpdateAsync(user);
+    }
+
     private async Task<bool> IsExistSameUsernameUser(string username) =>
         await _userRepository.GetOneAsync(x => x.Username == username) != null;
-
 
     private (string saltedString, string) GenerateDefaultPassword(string username)
     {

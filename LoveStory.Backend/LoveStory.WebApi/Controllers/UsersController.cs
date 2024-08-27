@@ -1,4 +1,6 @@
+using LoveStory.Core.DTOs;
 using LoveStory.Core.Interfaces;
+using LoveStory.WebApi.RequestModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +24,18 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
     public async Task<IActionResult> CreateNewUser([FromBody] CreateUserRequestModel request)
     {
         await _userService.CreateUserAsync(new CreateUserDto { Username = request.Username, Role = request.Role });
+        return Ok();
+    }
+
+    [HttpPut("{userId:guid}")]
+    public async Task<IActionResult> ModifyUserBasicInfo([FromBody] ModifyUserBasicInfoRequestModel request, Guid userId)
+    {
+        await _userService.ModifyUserBasicInfoAsync(new ModifyUserBasicInfoDto
+        {
+            UserId = userId,
+            Username = request.Username,
+            Role = request.Role
+        });
         return Ok();
     }
 }

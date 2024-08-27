@@ -17,3 +17,10 @@ public class CreateUserDto
     public required string Username { get; set; }
     public required string Role { get; set; }
 }
+
+public class ModifyUserBasicInfoDto
+{
+    public required Guid UserId { get; set; }
+    public required string Username { get; set; }
+    public required string Role { get; set; }
+}
