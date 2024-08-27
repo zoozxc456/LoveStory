@@ -45,6 +45,19 @@ public class UserService(IServiceProvider provider) : IUserService
         return await _userRepository.UpdateAsync(user);
     }
 
+    public async Task<bool> ResetPasswordAsync(Guid userId)
+    {
+        var user = await _userRepository.GetOneAsync(user => user.UserId == userId);
+        if (user == null) throw new Exception($"UserId: {userId} is not exist.");
+
+        var (saltedString, hashedPassword) = GenerateDefaultPassword(user.Username);
+        user.IsNeededResetPassword = true;
+        user.Password = hashedPassword;
+        user.Salted = saltedString;
+
+        return await _userRepository.UpdateAsync(user);
+    }
+
     private async Task<bool> IsExistSameUsernameUser(string username) =>
         await _userRepository.GetOneAsync(x => x.Username == username) != null;
 

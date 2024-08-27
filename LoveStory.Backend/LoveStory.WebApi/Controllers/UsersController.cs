@@ -38,4 +38,11 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
         });
         return Ok();
     }
+
+    [HttpPatch("{userId:guid}/Password/Reset")]
+    public async Task<IActionResult> ResetPassword(Guid userId)
+    {
+        await _userService.ResetPasswordAsync(userId);
+        return Ok();
+    }
 }

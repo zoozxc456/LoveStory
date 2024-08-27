@@ -7,4 +7,5 @@ public interface IUserService
     public Task<IEnumerable<UserManagementDto>> GetAllUsersAsync();
     public Task<bool> CreateUserAsync(CreateUserDto dto);
     public Task<bool> ModifyUserBasicInfoAsync(ModifyUserBasicInfoDto dto);
+    public Task<bool> ResetPasswordAsync(Guid userId);
 }
