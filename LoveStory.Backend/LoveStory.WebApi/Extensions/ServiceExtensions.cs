@@ -49,6 +49,7 @@ public static class ServiceExtensions
         collection.AddScoped<IGuestManagementService, GuestService>();
         collection.AddScoped<ILoginService, LoginService>();
         collection.AddScoped<IBanquetTableService, BanquetTableService>();
+        collection.AddScoped<IUserService, UserService>();
     }
 
     private static void InjectProviders(this IServiceCollection collection)

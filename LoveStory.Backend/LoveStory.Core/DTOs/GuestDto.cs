@@ -25,12 +25,6 @@ public class GuestGroupDto
     public UserDto Creator { get; set; }
 }
 
-public class UserDto
-{
-    public Guid UserId { get; set; }
-    public string Username { get; set; } = string.Empty;
-}
-
 public class GuestAttendanceDto
 {
     public Guid AttendanceId { get; set; }
