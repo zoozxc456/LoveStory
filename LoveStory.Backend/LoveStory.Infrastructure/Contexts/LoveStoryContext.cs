@@ -20,7 +20,7 @@ public class LoveStoryContext : DbContext
         modelBuilder.Entity<GuestData>(e =>
         {
             e.HasOne(g => g.Creator)
-                .WithMany(u=>u.CreatedGuests)
+                .WithMany(u => u.CreatedGuests)
                 .HasForeignKey(g => g.CreatorId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
@@ -28,7 +28,7 @@ public class LoveStoryContext : DbContext
         modelBuilder.Entity<GuestSpecialNeedData>(e =>
         {
             e.HasOne(g => g.Creator)
-                .WithMany(u=>u.CreatedSpecialNeeds)
+                .WithMany(u => u.CreatedSpecialNeeds)
                 .HasForeignKey(g => g.CreatorId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
@@ -36,8 +36,16 @@ public class LoveStoryContext : DbContext
         modelBuilder.Entity<GuestGroupData>(e =>
         {
             e.HasOne(g => g.Creator)
-                .WithMany(u=>u.CreatedGroups)
+                .WithMany(u => u.CreatedGroups)
                 .HasForeignKey(g => g.CreatorId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<UserData>(e =>
+        {
+            e.HasOne(u => u.Creator)
+                .WithMany(u => u.CreatedUsers)
+                .HasForeignKey(u => u.CreatorId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

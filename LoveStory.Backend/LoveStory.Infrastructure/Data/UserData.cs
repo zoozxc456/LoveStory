@@ -22,10 +22,19 @@ public class UserData
     [Column("role")] [StringLength(20)] public string Role { get; set; } = string.Empty;
 
     [Column("salted")] [StringLength(16)] public string Salted { get; set; } = string.Empty;
-    [Column("is_needed_reset_password")][Required] public bool IsNeededResetPassword { get; set; }
+    [Column("is_needed_reset_password")] public bool IsNeededResetPassword { get; set; }
+
+    [Column("create_at")] public DateTime CreateAt { get; set; }
+
+    [Column("creator")]
+    [ForeignKey("Creator")]
+    public Guid? CreatorId { get; set; }
+
+    [InverseProperty("CreatedUsers")] public UserData? Creator { get; set; }
 
     public ICollection<BanquetTableData> CreatedTables { get; set; } = new List<BanquetTableData>();
     public ICollection<GuestData> CreatedGuests { get; set; } = new List<GuestData>();
     public ICollection<GuestSpecialNeedData> CreatedSpecialNeeds { get; set; } = new List<GuestSpecialNeedData>();
     public ICollection<GuestGroupData> CreatedGroups { get; set; } = new List<GuestGroupData>();
+    public ICollection<UserData> CreatedUsers { get; set; }
 }

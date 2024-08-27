@@ -10,6 +10,8 @@ public class UserManagementDto : UserDto
 {
     public string Role { get; set; } = string.Empty;
     public bool IsNeededResetPassword { get; set; }
+    public DateTime CreateAt { get; set; }
+    public UserManagementDto? Creator { get; set; }
 }
 
 public class CreateUserDto

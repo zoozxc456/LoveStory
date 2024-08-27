@@ -6,13 +6,14 @@
       <h1>帳號管理</h1>
       <button
         :class="[
-          'select-none rounded-md border border-transparent bg-pink-300 text-white py-2 px-6 text-center align-middle font-sans text-sm font-bold uppercases',
+          'hidden select-none rounded-md border border-transparent bg-pink-300 text-white py-2 px-6 text-center align-middle font-sans text-sm font-bold uppercases',
           'hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 hover:shadow-lg',
           'active:bg-pink-600 active:text-white active:opacity-[0.85]',
           'focus:ring-pink-400 focus:opacity-[0.85] focus:shadow-none ',
           'duration-150 ease-in-out transition-all',
           'disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none',
           'absolute bottom-2 right-4',
+          'lg:block',
         ]"
         type="button"
         @click="dialogDisplayControllers['create-user-dialog'].onShow"
@@ -27,6 +28,29 @@
         @request:modify-password-status="handlers.onRequestModifyPasswordStatus"
         @request:delete="handlers.onRequestDeleteUser"
       />
+
+      <ManagementUsersMobileUserManagementTable
+        @request:modify-basic-info="handlers.onRequestModifyUserBasicInfo"
+        @request:modify-password-status="handlers.onRequestModifyPasswordStatus"
+        @request:delete="handlers.onRequestDeleteUser"
+      />
+
+      <button
+        :class="[
+          'block select-none rounded-full border border-transparent bg-pink-300 text-white p-3 text-center align-middle font-sans text-sm font-bold uppercases',
+          'hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 hover:shadow-lg',
+          'active:bg-pink-600 active:text-white active:opacity-[0.85]',
+          'focus:ring-pink-400 focus:opacity-[0.85] focus:shadow-none ',
+          'duration-150 ease-in-out transition-all',
+          'disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none',
+          'absolute bottom-0 right-2',
+          'lg:hidden',
+        ]"
+        type="button"
+        @click="dialogDisplayControllers['create-user-dialog'].onShow"
+      >
+        <FontAwesomeIcon :icon="['fas', 'user-plus']" size="1x" />
+      </button>
     </div>
 
     <ManagementUsersCreateUserDialog
@@ -65,6 +89,7 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useUserManagementStore } from "../stores/management/users/useUserManagement";
 
 definePageMeta({ layout: "admin-layout" });
@@ -110,16 +135,23 @@ const handlers = {
     username,
     role,
   }: UserManagement) => {
-    Object.assign(toBeModifiedBasicInfoUser, { userId, username, role });
+    toBeModifiedBasicInfoUser.userId = userId;
+    toBeModifiedBasicInfoUser.username = username;
+    toBeModifiedBasicInfoUser.role = role;
+
     dialogDisplayControllers["modify-user-basic-info-dialog"].onShow();
   },
 
   onRequestModifyPasswordStatus: ({ userId, username }: UserManagement) => {
-    Object.assign(tobeModifiedPasswordStatusUser, { userId, username });
+    tobeModifiedPasswordStatusUser.userId = userId;
+    tobeModifiedPasswordStatusUser.username = username;
+
     dialogDisplayControllers["modify-user-password-status-dialog"].onShow();
   },
   onRequestDeleteUser: ({ userId, username }: UserManagement) => {
-    Object.assign(toBeDeletedUser, { userId, username });
+    toBeDeletedUser.userId = userId;
+    toBeDeletedUser.username = username;
+
     dialogDisplayControllers["delete-user-dialog"].onShow();
   },
 };
