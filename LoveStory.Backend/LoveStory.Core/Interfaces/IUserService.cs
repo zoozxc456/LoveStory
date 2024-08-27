@@ -8,4 +8,5 @@ public interface IUserService
     public Task<bool> CreateUserAsync(CreateUserDto dto);
     public Task<bool> ModifyUserBasicInfoAsync(ModifyUserBasicInfoDto dto);
     public Task<bool> ResetPasswordAsync(Guid userId);
+    public Task<bool> DeleteUserByIdAsync(Guid userId);
 }

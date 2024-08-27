@@ -58,6 +58,15 @@ public class UserService(IServiceProvider provider) : IUserService
         return await _userRepository.UpdateAsync(user);
     }
 
+    public async Task<bool> DeleteUserByIdAsync(Guid userId)
+    {
+        var user = await _userRepository.GetOneAsync(user => user.UserId == userId);
+
+        if (user == null) throw new Exception($"UserId: {userId} is not exist.");
+
+        return await _userRepository.DeleteAsync(user);
+    }
+
     private async Task<bool> IsExistSameUsernameUser(string username) =>
         await _userRepository.GetOneAsync(x => x.Username == username) != null;
 

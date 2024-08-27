@@ -45,4 +45,11 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
         await _userService.ResetPasswordAsync(userId);
         return Ok();
     }
+
+    [HttpDelete("{userId:guid}")]
+    public async Task<IActionResult> DeleteUserById(Guid userId)
+    {
+        await _userService.DeleteUserByIdAsync(userId);
+        return Ok();
+    }
 }
