@@ -1,71 +1,23 @@
 using System.Text;
-using LoveStory.Core.Interfaces;
-using LoveStory.Core.Securities;
-using LoveStory.Core.Services;
-using LoveStory.Infrastructure.Contexts;
-using LoveStory.Infrastructure.Data;
-using LoveStory.Infrastructure.Interfaces;
-using LoveStory.Infrastructure.Repositories;
+using LoveStory.WebApi.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Mapper = LoveStory.Core.Mappers.Mapper;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Verbose()
+    .WriteTo.Console()
+    .WriteTo.File($"logs/log-{DateTime.Now:yyyy-MM-dd}.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
+builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
-// 註冊 Swagger 產生器
-builder.Services.AddSwaggerGen(options =>
-    {
-        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        {
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "Bearer",
-            BearerFormat = "JWT",
-            In = ParameterLocation.Header,
-            Description = "JWT Authorization Tests"
-        });
 
-        // catch Api Token
-        options.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                Array.Empty<string>()
-            }
-        });
-    }
-);
-builder.Services.AddScoped<IGuestService, GuestService>();
-builder.Services.AddScoped<IGuestManagementService, GuestService>();
-builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddScoped<IBanquetTableService, BanquetTableService>();
-builder.Services.AddScoped<IRepository<UserData>, GenericRepository<UserData>>();
-builder.Services.AddScoped<IRepository<BanquetTableData>, GenericRepository<BanquetTableData>>();
-builder.Services.AddScoped<IRepository<GuestData>, GuestRepository>();
-builder.Services.AddScoped<IRepository<GuestAttendanceData>, GenericRepository<GuestAttendanceData>>();
-builder.Services.AddScoped<IGuestGroupRepository, GuestGroupRepository>();
-builder.Services.AddScoped<IRepository<GuestSpecialNeedData>, GenericRepository<GuestSpecialNeedData>>();
-builder.Services.AddSingleton<IHashProvider, Argon2HashProvider>();
-builder.Services.AddSingleton<IAccessTokenProvider, JwtAccessTokenProvider>();
-
-builder.Services.AddAutoMapper(typeof(Mapper));
-
-builder.Services.AddDbContext<LoveStoryContext>(option =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("LoveStorySqlServer");
-    option.UseSqlServer(connectionString);
-});
+builder.Services.InjectServices();
+builder.Services.InjectDbContexts([builder.Configuration.GetConnectionString("LoveStorySqlServer") ?? string.Empty]);
+builder.Services.InjectSwagger();
 
 builder.Services.AddCors(options =>
 {
