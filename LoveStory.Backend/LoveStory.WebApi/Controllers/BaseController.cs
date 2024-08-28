@@ -9,7 +9,7 @@ namespace LoveStory.WebApi.Controllers;
 
 public class BaseController(IServiceProvider provider) : Controller
 {
-    protected string Account = string.Empty;
+    protected Guid UserId;
     private readonly IAccessTokenProvider _accessTokenProvider = provider.GetRequiredService<IAccessTokenProvider>();
 
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -18,9 +18,9 @@ public class BaseController(IServiceProvider provider) : Controller
         var token = GetAuthorizeToken(context);
 
         var principal = ValidAccessToken(token);
-        var subject = GetSubjectAttribute(principal, token) as string;
+        Guid.TryParse(GetSubjectAttribute(principal, token) as string, out var result);
 
-        Account = subject ?? string.Empty;
+        UserId = result;
     }
 
     private static object? GetSubjectAttribute(TokenValidationResult principal, string token)
@@ -36,7 +36,7 @@ public class BaseController(IServiceProvider provider) : Controller
     private TokenValidationResult ValidAccessToken(string token)
     {
         var principal = _accessTokenProvider.ValidateAccessToken(token);
-        
+
         if (principal.IsValid)
         {
             return principal;

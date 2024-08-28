@@ -25,7 +25,7 @@ public class LoginService(
 
         var accessToken = accessTokenProvider.GenerateAccessToken(new AuthOriginLoginAccessTokenDto
         {
-            Username = user.Username,
+            UserId = user.UserId,
             IssueAt = DateTime.Now,
             Expired = DateTime.Now.AddMinutes(30),
             NotBefore = DateTime.Now
