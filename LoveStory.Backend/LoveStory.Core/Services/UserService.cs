@@ -15,8 +15,11 @@ public class UserService(IServiceProvider provider) : IUserService
 
     public Task<IEnumerable<UserManagementDto>> GetAllUsersAsync()
     {
-        return Task.FromResult<IEnumerable<UserManagementDto>>(_userRepository.GetAll()
-            .Select(x => _mapper.Map<UserManagementDto>(x)));
+        return Task.FromResult<IEnumerable<UserManagementDto>>(_userRepository.GetAll().ToList()
+            .Select(x => _mapper.Map<UserManagementDto>(x))
+            .OrderBy(x=>x.CreateAt)
+            .ToList()
+        );
     }
 
     public async Task<bool> CreateUserAsync(CreateUserDto dto)
