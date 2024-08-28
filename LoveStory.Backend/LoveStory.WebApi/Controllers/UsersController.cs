@@ -23,7 +23,12 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
     [HttpPost]
     public async Task<IActionResult> CreateNewUser([FromBody] CreateUserRequestModel request)
     {
-        await _userService.CreateUserAsync(new CreateUserDto { Username = request.Username, Role = request.Role });
+        await _userService.CreateUserAsync(new CreateUserDto
+        {
+            Username = request.Username,
+            Role = request.Role,
+            CreatorId = UserId
+        });
         return Ok();
     }
 

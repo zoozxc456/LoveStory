@@ -31,7 +31,9 @@ public class UserService(IServiceProvider provider) : IUserService
             Role = dto.Role,
             Password = hashedPassword,
             Salted = saltedString,
-            IsNeededResetPassword = true
+            IsNeededResetPassword = true,
+            CreateAt = DateTime.Now,
+            CreatorId = dto.CreatorId
         });
     }
 
