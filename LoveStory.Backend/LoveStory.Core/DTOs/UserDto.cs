@@ -16,13 +16,14 @@ public class UserManagementDto : UserDto
 
 public class CreateUserDto
 {
-    public required string Username { get; set; }
-    public required string Role { get; set; }
+    public required string Username { get; init; }
+    public required string Role { get; init; }
+    public required Guid CreatorId { get; init; }
 }
 
 public class ModifyUserBasicInfoDto
 {
-    public required Guid UserId { get; set; }
-    public required string Username { get; set; }
-    public required string Role { get; set; }
+    public required Guid UserId { get; init; }
+    public required string Username { get; init; }
+    public required string Role { get; init; }
 }

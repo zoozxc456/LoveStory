@@ -61,7 +61,7 @@ public class JwtAccessTokenProviderTest
     {
         var credentials = new AuthOriginLoginAccessTokenDto
         {
-            Username = "admin",
+            UserId = new Guid("6411a6cb-33d0-4101-8e4f-054f9efc35e2"),
             IssueAt = new DateTime(2024, 1, 1, 13, 00, 00),
             Expired = new DateTime(2024, 1, 1, 13, 30, 00),
             NotBefore = new DateTime(2024, 1, 1, 13, 00, 00)
@@ -71,7 +71,7 @@ public class JwtAccessTokenProviderTest
 
         Assert.That(token,
             Is.EqualTo(
-                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJUZXN0LkFwcGxpY2F0aW9uLklzc3VlciIsInN1YiI6ImFkbWluIiwiYXVkIjoiVGVzdC5BcHBsaWNhdGlvbi5BdWRpZW5jZSIsImV4cCI6MTcwNDA4NzAwMCwiaWF0IjoxNzA0MDg1MjAwLCJuYmYiOjE3MDQwODUyMDB9.Gttyy6CIDRpMlguDDj9D3FLhYuQJ8DoYO0ptpFDvCEji5ph1_ajufRQRJ30vxg9lXXykr8KJKUvQYUit6LCNog"));
+                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJUZXN0LkFwcGxpY2F0aW9uLklzc3VlciIsInN1YiI6IjY0MTFhNmNiLTMzZDAtNDEwMS04ZTRmLTA1NGY5ZWZjMzVlMiIsImF1ZCI6IlRlc3QuQXBwbGljYXRpb24uQXVkaWVuY2UiLCJleHAiOjE3MDQwODcwMDAsImlhdCI6MTcwNDA4NTIwMCwibmJmIjoxNzA0MDg1MjAwfQ.Ahkru40dDNb3WT5lcbbCYLfbjWOl_J6XsNx2VGamNljJ0EC5PDl2wwHUO7LBIX7_lvdnKCN-kE9DdxrkM4ZK2Q"));
     }
 
     private void SetValidAccessTokenScenario()

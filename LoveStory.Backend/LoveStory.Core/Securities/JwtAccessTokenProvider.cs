@@ -44,7 +44,7 @@ public class JwtAccessTokenProvider : IAccessTokenProvider
         return new Dictionary<string, object>
         {
             { JwtRegisteredClaimNames.Iss, _issuer },
-            { JwtRegisteredClaimNames.Sub, dto.Username },
+            { JwtRegisteredClaimNames.Sub, dto.UserId.ToString() },
             { JwtRegisteredClaimNames.Aud, _audience },
             { JwtRegisteredClaimNames.Iat, dto.IssueAt },
             { JwtRegisteredClaimNames.Exp, dto.Expired },

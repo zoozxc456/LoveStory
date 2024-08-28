@@ -23,7 +23,12 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
     [HttpPost]
     public async Task<IActionResult> CreateNewUser([FromBody] CreateUserRequestModel request)
     {
-        await _userService.CreateUserAsync(new CreateUserDto { Username = request.Username, Role = request.Role });
+        await _userService.CreateUserAsync(new CreateUserDto
+        {
+            Username = request.Username,
+            Role = request.Role,
+            CreatorId = UserId
+        });
         return Ok();
     }
 
@@ -49,6 +54,8 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
     [HttpDelete("{userId:guid}")]
     public async Task<IActionResult> DeleteUserById(Guid userId)
     {
+        if (UserId == userId) throw new Exception("Operator can not delete self");
+        
         await _userService.DeleteUserByIdAsync(userId);
         return Ok();
     }
