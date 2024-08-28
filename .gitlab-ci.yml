@@ -1,0 +1,136 @@
+stages:
+  - build
+
+build-deploy-Backend-STAGING:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - apt-get install -y sshpass
+    - cd LoveStory.Backend
+    - sed -i "s/\[STG_LOVE_STORY_SQL_SERVER_CONNECTION_STRING\]/$STAGING_BACKEND_SQLSERVER_CONNECTION_STRING/g" LoveStory.WebApi/appsettings.Staging.json
+    - sed -i "s/\[STG_JWT_CONFIG_WEB_AUDIENCE\]/$BACKEND_JWTCONFIG_WEBAUDIENCE/g" LoveStory.WebApi/appsettings.Staging.json
+    - sed -i "s/\[STG_JWT_CONFIG_SECRET_KEY\]/$BACKEND_JWTCONFIG_SECRETKEY/g" LoveStory.WebApi/appsettings.Staging.json
+    - sed -i "s/\[STG_JWT_CONFIG_ISSUER\]/$BACKEND_JWTCONFIG_ISSUER/g" LoveStory.WebApi/appsettings.Staging.json
+  script:
+    - dotnet restore
+    - dotnet publish -c Release -o out -p:IsTransformWebConfigDisabled=true -p:EnvironmentName=Staging
+    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@stg-lovestory-api.coreop.local "powershell.exe Stop-Website -Name stg-lovestory"
+    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r out $SSH_ACCOUNT@$STAGING_BACKEND_DEPLOY_PATH
+    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@stg-lovestory-api.coreop.local "powershell.exe Start-Website -Name stg-lovestory"
+  tags:
+    - dotnet8
+  
+build-deploy-Frontend-STAGING:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - apt-get install -y sshpass 
+    - apt-get install -y unzip 
+    - curl -fsSL https://bun.sh/install | bash
+    - echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
+    - source ~/.bashrc
+    - cd LoveStory.Frontend
+  script:
+    - sed -i 's/=BACKEND_SERVICE_BASE_API_ADDRESS/=$STG_BACKEND_SERVICE_BASE_API_ADDRESS/g' .env.staging
+    - bun install && bun run build:staging
+    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r .output $SSH_ACCOUNT@$STAGING_FRONTEND_DEPLOY_PATH
+  tags:
+    - dotnet8
+
+build-deploy-Backend-UAT:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - apt-get install -y sshpass
+    - cd LoveStory.Backend
+    - sed -i "s/\[UAT_LOVE_STORY_SQL_SERVER_CONNECTION_STRING\]/$UAT_BACKEND_SQLSERVER_CONNECTION_STRING/g" LoveStory.WebApi/appsettings.UAT.json
+    - sed -i "s/\[UAT_JWT_CONFIG_WEB_AUDIENCE\]/$BACKEND_JWTCONFIG_WEBAUDIENCE/g" LoveStory.WebApi/appsettings.UAT.json
+    - sed -i "s/\[UAT_JWT_CONFIG_SECRET_KEY\]/$BACKEND_JWTCONFIG_SECRETKEY/g" LoveStory.WebApi/appsettings.UAT.json
+    - sed -i "s/\[UAT_JWT_CONFIG_ISSUER\]/$BACKEND_JWTCONFIG_ISSUER/g" LoveStory.WebApi/appsettings.UAT.json
+  script:
+    - dotnet restore
+    - dotnet publish -c Release -o out -p:IsTransformWebConfigDisabled=true -p:EnvironmentName=UAT
+    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@uat-lovestory-api.coreop.local "powershell.exe Stop-Website -Name uat-lovestory"
+    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r out $SSH_ACCOUNT@$UAT_BACKEND_DEPLOY_PATH
+    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@uat-lovestory-api.coreop.local "powershell.exe Start-Website -Name uat-lovestory"
+  tags:
+    - dotnet8
+  only:
+    - master
+    - develop
+  when: manual
+  
+build-deploy-Frontend-UAT:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - apt-get install -y sshpass 
+    - apt-get install -y unzip 
+    - curl -fsSL https://bun.sh/install | bash
+    - echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
+    - source ~/.bashrc
+    - cd LoveStory.Frontend
+  script:
+    - sed -i 's/=BACKEND_SERVICE_BASE_API_ADDRESS/=$UAT_BACKEND_SERVICE_BASE_API_ADDRESS/g' .env.uat
+    - bun install && bun run build:uat
+    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r .output $SSH_ACCOUNT@$UAT_FRONTEND_DEPLOY_PATH
+  tags:
+    - dotnet8
+  only:
+    - master
+    - develop
+  when: manual
+
+build-deploy-Backend-Production:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - apt-get install -y sshpass
+    - cd LoveStory.Backend
+    - sed -i "s/\[DEFAULT_LOVE_STORY_SQL_SERVER_CONNECTION_STRING\]/$PROD_BACKEND_SQLSERVER_CONNECTION_STRING/g" LoveStory.WebApi/appsettings.json
+    - sed -i "s/\[DEFAULT_JWT_CONFIG_WEB_AUDIENCE\]/$BACKEND_JWTCONFIG_WEBAUDIENCE/g" LoveStory.WebApi/appsettings.json
+    - sed -i "s/\[DEFAULT_JWT_CONFIG_SECRET_KEY\]/$BACKEND_JWTCONFIG_SECRETKEY/g" LoveStory.WebApi/appsettings.json
+    - sed -i "s/\[DEFAULT_JWT_CONFIG_ISSUER\]/$BACKEND_JWTCONFIG_ISSUER/g" LoveStory.WebApi/appsettings.json
+  script:
+    - dotnet restore
+    - dotnet publish -c Release -o out -p:IsTransformWebConfigDisabled=true -p:EnvironmentName=Production
+    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@lovestory-api.coreop.local "powershell.exe Stop-Website -Name producation-lovestory"
+    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r out $SSH_ACCOUNT@$PROD_BACKEND_DEPLOY_PATH
+    - sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no $SSH_ACCOUNT@lovestory-api.coreop.local "powershell.exe Start-Website -Name producation-lovestory"
+  tags:
+    - dotnet8
+  only:
+    - master
+  when: manual
+  
+build-deploy-Frontend-Production:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - apt-get install -y sshpass 
+    - apt-get install -y unzip 
+    - curl -fsSL https://bun.sh/install | bash
+    - echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
+    - source ~/.bashrc
+    - cd LoveStory.Frontend
+  script:
+    - sed -i 's/=BACKEND_SERVICE_BASE_API_ADDRESS/=$PROD_BACKEND_SERVICE_BASE_API_ADDRESS/g' .env.production
+    - bun install && bun run build:prod
+    - sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no -r .output $SSH_ACCOUNT@$PROD_FRONTEND_DEPLOY_PATH
+  tags:
+    - dotnet8
+  only:
+    - master
+  when: manual
