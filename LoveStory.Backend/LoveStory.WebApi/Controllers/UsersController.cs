@@ -49,6 +49,8 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
     [HttpDelete("{userId:guid}")]
     public async Task<IActionResult> DeleteUserById(Guid userId)
     {
+        if (UserId == userId) throw new Exception("Operator can not delete self");
+        
         await _userService.DeleteUserByIdAsync(userId);
         return Ok();
     }
