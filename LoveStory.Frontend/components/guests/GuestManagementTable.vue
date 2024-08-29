@@ -1,5 +1,7 @@
 <template>
-  <div class="relative shadow-md sm:rounded-lg h-full hidden lg:block overflow-y-auto">
+  <div
+    class="relative shadow-md sm:rounded-lg h-full hidden lg:block overflow-y-auto"
+  >
     <table
       class="w-full max-h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 overflow-y-scroll"
     >
@@ -7,12 +9,20 @@
         class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
         <tr>
-          <th scope="col" class="px-6 py-3" v-for="column in headerColumns">
+          <th
+            scope="col"
+            class="px-6 py-3"
+            v-for="(column, index) in headerColumns"
+            :key="index"
+          >
             {{ column }}
           </th>
         </tr>
       </thead>
-      <tbody v-for="({ isExpanded, ...guest }, index) in combinedData">
+      <tbody
+        v-for="({ isExpanded, ...guest }, index) in combinedData"
+        :key="index"
+      >
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
@@ -83,6 +93,8 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
+import { computed, ref, type GuestManagement } from ".nuxt/imports";
+
 type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 export type GuestManagementTableData = GuestManagement & {
   isExpanded: boolean;

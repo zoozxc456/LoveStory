@@ -83,7 +83,9 @@
                     seatLocation,
                     specialNeeds,
                     remark,
+                    guestId,
                   } in guest.details"
+                  :key="guestId"
                 >
                   <div
                     class="h-1/4 text-center flex justify-center items-center guest-name"
@@ -152,6 +154,12 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import type { GuestManagementTableData } from "../GuestManagementTable.vue";
+
+import {
+  inject,
+  type GuestManagement,
+  type IDisplayController,
+} from ".nuxt/imports";
 
 const requestEvents = inject<{
   onRequestModifyGuest: (guest: GuestManagement) => void;

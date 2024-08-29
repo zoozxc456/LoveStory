@@ -21,7 +21,11 @@
         </div>
       </div>
       <div class="body w-full relative">
-        <div class="row w-full border-b" v-for="(guest, index) in combinedData">
+        <div
+          class="row w-full border-b"
+          v-for="(guest, index) in combinedData"
+          :key="guest.guestId"
+        >
           <div class="presentation w-full flex relative items-center">
             <div
               class="absolute left-[15px] top-1/2 -translate-y-1/2 hover:cursor-pointer"
@@ -51,6 +55,12 @@
 </template>
 
 <script setup lang="ts">
+import {
+  computed,
+  ref,
+  useDisplayController,
+  type GuestManagement,
+} from ".nuxt/imports";
 const previewController = useDisplayController();
 
 const toBePreviewedGuest = ref<GuestManagementTableData>({

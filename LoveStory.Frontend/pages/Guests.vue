@@ -60,8 +60,24 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import { useModifySingleGuestStore } from "stores/useModifyGuest";
+import { useModifyFamilyGuestStore } from "stores/useModifyFamilyGuest";
+import { useDeleteGuestStore } from "stores/useDeleteGuest";
+
+import {
+  definePageMeta,
+  reactive,
+  ref,
+  provide,
+  useGuestManagement,
+  useDisplayController,
+  type IDisplayController,
+  type GuestManagement,
+  type GuestType,
+} from ".nuxt/imports";
+
 definePageMeta({ layout: "admin-layout" });
-const { guests, isLoading, refreshGuests } = useGuestManagement();
+const { guests, refreshGuests } = useGuestManagement();
 
 const dialogDisplayControllers = reactive<{
   [key in

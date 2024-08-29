@@ -20,13 +20,14 @@
       >
         <div class="py-1" role="none">
           <div
-            v-for="item in props.tables"
+            v-for="table in props.tables"
+            :key="table.banquetTableId"
             class="px-4 py-2 text-sm relative"
-            @click.prevent="handleSelectItem(item.banquetTableId)"
+            @click.prevent="handleSelectItem(table.banquetTableId)"
           >
-            <div>{{ item.tableAlias }}</div>
+            <div>{{ table.tableAlias }}</div>
             <div
-              v-if="model?.banquetTableId === item.banquetTableId"
+              v-if="model?.banquetTableId === table.banquetTableId"
               class="w-[16px] h-[16px] absolute top-1/2 right-2 -translate-y-1/2"
             >
               <font-awesome-icon :icon="['fas', 'check']" :size="'2xs'" />
@@ -41,14 +42,19 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import {
+  computed,
+  type IBanquetTable,
+  type IDisplayController,
+} from ".nuxt/imports";
+
 type SeatLocationDropDownListProps = {
   tables: IBanquetTable[];
 };
 
-const displayController = defineModel<IDisplayController>(
-  "displayController",
-  { required: true }
-);
+const displayController = defineModel<IDisplayController>("displayController", {
+  required: true,
+});
 
 const model = defineModel<Pick<IBanquetTable, "banquetTableId"> | null>(
   "model",

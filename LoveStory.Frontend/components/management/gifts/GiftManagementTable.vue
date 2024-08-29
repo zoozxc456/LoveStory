@@ -9,12 +9,20 @@
         class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
         <tr>
-          <th scope="col" class="px-6 py-3" v-for="column in headerColumns">
+          <th
+            scope="col"
+            class="px-6 py-3"
+            v-for="(column, index) in headerColumns"
+            :key="index"
+          >
             {{ column }}
           </th>
         </tr>
       </thead>
-      <tbody v-for="(management, index) in store.data">
+      <tbody
+        v-for="(management, index) in store.data"
+        :key="management.managementId"
+      >
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
@@ -95,7 +103,12 @@
             <div class="grid grid-flow-col h-52">
               <div
                 class="h-5/6 mx-6 my-auto border-gray-400 border rounded-md"
-                v-for="{ guestName, weddingGift } in management.attendance"
+                v-for="{
+                  guestName,
+                  weddingGift,
+                  guestId,
+                } in management.attendance"
+                :key="guestId"
               >
                 <div
                   class="h-1/4 text-center flex justify-center items-center guest-name"
@@ -138,6 +151,8 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useWeddingGiftManagementStore } from "stores/management/wedding-gifts/useWeddingGiftManagement";
+import { ref, type IWeddingGiftManagement } from ".nuxt/imports";
+
 const emits = defineEmits<{
   (e: "request:create", data: IWeddingGiftManagement): void;
   (e: "request:delete", data: IWeddingGiftManagement): void;
@@ -162,9 +177,9 @@ const handlers = {
   onToggleWeddingGiftMoreInfo: ({
     managementId,
   }: Pick<IWeddingGiftManagement, "managementId">) => {
-    expandedRecordSet.value.has(managementId)
-      ? expandedRecordSet.value.delete(managementId)
-      : expandedRecordSet.value.add(managementId);
+    if (expandedRecordSet.value.has(managementId))
+      expandedRecordSet.value.delete(managementId);
+    else expandedRecordSet.value.add(managementId);
   },
 };
 </script>

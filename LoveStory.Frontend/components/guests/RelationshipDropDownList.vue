@@ -19,10 +19,11 @@
         tabindex="-1"
       >
         <div class="py-1" role="none">
-          <div v-for="{ label, values } in relations">
+          <div v-for="{ label, values } in relations" :key="label">
             <label class="text-gray-400 text-xs px-3 py-1">{{ label }}</label>
             <div
-              v-for="relationship in values"
+              v-for="(relationship, index) in values"
+              :key="index"
               class="px-4 py-2 text-sm"
               @click.stop="handleSelectItem(`${label}/${relationship}`)"
             >
@@ -38,6 +39,8 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import { useDisplayController, type IDisplayController } from ".nuxt/imports";
+
 const relations = [
   { label: "男方親人", values: ["男方家人", "新郎父親親戚", "新郎母親親戚"] },
   { label: "女方親人", values: ["女方家人", "新娘父親親戚", "新娘母親親戚"] },

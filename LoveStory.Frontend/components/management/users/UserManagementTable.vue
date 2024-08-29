@@ -9,12 +9,17 @@
         class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
       >
         <tr>
-          <th scope="col" class="px-6 py-3" v-for="column in headerColumns">
+          <th
+            scope="col"
+            class="px-6 py-3"
+            v-for="(column, index) in headerColumns"
+            :key="index"
+          >
             {{ column }}
           </th>
         </tr>
       </thead>
-      <tbody v-for="(user, index) in store.users">
+      <tbody v-for="(user, index) in store.users" :key="user.userId">
         <tr
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
@@ -61,7 +66,9 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
-import { useUserManagementStore } from "../../../stores/management/users/useUserManagement";
+import type { UserManagement } from ".nuxt/imports";
+import { useUserManagementStore } from "stores/management/users/useUserManagement";
+
 const store = useUserManagementStore();
 const emits = defineEmits<{
   (e: "request:modify-basic-info", user: UserManagement): void;

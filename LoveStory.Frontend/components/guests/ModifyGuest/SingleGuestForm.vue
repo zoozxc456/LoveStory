@@ -112,7 +112,11 @@
 </template>
 
 <script setup lang="ts">
-import type { ModifySingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import {
+  useDisplayController,
+  useBanquetTable,
+  type ModifySingleGuestFormDataType,
+} from ".nuxt/imports";
 
 const data = defineModel<ModifySingleGuestFormDataType>({ default: {} });
 
@@ -123,10 +127,4 @@ const emits = defineEmits<{
 
 const displayController = useDisplayController();
 const { data: tables } = useBanquetTable();
-
-watchEffect(() => {
-  console.log(`===== Start Console.log for data =====`);
-  console.log(data);
-  console.log(`===== End Console.log for data =====`);
-});
 </script>

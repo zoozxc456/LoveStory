@@ -46,6 +46,16 @@ import {
   type DeleteWeddingGiftFormData,
   type ModifyWeddingGiftFormData,
 } from "stores/management/wedding-gifts/useWeddingGiftManagement";
+
+import {
+  definePageMeta,
+  reactive,
+  useDisplayController,
+  type IDisplayController,
+  type IWeddingGiftManagement,
+  type IWeddingGift,
+} from ".nuxt/imports";
+
 definePageMeta({ layout: "admin-layout" });
 
 const store = useWeddingGiftManagementStore();

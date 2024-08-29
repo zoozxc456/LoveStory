@@ -10,10 +10,16 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-const displayController = defineModel<IDialogDisplayController>(
-  "displayController",
-  { default: {} }
-);
+import {
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  type IDisplayController,
+} from ".nuxt/imports";
+
+const displayController = defineModel<IDisplayController>("displayController", {
+  required: true,
+});
 
 const dropDownListElementRef = ref<HTMLDivElement | null>(null);
 

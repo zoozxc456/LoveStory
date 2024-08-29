@@ -21,7 +21,11 @@
         </div>
       </div>
       <div class="body w-full relative">
-        <div class="row w-full border-b" v-for="(user, index) in store.data">
+        <div
+          class="row w-full border-b"
+          v-for="(user, index) in store.data"
+          :key="user.userId"
+        >
           <div class="presentation w-full flex relative items-center">
             <div
               class="absolute left-[15px] top-1/2 -translate-y-1/2 hover:cursor-pointer"
@@ -101,7 +105,9 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { useUserManagementStore } from "../../../stores/management/users/useUserManagement";
+import { useUserManagementStore } from "stores/management/users/useUserManagement";
+import { ref ,type UserManagement } from ".nuxt/imports";
+
 const store = useUserManagementStore();
 const emits = defineEmits<{
   (e: "request:modify-basic-info", user: UserManagement): void;
@@ -110,12 +116,14 @@ const emits = defineEmits<{
 }>();
 
 const expandedRecordSet = ref<Set<string>>(new Set<string>());
-  
+
 const handlers = {
   onToggleUserDetailInfo: ({ userId }: UserManagement) => {
-    expandedRecordSet.value.has(userId)
-      ? expandedRecordSet.value.delete(userId)
-      : expandedRecordSet.value.add(userId);
+    if (expandedRecordSet.value.has(userId)) {
+      expandedRecordSet.value.delete(userId);
+    } else {
+      expandedRecordSet.value.add(userId);
+    }
   },
 };
 </script>

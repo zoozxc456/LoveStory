@@ -22,9 +22,10 @@
         @click="handleClickNavigator"
       >
         <NuxtLink
-          v-for="{ to, displayText, icon } in paths"
+          v-for="({ to, displayText, icon }, index) in paths"
           class="cursor-pointer"
           :to="to"
+          :key="index"
         >
           <div class="flex justify-start items-center gap-3">
             <div class="w-[24px] flex justify-center items-center">
@@ -56,11 +57,12 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { ref, useNavigator } from ".nuxt/imports";
 const isExpandedMenu = ref<boolean>(false);
 
 const { paths, handleLogout } = useNavigator();
 
 const handleCollsapeMenu = () => (isExpandedMenu.value = !isExpandedMenu.value);
 
-const handleClickNavigator = (e: MouseEvent) => (isExpandedMenu.value = false);
+const handleClickNavigator = () => (isExpandedMenu.value = false);
 </script>

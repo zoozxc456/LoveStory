@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <LoginLoading :is-loading="isLoading" />
+  <LoginLoadingOverlay :is-loading="isLoading" />
 
   <LoginErrorMessageAlert
     v-model:display-controller="errorMessageAlertDisplayController"
@@ -103,6 +103,13 @@
 
 <script setup lang="ts">
 import img from "../assets/images/img.png";
+import {
+  definePageMeta,
+  watchEffect,
+  useOriginalAuth,
+  useDisplayController,
+} from ".nuxt/imports";
+
 definePageMeta({ layout: "login-layout" });
 
 const { authFormData, authenticateUser, isLoading, errorMessage } =

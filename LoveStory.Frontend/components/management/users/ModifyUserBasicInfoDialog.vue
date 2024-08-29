@@ -58,7 +58,8 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import { useUserManagementStore } from "../../../stores/management/users/useUserManagement";
+import { useUserManagementStore } from "stores/management/users/useUserManagement";
+import type { IDisplayController, UserManagement } from ".nuxt/imports";
 
 const emits = defineEmits<{ (e: "modified"): void }>();
 const displayController = defineModel<IDisplayController>("displayController", {

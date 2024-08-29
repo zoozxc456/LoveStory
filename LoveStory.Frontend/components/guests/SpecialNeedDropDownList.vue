@@ -6,7 +6,7 @@
         placeholder=" "
         readonly
         @click.prevent="displayController.onToggle"
-        :value="model?.join(',')"
+        :value="specialNeeds?.join(',')"
       />
     </template>
     <template #list>
@@ -20,13 +20,14 @@
       >
         <div class="py-1" role="none">
           <div
-            v-for="item in items"
+            v-for="(item, index) in items"
+            :key="index"
             class="px-4 py-2 text-sm relative"
             @click.prevent="handleSelectItem(item.trim())"
           >
             <div>{{ item }}</div>
             <div
-              v-if="model?.includes(item)"
+              v-if="specialNeeds?.includes(item)"
               class="w-[16px] h-[16px] absolute top-1/2 right-2 -translate-y-1/2"
             >
               <font-awesome-icon :icon="['fas', 'check']" :size="'2xs'" />
@@ -42,15 +43,18 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-const model = defineModel<string[]>("specialNeeds");
+import { useDisplayController } from ".nuxt/imports";
+
+const specialNeeds = defineModel<string[]>("specialNeeds", { required: true });
 
 const displayController = useDisplayController();
 const items: string[] = ["素食", "兒童椅"];
 
 const handleSelectItem = (item: string) => {
-  if (model.value !== undefined) {
-    const itemIndex = model.value.findIndex((x) => x === item);
-    itemIndex >= 0 ? model.value.splice(itemIndex, 1) : model.value.push(item);
+  if (specialNeeds.value !== undefined) {
+    const itemIndex = specialNeeds.value.findIndex((x) => x === item);
+    if (itemIndex >= 0) specialNeeds.value.splice(itemIndex, 1);
+    else specialNeeds.value.push(item);
   }
 };
 </script>

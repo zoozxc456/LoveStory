@@ -44,7 +44,7 @@ export const useWeddingGiftManagementStore = defineStore('wedding-gift-managemen
 
   actions: {
     async fetch() {
-      const { data, error } = await useAsyncData<IWeddingGiftManagement[], ErrorResponse>('fetch-wedding-gift-management', () => $fetch<IWeddingGiftManagement[]>('/api/admin/wedding-gifts', { headers: generateJwtAuthorizeHeader() }));
+      const { data } = await useAsyncData<IWeddingGiftManagement[], ErrorResponse>('fetch-wedding-gift-management', () => $fetch<IWeddingGiftManagement[]>('/api/admin/wedding-gifts', { headers: generateJwtAuthorizeHeader() }));
 
       if (data.value !== null) this.data = data.value;
     },
@@ -52,15 +52,15 @@ export const useWeddingGiftManagementStore = defineStore('wedding-gift-managemen
       this.fetch();
     },
     async createWeddingGift(data: CreateWeddingGiftFormData, onCreated: () => void) {
-      await useAsyncData('create-wedding-gift', () => $fetch<any>('/api/admin/wedding-gifts', { method: "POST", body: data, headers: generateJwtAuthorizeHeader() }));
+      await useAsyncData('create-wedding-gift', () => $fetch<boolean>('/api/admin/wedding-gifts', { method: "POST", body: data, headers: generateJwtAuthorizeHeader() }));
       onCreated();
     },
     async deleteWeddingGift(data: DeleteWeddingGiftFormData, onDeleted: () => void) {
-      await useAsyncData('delete-wedding-gift', () => $fetch<any>(`/api/admin/wedding-gifts/${data.id}`, { method: "DELETE", headers: generateJwtAuthorizeHeader() }));
+      await useAsyncData('delete-wedding-gift', () => $fetch<boolean>(`/api/admin/wedding-gifts/${data.id}`, { method: "DELETE", headers: generateJwtAuthorizeHeader() }));
       onDeleted();
     },
     async modifyWeddingGift(data: ModifyWeddingGiftFormData, onModified: () => void) {
-      await useAsyncData('modify-wedding-gift', () => $fetch<any>('/api/admin/wedding-gifts', { method: "PUT", body: data, headers: generateJwtAuthorizeHeader() }));
+      await useAsyncData('modify-wedding-gift', () => $fetch<boolean>('/api/admin/wedding-gifts', { method: "PUT", body: data, headers: generateJwtAuthorizeHeader() }));
       onModified();
     }
   }
