@@ -8,6 +8,7 @@
     <div class="content h-[89%] max-h-[89%] mx-4">
       <ManagementGiftsGiftManagementTable
         @request:create="handler.onRequestCreateWeddingGift"
+        @request:delete="handler.onRequestDeleteWeddingGift"
       />
     </div>
 
@@ -18,6 +19,14 @@
       v-model:form-data="toBeCreatedWeddingGift"
       @created="onCreated"
     />
+
+    <ManagementGiftsDeleteWeddingGiftDialog
+      v-model:display-controller="
+        dialogDisplayControllers['delete-wedding-gift-dialog']
+      "
+      v-model:form-data="toBeDeletedWeddingGift"
+      @deleted="onDeleted"
+    />
   </div>
 </template>
 
@@ -25,6 +34,7 @@
 import {
   useWeddingGiftManagementStore,
   type CreateWeddingGiftFormData,
+  type DeleteWeddingGiftFormData,
 } from "stores/management/wedding-gifts/useWeddingGiftManagement";
 definePageMeta({ layout: "admin-layout" });
 
@@ -50,6 +60,13 @@ const toBeCreatedWeddingGift = reactive<CreateWeddingGiftFormData>({
   managementId: "",
 });
 
+const toBeDeletedWeddingGift = reactive<DeleteWeddingGiftFormData>({
+  managementId: "",
+  managementName: "",
+  managementType: "single",
+  id: "",
+});
+
 const handler = {
   onRequestCreateWeddingGift: (data: IWeddingGiftManagement) => {
     toBeCreatedWeddingGift.managementId = data.managementId;
@@ -59,9 +76,31 @@ const handler = {
 
     dialogDisplayControllers["create-wedding-gift-dialog"].onShow();
   },
+  onRequestDeleteWeddingGift: ({
+    managementId,
+    managementName,
+    managementType,
+  }: IWeddingGiftManagement) => {
+    toBeDeletedWeddingGift.managementId = managementId;
+    toBeDeletedWeddingGift.managementName = managementName;
+    toBeDeletedWeddingGift.managementType = managementType;
+
+    const weddingGift = store.data
+      .find((x) => x.managementId === managementId)
+      ?.attendance.find((x) => x.weddingGift !== undefined)
+      ?.weddingGift as IWeddingGift;
+
+    toBeDeletedWeddingGift.id = weddingGift.id;
+
+    dialogDisplayControllers["delete-wedding-gift-dialog"].onShow();
+  },
 };
 
 const onCreated = () => {
+  store.refresh();
+};
+
+const onDeleted = () => {
   store.refresh();
 };
 </script>

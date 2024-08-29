@@ -9,6 +9,9 @@ export type CreateWeddingGiftFormData = Pick<IWeddingGift, "amount" | "remark"> 
   Pick<IWeddingGiftManagement, "managementName" | "managementType" | 'managementId'> &
   Pick<WeddingGiftManagementAttendance, "guestRelationship">;
 
+export type DeleteWeddingGiftFormData = Pick<IWeddingGiftManagement, 'managementId' | 'managementType' | 'managementName'> &
+  Pick<IWeddingGift, 'id'>;
+
 export const useWeddingGiftManagementStore = defineStore('wedding-gift-management', {
   state: (): WeddingGiftManagementState => ({ data: [] }),
   getters: {
@@ -47,6 +50,10 @@ export const useWeddingGiftManagementStore = defineStore('wedding-gift-managemen
     async createWeddingGift(data: CreateWeddingGiftFormData, onCreated: () => void) {
       await useAsyncData('create-wedding-gift', () => $fetch<any>('/api/admin/wedding-gifts', { method: "POST", body: data, headers: generateJwtAuthorizeHeader() }));
       onCreated();
+    },
+    async deleteWeddingGift(data: DeleteWeddingGiftFormData, onDeleted: () => void) {
+      await useAsyncData('delete-wedding-gift', () => $fetch<any>(`/api/admin/wedding-gifts/${data.id}`, { method: "DELETE", headers: generateJwtAuthorizeHeader() }));
+      onDeleted();
     }
   }
 });

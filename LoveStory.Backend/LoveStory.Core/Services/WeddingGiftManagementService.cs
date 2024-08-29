@@ -44,6 +44,15 @@ public class WeddingGiftManagementService(IServiceProvider provider) : IWeddingG
         return await CreateGroupGuestWeddingGift(dto);
     }
 
+    public async Task<bool> DeleteWeddingGiftById(Guid id)
+    {
+        var weddingGift = await _weddingGiftRepository.GetOneAsync(gift => gift.WeddingGiftId == id);
+
+        if (weddingGift == null) throw new Exception($"Wedding Gift Id:{id} is not exist");
+
+        return await _weddingGiftRepository.DeleteAsync(weddingGift);
+    }
+
     private async Task<bool> CreateGroupGuestWeddingGift(CreateWeddingGiftDto dto)
     {
         var groupGuests = _guestRepository.GetAll().ToList()

@@ -68,6 +68,7 @@
               <button
                 type="button"
                 class="px-4 py-2 rounded-md border border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
+                @click="emits('request:delete', management)"
               >
                 刪除
               </button>
@@ -138,6 +139,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useWeddingGiftManagementStore } from "stores/management/wedding-gifts/useWeddingGiftManagement";
 const emits = defineEmits<{
   (e: "request:create", data: IWeddingGiftManagement): void;
+  (e: "request:delete", data: IWeddingGiftManagement): void;
 }>();
 
 const headerColumns: string[] = [

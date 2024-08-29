@@ -33,4 +33,11 @@ public class WeddingGiftManagementController(IServiceProvider provider) : BaseCo
         });
         return Ok();
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteByManagementId(Guid id)
+    {
+        await _weddingGiftService.DeleteWeddingGiftById(id);
+        return Ok();
+    }
 }
