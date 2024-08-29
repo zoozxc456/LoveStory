@@ -46,4 +46,5 @@ public class GuestData
 
     public GuestAttendanceData? GuestAttendance { get; set; }
     public ICollection<GuestSpecialNeedData> SpecialNeeds { get; set; } = new List<GuestSpecialNeedData>();
+    public WeddingGiftData? WeddingGift { get; set; }
 }
