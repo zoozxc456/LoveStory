@@ -10,7 +10,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "test:unit": "vitest"
+    "test:unit": "vitest",
+    "lint": "eslint"
   },
   "dependencies": {
     "@nuxt/eslint": "^0.5.3",
