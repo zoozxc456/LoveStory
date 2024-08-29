@@ -21,7 +21,7 @@
       </button>
     </div>
     <div class="content h-[89%] max-h-[89%] mx-4">
-      <GiftsGiftManagementTable />
+      <ManagementGiftsGiftManagementTable />
     </div>
   </div>
 </template>

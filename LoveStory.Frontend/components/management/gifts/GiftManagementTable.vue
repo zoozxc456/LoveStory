@@ -119,7 +119,7 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { useWeddingGiftManagementStore } from "../../stores/management/wedding-gifts/useWeddingGiftManagement";
+import { useWeddingGiftManagementStore } from "../../../stores/management/wedding-gifts/useWeddingGiftManagement";
 
 const headerColumns: string[] = [
   "",
