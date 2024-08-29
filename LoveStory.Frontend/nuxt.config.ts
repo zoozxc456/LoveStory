@@ -31,5 +31,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['@fortawesome/vue-fontawesome']
   },
-
+  alias: {
+    'stores': "/stores"
+  }
 });
