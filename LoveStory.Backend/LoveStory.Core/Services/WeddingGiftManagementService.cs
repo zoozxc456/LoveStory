@@ -36,7 +36,7 @@ public class WeddingGiftManagementService(IServiceProvider provider) : IWeddingG
 
     public async Task<bool> CreateWeddingGift(CreateWeddingGiftDto dto)
     {
-        if (dto.GiftType == "single")
+        if (dto.ManagementType == "single")
         {
             return await CreateSingleGuestWeddingGift(dto);
         }

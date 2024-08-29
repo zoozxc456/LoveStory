@@ -71,6 +71,7 @@ const handler = {
   onRequestCreateWeddingGift: (data: IWeddingGiftManagement) => {
     toBeCreatedWeddingGift.managementId = data.managementId;
     toBeCreatedWeddingGift.managementName = data.managementName;
+    toBeCreatedWeddingGift.managementType = data.managementType;
     toBeCreatedWeddingGift.guestRelationship =
       data.attendance[0].guestRelationship;
 
