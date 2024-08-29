@@ -1,5 +1,7 @@
 <template>
-  <div class="relative shadow-md sm:rounded-lg h-full hidden lg:block overflow-y-auto">
+  <div
+    class="relative shadow-md sm:rounded-lg h-full hidden lg:block overflow-y-auto"
+  >
     <table
       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
     >
@@ -52,18 +54,32 @@
             >
           </td>
           <td class="px-6 py-4">{{ store.aggregateGifts(management) }}</td>
-          <td class="px-6 py-4">
+          <td
+            v-if="management.attendance.some((x) => x.weddingGift)"
+            class="px-6 py-4"
+          >
+            <div class="flex justify-between">
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md border border-pink-400 text-pink-400 bg-transparent hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
+              >
+                修改
+              </button>
+              <button
+                type="button"
+                class="px-4 py-2 rounded-md border border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
+              >
+                刪除
+              </button>
+            </div>
+          </td>
+          <td v-else class="px-6 py-4">
             <button
               type="button"
-              class="px-4 py-2 m-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
+              class="px-4 py-2 w-full rounded-md border border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
+              @click="emits('request:create', management)"
             >
-              修改
-            </button>
-            <button
-              type="button"
-              class="px-4 py-2 mx-1 rounded-md border border-1 border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
-            >
-              刪除
+              新增
             </button>
           </td>
         </tr>
@@ -120,6 +136,9 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useWeddingGiftManagementStore } from "stores/management/wedding-gifts/useWeddingGiftManagement";
+const emits = defineEmits<{
+  (e: "request:create", data: IWeddingGiftManagement): void;
+}>();
 
 const headerColumns: string[] = [
   "",

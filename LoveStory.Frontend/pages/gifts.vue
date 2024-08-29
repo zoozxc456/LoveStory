@@ -4,30 +4,32 @@
       class="header h-[10%] flex justify-center items-center text-2xl relative"
     >
       <h1>禮金管理</h1>
-      <button
-        :class="[
-          'select-none rounded-md border border-transparent bg-pink-300 text-white py-2 px-6 text-center align-middle font-sans text-sm font-bold uppercases',
-          'hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 hover:shadow-lg',
-          'active:bg-pink-600 active:text-white active:opacity-[0.85]',
-          'focus:ring-pink-400 focus:opacity-[0.85] focus:shadow-none ',
-          'duration-150 ease-in-out transition-all',
-          'disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none',
-          'absolute bottom-2 right-4',
-        ]"
-        type="button"
-        @click="dialogDisplayControllers['create-wedding-gift-dialog'].onShow"
-      >
-        新增禮金
-      </button>
     </div>
     <div class="content h-[89%] max-h-[89%] mx-4">
-      <ManagementGiftsGiftManagementTable />
+      <ManagementGiftsGiftManagementTable
+        @request:create="handler.onRequestCreateWeddingGift"
+      />
     </div>
+
+    <ManagementGiftsCreateWeddingGiftDialog
+      v-model:display-controller="
+        dialogDisplayControllers['create-wedding-gift-dialog']
+      "
+      v-model:form-data="toBeCreatedWeddingGift"
+      @created="onCreated"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import {
+  useWeddingGiftManagementStore,
+  type CreateWeddingGiftFormData,
+} from "stores/management/wedding-gifts/useWeddingGiftManagement";
 definePageMeta({ layout: "admin-layout" });
+
+const store = useWeddingGiftManagementStore();
+
 const dialogDisplayControllers = reactive<{
   [key in
     | "create-wedding-gift-dialog"
@@ -38,4 +40,28 @@ const dialogDisplayControllers = reactive<{
   "modify-wedding-gift-dialog": useDisplayController(),
   "delete-wedding-gift-dialog": useDisplayController(),
 });
+
+const toBeCreatedWeddingGift = reactive<CreateWeddingGiftFormData>({
+  amount: 0,
+  giftType: "紅包",
+  managementName: "",
+  managementType: "single",
+  guestRelationship: "",
+  managementId: "",
+});
+
+const handler = {
+  onRequestCreateWeddingGift: (data: IWeddingGiftManagement) => {
+    toBeCreatedWeddingGift.managementId = data.managementId;
+    toBeCreatedWeddingGift.managementName = data.managementName;
+    toBeCreatedWeddingGift.guestRelationship =
+      data.attendance[0].guestRelationship;
+
+    dialogDisplayControllers["create-wedding-gift-dialog"].onShow();
+  },
+};
+
+const onCreated = () => {
+  store.refresh();
+};
 </script>

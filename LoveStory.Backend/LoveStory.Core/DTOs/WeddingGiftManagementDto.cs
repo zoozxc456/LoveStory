@@ -25,3 +25,13 @@ public class WeddingGiftDto
     public UserDto Recepient { get; set; }
     public string? Remark { get; set; }
 }
+
+public class CreateWeddingGiftDto
+{
+    public required Guid ManagementId { get; init; }
+    public required string ManagementType { get; init; }
+    public required string GiftType { get; init; }
+    public required decimal Amount { get; init; }
+    public required Guid CreatorId { get; init; }
+    public string? Remark { get; init; }
+}

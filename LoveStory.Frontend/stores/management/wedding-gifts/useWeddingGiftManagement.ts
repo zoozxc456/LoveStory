@@ -4,6 +4,11 @@ type WeddingGiftManagementState = {
   data: IWeddingGiftManagement[];
 };
 
+export type CreateWeddingGiftFormData = Pick<IWeddingGift, "amount" | "remark"> &
+{ giftType: string; } &
+  Pick<IWeddingGiftManagement, "managementName" | "managementType" | 'managementId'> &
+  Pick<WeddingGiftManagementAttendance, "guestRelationship">;
+
 export const useWeddingGiftManagementStore = defineStore('wedding-gift-management', {
   state: (): WeddingGiftManagementState => ({ data: [] }),
   getters: {
@@ -32,9 +37,16 @@ export const useWeddingGiftManagementStore = defineStore('wedding-gift-managemen
 
   actions: {
     async fetch() {
-      const { data, error } = await useAsyncData<IWeddingGiftManagement[], ErrorResponse>('fetch-wedding-gift-management', () => $fetch<IWeddingGiftManagement[]>('/api/admin/wedding-gifts'));
+      const { data, error } = await useAsyncData<IWeddingGiftManagement[], ErrorResponse>('fetch-wedding-gift-management', () => $fetch<IWeddingGiftManagement[]>('/api/admin/wedding-gifts', { headers: generateJwtAuthorizeHeader() }));
 
       if (data.value !== null) this.data = data.value;
+    },
+    async refresh() {
+      this.fetch();
+    },
+    async createWeddingGift(data: CreateWeddingGiftFormData, onCreated: () => void) {
+      await useAsyncData('create-wedding-gift', () => $fetch<any>('/api/admin/wedding-gifts', { method: "POST", body: data, headers: generateJwtAuthorizeHeader() }));
+      onCreated();
     }
   }
 });
