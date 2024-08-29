@@ -30,5 +30,9 @@ public class Mapper : Profile
             .ForMember(d => d.Creator, opt => opt.Ignore())
             .ForMember(d => d.CreatorId, opt => opt.MapFrom(s => s.Creator.UserId))
             .ReverseMap();
+
+        CreateMap<GuestData, WeddingGiftManagementDto>().ConvertUsing<SingleGuestDataToWeddingGiftManagementConverter>();
+        CreateMap<List<GuestData>,WeddingGiftManagementDto>().ConvertUsing<GroupGuestDataToWeddingGiftManagementConverter>();
+            
     }
 }

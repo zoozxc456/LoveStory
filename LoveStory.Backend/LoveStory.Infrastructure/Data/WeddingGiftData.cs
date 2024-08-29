@@ -34,6 +34,6 @@ public class WeddingGiftData
     [Column("guest")]
     [ForeignKey("Guest")]
     public Guid GuestId { get; set; }
-    
+    [InverseProperty("WeddingGift")]
     public GuestData Guest { get; set; }
 }

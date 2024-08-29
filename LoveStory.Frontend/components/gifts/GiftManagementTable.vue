@@ -1,5 +1,5 @@
 <template>
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-4">
+  <div class="relative shadow-md sm:rounded-lg h-full hidden lg:block overflow-y-auto">
     <table
       class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
     >
@@ -12,119 +12,136 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-for="(management, index) in store.data">
         <tr
-          v-for="(row, index) in props.gifts"
           class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
         >
+          <td class="text-center">
+            <div
+              :class="[
+                'w-1/2 mx-auto transition-transform duration-500 cursor-pointer',
+                store.hasAnyWeddingGift(management.attendance)
+                  ? 'block'
+                  : 'hidden',
+                expandedRecordSet.has(management.managementId)
+                  ? 'rotate-90'
+                  : '',
+              ]"
+              @click="
+                handlers.onToggleWeddingGiftMoreInfo({
+                  managementId: management.managementId,
+                })
+              "
+            >
+              <FontAwesomeIcon :icon="['fas', 'angle-right']" size="1x" />
+            </div>
+          </td>
           <th
             scope="row"
             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
           >
             {{ index + 1 }}
           </th>
-          <td class="px-6 py-4">{{ row.guestName }}</td>
-          <td class="px-6 py-4">{{ row.guestRelationship }}</td>
-          <td class="px-6 py-4">{{ row.giftMoney }}</td>
+          <td class="px-6 py-4">{{ management.managementName }}</td>
           <td class="px-6 py-4">
-            {{ dayjs(row.createTime).format("YYYY-MM-DD HH:mm") }}
-          </td>
-          <td class="px-6 py-4">{{ row.creator }}</td>
-          <td class="px-6 py-4">
-            <a
-              href="#"
-              class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-              >Edit</a
+            {{ management.attendance[0].guestRelationship }}
+            <span>
+              ({{
+                management.managementType === "single" ? "先生/小姐" : "全家福"
+              }})</span
             >
+          </td>
+          <td class="px-6 py-4">{{ store.aggregateGifts(management) }}</td>
+          <td class="px-6 py-4">
+            <button
+              type="button"
+              class="px-4 py-2 m-1 rounded-md border border-1 border-transparent bg-pink-300 text-white hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
+            >
+              修改
+            </button>
+            <button
+              type="button"
+              class="px-4 py-2 mx-1 rounded-md border border-1 border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400 active:bg-red-500 active:text-white transition duration-150 ease-in-out"
+            >
+              刪除
+            </button>
+          </td>
+        </tr>
+        <tr
+          v-if="store.hasAnyWeddingGift(management.attendance)"
+          :class="[
+            expandedRecordSet.has(management.managementId) ? '' : 'hidden',
+          ]"
+        >
+          <td :colspan="headerColumns.length">
+            <div class="grid grid-flow-col h-52">
+              <div
+                class="h-5/6 mx-6 my-auto border-gray-400 border rounded-md"
+                v-for="{ guestName, weddingGift } in management.attendance"
+              >
+                <div
+                  class="h-1/4 text-center flex justify-center items-center guest-name"
+                >
+                  {{ guestName }}
+                </div>
+                <div class="h-3/4 w-full text-center">
+                  <div class="grid grid-cols-2 py-1 special-needs">
+                    <div class="label">禮金</div>
+                    <div class="content">
+                      {{ store.presentationGift(weddingGift) }}
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 py-1 remark">
+                    <div class="label">備註</div>
+                    <div class="content">{{ weddingGift?.remark }}</div>
+                  </div>
+                  <div class="grid grid-cols-2 py-1 remark">
+                    <div class="label">收禮時間</div>
+                    <div class="content">
+                      {{ store.presentationReceivedAt(weddingGift) }}
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 py-1 remark">
+                    <div class="label">收禮人</div>
+                    <div class="content">
+                      {{ weddingGift?.recepient.username }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <!-- <nav
-      class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
-      aria-label="Table navigation"
-    >
-      <span
-        class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto"
-        >Showing
-        <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of
-        <span class="font-semibold text-gray-900 dark:text-white"
-          >1000</span
-        ></span
-      >
-      <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >Previous</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >1</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >2</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            aria-current="page"
-            class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >3</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >4</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >5</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >Next</a
-          >
-        </li>
-      </ul>
-    </nav> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { GiftManagement } from "pages/gifts.vue";
-import dayjs from "dayjs";
-
-type GiftManagementTableProps = {
-  gifts: GiftManagement[];
-};
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useWeddingGiftManagementStore } from "../../stores/management/wedding-gifts/useWeddingGiftManagement";
 
 const headerColumns: string[] = [
+  "",
   "#",
   "賓客名稱",
   "賓客關係",
   "禮金金額",
-  "建立時間",
-  "建立者",
-  "Actions",
+  "",
 ];
 
-const props = defineProps<GiftManagementTableProps>();
+const store = useWeddingGiftManagementStore();
+store.fetch();
+
+const expandedRecordSet = ref<Set<string>>(new Set<string>());
+
+const handlers = {
+  onToggleWeddingGiftMoreInfo: ({
+    managementId,
+  }: Pick<IWeddingGiftManagement, "managementId">) => {
+    expandedRecordSet.value.has(managementId)
+      ? expandedRecordSet.value.delete(managementId)
+      : expandedRecordSet.value.add(managementId);
+  },
+};
 </script>
