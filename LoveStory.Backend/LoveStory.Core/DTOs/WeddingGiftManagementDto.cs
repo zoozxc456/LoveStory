@@ -35,3 +35,10 @@ public class CreateWeddingGiftDto
     public required Guid CreatorId { get; init; }
     public string? Remark { get; init; }
 }
+
+public class ModifyWeddingGiftDto
+{
+    public required Guid WeddingGiftId { get; init; }
+    public required decimal Amount { get; init; }
+    public string? Remark { get; init; }
+}

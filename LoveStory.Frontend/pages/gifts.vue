@@ -9,6 +9,7 @@
       <ManagementGiftsGiftManagementTable
         @request:create="handler.onRequestCreateWeddingGift"
         @request:delete="handler.onRequestDeleteWeddingGift"
+        @request:modify="handler.onRequestModifyWeddingGift"
       />
     </div>
 
@@ -27,6 +28,14 @@
       v-model:form-data="toBeDeletedWeddingGift"
       @deleted="onDeleted"
     />
+
+    <ManagementGiftsModifyWeddingGiftDialog
+      v-model:display-controller="
+        dialogDisplayControllers['modify-wedding-gift-dialog']
+      "
+      v-model:form-data="toBeModifiedWeddingGift"
+      @modified="onModified"
+    />
   </div>
 </template>
 
@@ -35,6 +44,7 @@ import {
   useWeddingGiftManagementStore,
   type CreateWeddingGiftFormData,
   type DeleteWeddingGiftFormData,
+  type ModifyWeddingGiftFormData,
 } from "stores/management/wedding-gifts/useWeddingGiftManagement";
 definePageMeta({ layout: "admin-layout" });
 
@@ -67,6 +77,16 @@ const toBeDeletedWeddingGift = reactive<DeleteWeddingGiftFormData>({
   id: "",
 });
 
+const toBeModifiedWeddingGift = reactive<ModifyWeddingGiftFormData>({
+  amount: 0,
+  giftType: "",
+  managementId: "",
+  managementName: "",
+  managementType: "single",
+  guestRelationship: "",
+  weddingGiftId: "",
+});
+
 const handler = {
   onRequestCreateWeddingGift: (data: IWeddingGiftManagement) => {
     toBeCreatedWeddingGift.managementId = data.managementId;
@@ -95,6 +115,24 @@ const handler = {
 
     dialogDisplayControllers["delete-wedding-gift-dialog"].onShow();
   },
+  onRequestModifyWeddingGift: (data: IWeddingGiftManagement) => {
+    const weddingGift = store.data
+      .find((x) => x.managementId === data.managementId)
+      ?.attendance.find((x) => x.weddingGift !== undefined)
+      ?.weddingGift as IWeddingGift;
+
+    toBeModifiedWeddingGift.amount = weddingGift.amount;
+    toBeModifiedWeddingGift.giftType = weddingGift.type;
+    toBeModifiedWeddingGift.guestRelationship =
+      data.attendance[0].guestRelationship;
+    toBeModifiedWeddingGift.managementId = data.managementId;
+    toBeModifiedWeddingGift.managementName = data.managementName;
+    toBeModifiedWeddingGift.managementType = data.managementType;
+    toBeModifiedWeddingGift.remark = weddingGift.remark;
+    toBeModifiedWeddingGift.weddingGiftId = weddingGift.id;
+
+    dialogDisplayControllers["modify-wedding-gift-dialog"].onShow();
+  },
 };
 
 const onCreated = () => {
@@ -104,4 +142,6 @@ const onCreated = () => {
 const onDeleted = () => {
   store.refresh();
 };
+
+const onModified = () => store.refresh();
 </script>

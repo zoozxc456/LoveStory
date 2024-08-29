@@ -62,6 +62,7 @@
               <button
                 type="button"
                 class="px-4 py-2 rounded-md border border-pink-400 text-pink-400 bg-transparent hover:bg-pink-100 hover:text-rose-500 hover:border-pink-200 focus:ring-pink-400 active:bg-pink-600 active:text-white transition duration-150 ease-in-out"
+                @click="emits('request:modify', management)"
               >
                 修改
               </button>
@@ -140,6 +141,7 @@ import { useWeddingGiftManagementStore } from "stores/management/wedding-gifts/u
 const emits = defineEmits<{
   (e: "request:create", data: IWeddingGiftManagement): void;
   (e: "request:delete", data: IWeddingGiftManagement): void;
+  (e: "request:modify", data: IWeddingGiftManagement): void;
 }>();
 
 const headerColumns: string[] = [

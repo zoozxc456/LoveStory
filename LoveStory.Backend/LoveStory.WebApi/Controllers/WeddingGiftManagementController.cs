@@ -34,6 +34,18 @@ public class WeddingGiftManagementController(IServiceProvider provider) : BaseCo
         return Ok();
     }
 
+    [HttpPut]
+    public async Task<IActionResult> ModifyWeddingGift([FromBody] ModifyWeddingGiftManagementRequestModel request)
+    {
+        await _weddingGiftService.ModifyWeddingGift(new ModifyWeddingGiftDto
+        {
+            WeddingGiftId = request.WeddingGiftId,
+            Amount = request.Amount,
+            Remark = request.Remark
+        });
+        return Ok();
+    }
+
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteByManagementId(Guid id)
     {

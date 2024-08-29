@@ -8,3 +8,10 @@ public class CreateWeddingGiftManagementRequestModel
     public required decimal Amount { get; init; }
     public string? Remark { get; init; }
 }
+
+public class ModifyWeddingGiftManagementRequestModel
+{
+    public required Guid WeddingGiftId { get; init; }
+    public required decimal Amount { get; init; }
+    public string? Remark { get; init; }
+}
