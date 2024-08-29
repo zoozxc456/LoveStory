@@ -102,6 +102,7 @@ import {
   useWeddingGiftManagementStore,
   type CreateWeddingGiftFormData,
 } from "stores/management/wedding-gifts/useWeddingGiftManagement";
+import type { IDisplayController } from ".nuxt/imports";
 
 const emits = defineEmits<{ (e: "created"): void }>();
 const displayController = defineModel<IDisplayController>("displayController", {

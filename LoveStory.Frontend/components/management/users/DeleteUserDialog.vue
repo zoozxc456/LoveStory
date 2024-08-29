@@ -48,7 +48,8 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import { useUserManagementStore } from "../../../stores/management/users/useUserManagement";
+import { useUserManagementStore } from "stores/management/users/useUserManagement";
+import type { UserManagement, IDisplayController } from ".nuxt/imports";
 
 type DeleteUserDialogProps = {
   data: Pick<UserManagement, "userId" | "username">;

@@ -67,7 +67,9 @@
           特殊需求
         </h6>
         <div class="flex-1">
-          <SpecialNeedDropDownList v-model:special-needs="data.specialNeeds" />
+          <GuestsSpecialNeedDropDownList
+            v-model:special-needs="data.specialNeeds"
+          />
         </div>
       </div>
 
@@ -111,9 +113,11 @@
 </template>
 
 <script setup lang="ts">
-import type { SingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
-import SpecialNeedDropDownList from "../SpecialNeedDropDownList.vue";
-import { useBanquetTable } from "../../../composables/admin/useBanquetTable";
+import {
+  useBanquetTable,
+  useDisplayController,
+  type SingleGuestFormDataType,
+} from ".nuxt/imports";
 
 const data = defineModel<SingleGuestFormDataType>({ default: {} });
 

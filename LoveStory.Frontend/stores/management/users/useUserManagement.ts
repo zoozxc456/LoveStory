@@ -28,20 +28,20 @@ export const useUserManagementStore = defineStore("user-management", {
 
     async createUser(data: Pick<UserManagement, 'username' | 'role'>, onCreated: () => void) {
       if (data.role === "" || data.username === "") throw "Create User is not completed";
-      await useAsyncData('create-user', () => $fetch<any>('/api/admin/users', { body: data, method: "POST", headers: generateJwtAuthorizeHeader() }));
+      await useAsyncData('create-user', () => $fetch<boolean>('/api/admin/users', { body: data, method: "POST", headers: generateJwtAuthorizeHeader() }));
       onCreated();
     },
     async modifyUserBasicInfo(data: Pick<UserManagement, 'userId' | 'username' | 'role'>, onModified: () => void) {
       if (data.role === "" || data.username === "") throw "Modify User Basic Info is not completed";
-      await useAsyncData('modify-user-basic-info', () => $fetch<any>('/api/admin/users', { body: data, method: "PUT", headers: generateJwtAuthorizeHeader() }));
+      await useAsyncData('modify-user-basic-info', () => $fetch<boolean>('/api/admin/users', { body: data, method: "PUT", headers: generateJwtAuthorizeHeader() }));
       onModified();
     },
     async modifyPasswordStatus(data: Pick<UserManagement, 'userId'>, onModified: () => void) {
-      await useAsyncData('modify-user-password-status', () => $fetch<any>('/api/admin/users/password/status', { method: "PATCH", body: data, headers: generateJwtAuthorizeHeader() }));
+      await useAsyncData('modify-user-password-status', () => $fetch<boolean>('/api/admin/users/password/status', { method: "PATCH", body: data, headers: generateJwtAuthorizeHeader() }));
       onModified();
     },
     async deleteUser(data: Pick<UserManagement, 'userId'>, onDeleted: () => void) {
-      await useAsyncData('delete-user', () => $fetch<any>(`/api/admin/users/${data.userId}`, { method: "DELETE", headers: generateJwtAuthorizeHeader() }));
+      await useAsyncData('delete-user', () => $fetch<boolean>(`/api/admin/users/${data.userId}`, { method: "DELETE", headers: generateJwtAuthorizeHeader() }));
       onDeleted();
     }
   }

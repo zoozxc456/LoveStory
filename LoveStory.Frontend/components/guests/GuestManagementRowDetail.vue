@@ -10,6 +10,7 @@
         seatLocation,
         remark,
       } in props.guests"
+      :key="guestId"
     >
       <div
         class="h-1/4 text-center flex justify-center items-center guest-name"
@@ -39,6 +40,12 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import type {
+  SingleGuestManagementDetail,
+  GroupGuestManagementDetail,
+  IGuestSpecialNeed,
+} from ".nuxt/imports";
+
 type GuestManagementRowDetailProps = {
   guests: (SingleGuestManagementDetail | GroupGuestManagementDetail)[];
 };

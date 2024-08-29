@@ -1,4 +1,4 @@
-import type { FamilyGuestFormDataType, ModifyFamilyGuestFormDataType, ModifySingleGuestFormDataType, SingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
+import type { FamilyGuestFormDataType, ModifyFamilyGuestFormDataType, ModifySingleGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 
 export interface IGuest {
   guestId: string;

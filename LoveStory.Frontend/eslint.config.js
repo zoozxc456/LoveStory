@@ -16,5 +16,8 @@ export default [
   {
     files: ["pages/**/*.vue"],
     rules: { "vue/multi-word-component-names": 0 },
-  }
+  },
+  {
+    ignores: [".nuxt/*",".output/*","node_modules/*"],
+  },
 ];
