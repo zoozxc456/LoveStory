@@ -18,6 +18,11 @@ export default [
     rules: { "vue/multi-word-component-names": 0 },
   },
   {
-    ignores: [".nuxt/*",".output/*","node_modules/*"],
+    ignores: [".nuxt/*", ".output/*", "node_modules/*"],
+  },
+  {
+    rules: {
+      "no-undef": "off",
+    },
   },
 ];

@@ -55,12 +55,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  ref,
-  useDisplayController,
-  type GuestManagement,
-} from ".nuxt/imports";
+// import {
+//   computed,
+//   ref,
+//   useDisplayController,
+//   type GuestManagement,
+// } from ".nuxt/imports";
 const previewController = useDisplayController();
 
 const toBePreviewedGuest = ref<GuestManagementTableData>({

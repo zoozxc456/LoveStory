@@ -155,11 +155,11 @@
 import dayjs from "dayjs";
 import type { GuestManagementTableData } from "../GuestManagementTable.vue";
 
-import {
-  inject,
-  type GuestManagement,
-  type IDisplayController,
-} from ".nuxt/imports";
+// import {
+//   inject,
+//   type GuestManagement,
+//   type IDisplayController,
+// } from ".nuxt/imports";
 
 const requestEvents = inject<{
   onRequestModifyGuest: (guest: GuestManagement) => void;

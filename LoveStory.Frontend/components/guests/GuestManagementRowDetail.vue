@@ -40,11 +40,11 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import type {
-  SingleGuestManagementDetail,
-  GroupGuestManagementDetail,
-  IGuestSpecialNeed,
-} from ".nuxt/imports";
+// import type {
+//   SingleGuestManagementDetail,
+//   GroupGuestManagementDetail,
+//   IGuestSpecialNeed,
+// } from ".nuxt/imports";
 
 type GuestManagementRowDetailProps = {
   guests: (SingleGuestManagementDetail | GroupGuestManagementDetail)[];

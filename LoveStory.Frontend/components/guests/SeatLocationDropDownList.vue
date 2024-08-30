@@ -42,11 +42,11 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import {
-  computed,
-  type IBanquetTable,
-  type IDisplayController,
-} from ".nuxt/imports";
+// import {
+//   computed,
+//   type IBanquetTable,
+//   type IDisplayController,
+// } from ".nuxt/imports";
 
 type SeatLocationDropDownListProps = {
   tables: IBanquetTable[];
