@@ -14,7 +14,7 @@ lint-frontend:
     - source ~/.bashrc
     - cd LoveStory.Frontend
   script:
-    - bun run lint
+    - bun install && bun run lint
     - exit 0
   tags:
     - dotnet8
