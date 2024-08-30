@@ -3,7 +3,9 @@ using LoveStory.Core.Interfaces;
 using LoveStory.Core.Securities;
 using LoveStory.WebApi.RequestModel;
 using LoveStory.WebApi.ResponseModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace LoveStory.WebApi.Controllers;
 
@@ -12,6 +14,7 @@ namespace LoveStory.WebApi.Controllers;
 public class AuthController(IServiceProvider provider) : ControllerBase
 {
     private readonly ILoginService _loginService = provider.GetRequiredService<ILoginService>();
+    private readonly IAccessTokenProvider _accessTokenProvider = provider.GetRequiredService<IAccessTokenProvider>();
 
     [HttpPost("Origin")]
     public async Task<IActionResult> AuthOriginLogin([FromBody] LoginRequestModel request)

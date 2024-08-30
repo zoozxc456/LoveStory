@@ -103,12 +103,6 @@
 
 <script setup lang="ts">
 import img from "../assets/images/img.png";
-// import {
-//   definePageMeta,
-//   watchEffect,
-//   useOriginalAuth,
-//   useDisplayController,
-// } from ".nuxt/imports";
 
 definePageMeta({ layout: "login-layout" });
 
