@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@nuxt/test-utils/module', '@pinia/nuxt'],
+  modules: ['@nuxt/test-utils/module', '@pinia/nuxt', '@nuxt/eslint'],
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css', '@fortawesome/fontawesome-svg-core/styles.css'],
@@ -31,5 +31,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['@fortawesome/vue-fontawesome']
   },
-
+  alias: {
+    'stores': "/stores"
+  }
 });

@@ -75,7 +75,11 @@
       </div>
       <div class="relative w-full p-2 rounded-md border">
         <label class="text-xs absolute left-2 -top-2">賓客名單</label>
-        <div class="w-full" v-for="(guest, index) in data.attendance">
+        <div
+          class="w-full"
+          v-for="(guest, index) in data.attendance"
+          :key="guest.guestId"
+        >
           <div class="ps-3 border-b flex items-center gap-3">
             <div
               @click="handleCollsapeClick(index)"
@@ -164,7 +168,6 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import type { ModifyFamilyGuestFormDataType } from "types/GuestManagement/guestFormData.type";
 
 const data = defineModel<ModifyFamilyGuestFormDataType>({ required: true });
 const attendanceNumber = defineModel<number>("attendanceNumber", {
@@ -179,9 +182,8 @@ const emits = defineEmits<{
 const collsapeCollection = reactive<Set<number>>(new Set());
 
 const handleCollsapeClick = (index: number) => {
-  collsapeCollection.has(index)
-    ? collsapeCollection.delete(index)
-    : collsapeCollection.add(index);
+  if (collsapeCollection.has(index)) collsapeCollection.delete(index);
+  else collsapeCollection.add(index);
 };
 
 const { data: tables } = useBanquetTable();

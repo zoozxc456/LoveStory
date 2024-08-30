@@ -10,6 +10,7 @@
         seatLocation,
         remark,
       } in props.guests"
+      :key="guestId"
     >
       <div
         class="h-1/4 text-center flex justify-center items-center guest-name"

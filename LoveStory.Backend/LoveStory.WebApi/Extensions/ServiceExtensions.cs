@@ -41,6 +41,7 @@ public static class ServiceExtensions
         collection.AddScoped<IRepository<GuestAttendanceData>, GenericRepository<GuestAttendanceData>>();
         collection.AddScoped<IGuestGroupRepository, GuestGroupRepository>();
         collection.AddScoped<IRepository<GuestSpecialNeedData>, GenericRepository<GuestSpecialNeedData>>();
+        collection.AddScoped<IRepository<WeddingGiftData>, GenericRepository<WeddingGiftData>>();
     }
 
     private static void InjectCoreServices(this IServiceCollection collection)
@@ -50,6 +51,7 @@ public static class ServiceExtensions
         collection.AddScoped<ILoginService, LoginService>();
         collection.AddScoped<IBanquetTableService, BanquetTableService>();
         collection.AddScoped<IUserService, UserService>();
+        collection.AddScoped<IWeddingGiftManagementService, WeddingGiftManagementService>();
     }
 
     private static void InjectProviders(this IServiceCollection collection)

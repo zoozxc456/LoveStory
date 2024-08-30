@@ -23,7 +23,8 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-import { useModifySingleGuestStore } from "../../../stores/useModifyGuest";
+import { useModifySingleGuestStore } from "stores/useModifyGuest";
+import { useModifyFamilyGuestStore } from "stores/useModifyFamilyGuest";
 
 type ModifyGuestDialogProps = { guestType?: GuestType };
 

@@ -10,10 +10,9 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-const displayController = defineModel<IDialogDisplayController>(
-  "displayController",
-  { default: {} }
-);
+const displayController = defineModel<IDisplayController>("displayController", {
+  required: true,
+});
 
 const dropDownListElementRef = ref<HTMLDivElement | null>(null);
 

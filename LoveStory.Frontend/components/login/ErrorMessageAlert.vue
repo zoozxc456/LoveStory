@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 const displayController = defineModel<IDisplayController>("displayController", {
   required: true,
 });

@@ -36,6 +36,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-const model = defineModel<GuestType | null>({ default: {} });
+const model = defineModel<GuestType | null>({ required: true });
 const emits = defineEmits<{ cancel: [] }>();
 </script>

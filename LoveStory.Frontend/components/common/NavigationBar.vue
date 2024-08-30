@@ -6,9 +6,10 @@
       </div>
 
       <NuxtLink
-        v-for="{ to, displayText, icon } in paths"
+        v-for="({ to, displayText, icon }, index) in paths"
         class="cursor-pointer text-rose-300"
         :to="to"
+        :key="index"
       >
         <div class="flex justify-start items-center gap-3">
           <div class="w-[24px] flex justify-center items-center">

@@ -268,6 +268,51 @@ namespace LoveStory.Infrastructure.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("LoveStory.Infrastructure.Data.WeddingGiftData", b =>
+                {
+                    b.Property<Guid>("WeddingGiftId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("wedding_gift_id")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,4)")
+                        .HasColumnName("amount");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("create_at");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("creator");
+
+                    b.Property<string>("GiftType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("gift_type");
+
+                    b.Property<Guid>("GuestId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guest");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(2147483647)
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("remark");
+
+                    b.HasKey("WeddingGiftId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("GuestId")
+                        .IsUnique();
+
+                    b.ToTable("wedding_gifts");
+                });
+
             modelBuilder.Entity("LoveStory.Infrastructure.Data.BanquetTableData", b =>
                 {
                     b.HasOne("LoveStory.Infrastructure.Data.UserData", "Creator")
@@ -351,6 +396,25 @@ namespace LoveStory.Infrastructure.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("LoveStory.Infrastructure.Data.WeddingGiftData", b =>
+                {
+                    b.HasOne("LoveStory.Infrastructure.Data.UserData", "Creator")
+                        .WithMany("CreatedWeddingGifts")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LoveStory.Infrastructure.Data.GuestData", "Guest")
+                        .WithOne("WeddingGift")
+                        .HasForeignKey("LoveStory.Infrastructure.Data.WeddingGiftData", "GuestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Guest");
+                });
+
             modelBuilder.Entity("LoveStory.Infrastructure.Data.BanquetTableData", b =>
                 {
                     b.Navigation("Guests");
@@ -361,6 +425,8 @@ namespace LoveStory.Infrastructure.Migrations
                     b.Navigation("GuestAttendance");
 
                     b.Navigation("SpecialNeeds");
+
+                    b.Navigation("WeddingGift");
                 });
 
             modelBuilder.Entity("LoveStory.Infrastructure.Data.GuestGroupData", b =>
@@ -379,6 +445,8 @@ namespace LoveStory.Infrastructure.Migrations
                     b.Navigation("CreatedTables");
 
                     b.Navigation("CreatedUsers");
+
+                    b.Navigation("CreatedWeddingGifts");
                 });
 #pragma warning restore 612, 618
         }
