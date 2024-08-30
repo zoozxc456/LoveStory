@@ -170,12 +170,12 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import {
-  reactive,
-  useBanquetTable,
-  useDisplayController,
-  type FamilyGuestFormDataType,
-} from ".nuxt/imports";
+// import {
+//   reactive,
+//   useBanquetTable,
+//   useDisplayController,
+//   type FamilyGuestFormDataType,
+// } from ".nuxt/imports";
 
 const data = defineModel<FamilyGuestFormDataType>({ required: true });
 const attendanceNumber = defineModel<number>("attendanceNumber", {

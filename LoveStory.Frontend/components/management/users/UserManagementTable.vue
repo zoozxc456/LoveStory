@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
-import type { UserManagement } from ".nuxt/imports";
+// import type { UserManagement } from ".nuxt/imports";
 import { useUserManagementStore } from "stores/management/users/useUserManagement";
 
 const store = useUserManagementStore();

@@ -1,5 +1,23 @@
 stages:
+  - lint
+  - test
   - build
+
+lint-frontend:
+  stage: lint
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y unzip 
+    - curl -fsSL https://bun.sh/install | bash
+    - echo 'export PATH="$HOME/.bun/bin:$PATH"' >> ~/.bashrc
+    - source ~/.bashrc
+    - cd LoveStory.Frontend
+  script:
+    - bun install && bun run lint
+    - exit 0
+  tags:
+    - dotnet8
 
 build-deploy-Backend-STAGING:
   stage: build

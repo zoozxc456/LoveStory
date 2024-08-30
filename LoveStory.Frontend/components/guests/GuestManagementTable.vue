@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
 import dayjs from "dayjs";
-import { computed, ref, type GuestManagement } from ".nuxt/imports";
+// import { computed, ref, type GuestManagement } from ".nuxt/imports";
 
 type GuestManagementTableProps = { guestManagements: GuestManagement[] };
 export type GuestManagementTableData = GuestManagement & {
