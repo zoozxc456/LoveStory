@@ -39,8 +39,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-// import { useDisplayController,type IDisplayController } from ".nuxt/imports";
-
 const roles = [
   { label: "管理者", values: ["新郎", "新娘"] },
   { label: "小幫手", values: ["招待", "伴郎", "伴娘"] },

@@ -57,7 +57,6 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-// import { ref, useNavigator } from ".nuxt/imports";
 const isExpandedMenu = ref<boolean>(false);
 
 const { paths, handleLogout } = useNavigator();

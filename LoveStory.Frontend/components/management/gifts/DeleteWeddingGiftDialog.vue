@@ -52,7 +52,6 @@ import {
   useWeddingGiftManagementStore,
   type DeleteWeddingGiftFormData,
 } from "stores/management/wedding-gifts/useWeddingGiftManagement";
-// import type { IDisplayController } from ".nuxt/imports";
 
 const emits = defineEmits<{ (e: "deleted"): void }>();
 

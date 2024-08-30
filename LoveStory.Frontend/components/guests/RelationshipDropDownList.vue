@@ -39,8 +39,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-// import { useDisplayController, type IDisplayController } from ".nuxt/imports";
-
 const relations = [
   { label: "男方親人", values: ["男方家人", "新郎父親親戚", "新郎母親親戚"] },
   { label: "女方親人", values: ["女方家人", "新娘父親親戚", "新娘母親親戚"] },

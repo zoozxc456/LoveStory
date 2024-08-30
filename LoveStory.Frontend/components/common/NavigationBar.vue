@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 import LogoImg from "assets/images/Logo.png";
-// import { useNavigator } from ".nuxt/imports";
 
 const { paths, handleLogout } = useNavigator();
 </script>

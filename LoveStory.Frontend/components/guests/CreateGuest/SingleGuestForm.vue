@@ -113,12 +113,6 @@
 </template>
 
 <script setup lang="ts">
-// import {
-//   useBanquetTable,
-//   useDisplayController,
-//   type SingleGuestFormDataType,
-// } from ".nuxt/imports";
-
 const data = defineModel<SingleGuestFormDataType>({ default: {} });
 
 const emits = defineEmits<{

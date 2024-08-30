@@ -151,7 +151,6 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useWeddingGiftManagementStore } from "stores/management/wedding-gifts/useWeddingGiftManagement";
-// import { ref, type IWeddingGiftManagement } from ".nuxt/imports";
 
 const emits = defineEmits<{
   (e: "request:create", data: IWeddingGiftManagement): void;

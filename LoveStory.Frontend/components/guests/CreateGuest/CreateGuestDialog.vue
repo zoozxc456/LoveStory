@@ -40,16 +40,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-// import {
-//   reactive,
-//   useCreateSingleGuest,
-//   useCreateFamilyGuest,
-//   useSingleGuestFormDataValidator,
-//   useFamilyGuestsFormDataValidator,
-//   type GuestType,
-//   type IDisplayController,
-// } from ".nuxt/imports";
-
 const dialogStates = reactive<{
   currentProccessStep: number;
   currentGuestType: GuestType | null;

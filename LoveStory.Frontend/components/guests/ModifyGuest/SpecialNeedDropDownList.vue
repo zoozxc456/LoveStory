@@ -45,7 +45,6 @@
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-// import { useDisplayController, type IGuestSpecialNeed } from ".nuxt/imports";
 const specialNeeds = defineModel<IGuestSpecialNeed[]>("specialNeeds", {
   required: true,
 });

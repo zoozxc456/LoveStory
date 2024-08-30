@@ -36,7 +36,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-// import type { GuestType } from ".nuxt/imports";
 const model = defineModel<GuestType | null>({ required: true });
 const emits = defineEmits<{ cancel: [] }>();
 </script>

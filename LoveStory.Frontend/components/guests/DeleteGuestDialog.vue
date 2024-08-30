@@ -48,7 +48,6 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
-// import { useDeleteGuestStore, type IDisplayController } from ".nuxt/imports";
 const emits = defineEmits<{ (e: "deleted"): void }>();
 
 const displayController = defineModel<IDisplayController>("displayController", {
