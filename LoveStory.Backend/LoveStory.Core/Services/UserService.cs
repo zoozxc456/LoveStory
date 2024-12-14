@@ -88,6 +88,6 @@ public class UserService(IServiceProvider provider) : IUserService
     {
         var salted = _hashProvider.CreateSalt();
         var defaultPassword = $"Default_Password_{username}";
-        return (salted.ToString()!, _hashProvider.HashPassword(defaultPassword, salted));
+        return (Convert.ToHexString(salted), _hashProvider.HashPassword(defaultPassword, salted));
     }
 }
