@@ -4,6 +4,7 @@ using LoveStory.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoveStory.Infrastructure.Migrations
 {
     [DbContext(typeof(LoveStoryContext))]
-    partial class LoveStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241214070429_Update_User_Salted_String_Length")]
+    partial class Update_User_Salted_String_Length
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
