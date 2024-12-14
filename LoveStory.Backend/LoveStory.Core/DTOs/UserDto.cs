@@ -6,12 +6,14 @@ public class UserDto
     public string Username { get; set; } = string.Empty;
 }
 
+public class CreatorDto : UserDto;
+
 public class UserManagementDto : UserDto
 {
     public string Role { get; set; } = string.Empty;
     public bool IsNeededResetPassword { get; set; }
     public DateTime CreateAt { get; set; }
-    public UserManagementDto? Creator { get; set; }
+    public CreatorDto? Creator { get; set; }
 }
 
 public class CreateUserDto

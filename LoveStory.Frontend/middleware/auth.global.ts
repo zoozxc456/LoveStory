@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (hasAccessToken() && isRedirectToLogin(to.path)) return navigateTo('/');
+  if (hasAccessToken() && isRedirectToLogin(to.path)) return navigateTo('/management');
 
   else if (!hasAccessToken() && !isRedirectToLogin(to.path)) return navigateTo('/login');
 

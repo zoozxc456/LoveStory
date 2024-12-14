@@ -12,9 +12,10 @@ export const useOriginalAuth = () => {
   const authenticateUser = async () => {
     isLoading.value = true;
     const { data } = await originalAuthRequest(authFormData);
+    console.log(data.value);
     if (data !== null && data.value !== null && data.value.isSuccess) {
       setAccessToken(data.value.accessToken);
-      navigateTo({ path: '/' });
+      navigateTo({ path: data.value.path });
     } else {
       errorMessage.value = "Username or Password Is incorrect.";
     }

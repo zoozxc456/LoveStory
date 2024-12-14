@@ -17,9 +17,17 @@ public class UserService(IServiceProvider provider) : IUserService
     {
         return Task.FromResult<IEnumerable<UserManagementDto>>(_userRepository.GetAll().ToList()
             .Select(x => _mapper.Map<UserManagementDto>(x))
-            .OrderBy(x=>x.CreateAt)
+            .OrderBy(x => x.CreateAt)
             .ToList()
         );
+    }
+
+    public async Task<string> GetUserRoleAsync(Guid userId)
+    {
+        var user = await _userRepository.GetOneAsync(user => user.UserId == userId);
+        if (user == null) throw new Exception($"UserId:{userId} is not exist.");
+
+        return user.Role;
     }
 
     public async Task<bool> CreateUserAsync(CreateUserDto dto)
