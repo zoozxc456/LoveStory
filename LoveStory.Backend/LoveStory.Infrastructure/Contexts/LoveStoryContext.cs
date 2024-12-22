@@ -58,7 +58,20 @@ public class LoveStoryContext : DbContext
 
             e.HasOne(g => g.Guest)
                 .WithOne(g => g.WeddingGift)
-                .HasForeignKey<WeddingGiftData>(g=>g.GuestId)
+                .HasForeignKey<WeddingGiftData>(g => g.GuestId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<GuestAttendanceData>(e =>
+        {
+            e.HasOne(g => g.Creator)
+                .WithMany(u => u.CreatedAttendance)
+                .HasForeignKey(g => g.CreatorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            e.HasOne(g => g.Guest)
+                .WithOne(g => g.GuestAttendance)
+                .HasForeignKey<GuestAttendanceData>(g => g.GuestId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -68,7 +81,7 @@ public class LoveStoryContext : DbContext
         SetGuidDefaultValue(modelBuilder.Entity<GuestGroupData>().Property(e => e.GuestGroupId));
         SetGuidDefaultValue(modelBuilder.Entity<GuestSpecialNeedData>().Property(e => e.SpecialNeedId));
         SetGuidDefaultValue(modelBuilder.Entity<UserData>().Property(e => e.UserId));
-        SetGuidDefaultValue(modelBuilder.Entity<WeddingGiftData>().Property(e=>e.WeddingGiftId));
+        SetGuidDefaultValue(modelBuilder.Entity<WeddingGiftData>().Property(e => e.WeddingGiftId));
     }
 
     private static void SetGuidDefaultValue(PropertyBuilder<Guid> builder) => builder.HasDefaultValueSql("NEWID()");

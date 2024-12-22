@@ -38,4 +38,5 @@ public class UserData
     public ICollection<GuestGroupData> CreatedGroups { get; set; } = new List<GuestGroupData>();
     public ICollection<UserData> CreatedUsers { get; set; }
     public ICollection<WeddingGiftData> CreatedWeddingGifts { get; set; }
+    public ICollection<GuestAttendanceData> CreatedAttendance { get; set; }
 }
