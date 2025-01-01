@@ -6,4 +6,5 @@ public interface IRecipientService
 {
     public List<GetRecipientGuestDto> GetRecipientGuests();
     public bool RegisterGuestAttendance(RegisterGuestAttendanceDto dto);
+    public bool RegisterGuestAttendance(RegisterGuestGroupAttendanceDto dto);
 }

@@ -37,6 +37,10 @@ type GuestOverviewCardProps = {
 const props = defineProps<GuestOverviewCardProps>();
 
 const handleGuestArrive = (guestId: string) => {
-  useRecipientStore().guestArrive(guestId);
+  const attendanceAmount =
+    props.guests.find((guest) => guest.targetId === guestId)
+      ?.attendanceAmount ?? 0;
+  const guestType = attendanceAmount > 1 ? "family" : "single";
+  useRecipientStore().guestArrive(guestId, guestType);
 };
 </script>

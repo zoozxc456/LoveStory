@@ -17,8 +17,8 @@ export const useRecipientStore = defineStore('useRecipientStore', () => {
     }
   };
 
-  const guestArrive = async (guestId: string) => {
-    const res = await useAsyncData<{ isSuccess: boolean; }>('guest-Arrive', () => $fetch('/api/recipient/guest-arrive', { method: "PATCH", body: { guestId } as { guestId: string; }, headers: generateJwtAuthorizeHeader() }));
+  const guestArrive = async (guestId: string, guestType: 'single' | 'family') => {
+    const res = await useAsyncData<{ isSuccess: boolean; }>('guest-Arrive', () => $fetch('/api/recipient/guest-arrive', { method: "PATCH", body: { guestId, guestType } as { guestId: string; guestType: 'single' | 'family'; }, headers: generateJwtAuthorizeHeader() }));
     return res.data.value?.isSuccess ?? false;
   };
 

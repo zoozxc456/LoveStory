@@ -22,6 +22,19 @@ public class RecipientController(IServiceProvider provider) : BaseController(pro
     [HttpPatch("guest-arrive")]
     public IActionResult GuestArrive([FromBody] GuestArriveRequestModel requestModel)
     {
+        if (requestModel.GuestType.Equals("single"))
+            return Ok(_recipientService.RegisterGuestAttendance(new RegisterGuestAttendanceDto
+            {
+                CreatorId = UserId,
+                GuestId = requestModel.GuestId
+            }));
+
+        return Ok(_recipientService.RegisterGuestAttendance(new RegisterGuestGroupAttendanceDto
+        {
+            CreatorId = UserId,
+            GuestGroupId = requestModel.GuestId
+        }));
+
         var isSuccess = _recipientService.RegisterGuestAttendance(new RegisterGuestAttendanceDto
         {
             CreatorId = UserId,
