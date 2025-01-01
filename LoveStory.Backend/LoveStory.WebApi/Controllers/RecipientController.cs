@@ -1,5 +1,5 @@
 using LoveStory.Core.DTOs.Recipient;
-using LoveStory.Core.Services;
+using LoveStory.Core.Interfaces;
 using LoveStory.WebApi.RequestModel.Recipient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +13,11 @@ public class RecipientController(IServiceProvider provider) : BaseController(pro
 {
     private readonly IRecipientService _recipientService = provider.GetRequiredService<IRecipientService>();
 
+    [HttpGet("guests")]
+    public IActionResult GetRecipientGuests()
+    {
+        return Ok(_recipientService.GetRecipientGuests());
+    }
 
     [HttpPatch("guest-arrive")]
     public IActionResult GuestArrive([FromBody] GuestArriveRequestModel requestModel)
