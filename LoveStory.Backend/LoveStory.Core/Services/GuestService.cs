@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LoveStory.Core.Services;
 
-public class GuestService(IServiceProvider provider) : IGuestService, IGuestManagementService, IGuestExistenceChecker
+public class GuestService(IServiceProvider provider) : IGuestService, IGuestManagementService
 {
     private readonly IRepository<GuestData> _guestRepository = provider.GetRequiredService<IRepository<GuestData>>();
     private readonly IGuestGroupRepository _guestGroupRepository = provider.GetRequiredService<IGuestGroupRepository>();
@@ -188,10 +188,4 @@ public class GuestService(IServiceProvider provider) : IGuestService, IGuestMana
         GroupGuests = GetAllGroupGuests(),
         SingleGuests = GetAllSingleGuests()
     };
-
-    public async Task<bool> IsGuestExistAsync(Guid guestId)
-    {
-        var guest = await _guestRepository.GetOneAsync(guest => guest.GuestId == guestId);
-        return guest != null;
-    }
 }
