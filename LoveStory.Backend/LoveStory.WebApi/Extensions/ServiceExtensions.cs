@@ -18,6 +18,7 @@ public static class ServiceExtensions
         collection.InjectCoreServices();
         collection.InjectProviders();
         collection.InjectMappers();
+        collection.InjectChecks();
     }
 
     public static void InjectDbContexts(this IServiceCollection collection, List<string> connectionStrings)
@@ -52,11 +53,18 @@ public static class ServiceExtensions
         collection.AddScoped<IBanquetTableService, BanquetTableService>();
         collection.AddScoped<IUserService, UserService>();
         collection.AddScoped<IWeddingGiftManagementService, WeddingGiftManagementService>();
+        collection.AddScoped<IRecipientService, RecipientService>();
     }
 
     private static void InjectProviders(this IServiceCollection collection)
     {
         collection.AddSingleton<IHashProvider, Argon2HashProvider>();
         collection.AddSingleton<IAccessTokenProvider, JwtAccessTokenProvider>();
+    }
+
+    private static void InjectChecks(this IServiceCollection collection)
+    {
+        collection.AddScoped<IGuestExistenceChecker, DataExistenceChecker>();
+        collection.AddScoped<IGuestGroupExistenceChecker, DataExistenceChecker>();
     }
 }
