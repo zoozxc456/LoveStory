@@ -17,12 +17,16 @@ export const useRecipientStore = defineStore('useRecipientStore', () => {
     }
   };
 
+  const refreshRecipientGuests = async () => await fetchRecipientGuests();
+
   const guestArrive = async (guestId: string, guestType: 'single' | 'family') => {
     const res = await useAsyncData<{ isSuccess: boolean; }>('guest-Arrive', () => $fetch('/api/recipient/guest-arrive', { method: "PATCH", body: { guestId, guestType } as { guestId: string; guestType: 'single' | 'family'; }, headers: generateJwtAuthorizeHeader() }));
     return res.data.value?.isSuccess ?? false;
   };
 
-  return { state, fetchRecipientGuests, guestArrive };
+
+
+  return { state, fetchRecipientGuests, guestArrive, refreshRecipientGuests };
 });
 
 const fetchRecipientGuestsRequest = () => useAsyncData<RecipientGuest[], ErrorResponse>('fetch-all-users', () => $fetch('/api/recipient/guests', { method: "GET", headers: generateJwtAuthorizeHeader() }));

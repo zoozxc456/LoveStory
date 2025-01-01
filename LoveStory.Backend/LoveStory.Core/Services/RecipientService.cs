@@ -34,18 +34,20 @@ public class RecipientService(IServiceProvider provider) : IRecipientService
                     TargetId = x.GuestId,
                     GuestName = x.GuestName,
                     AttendanceAmount = 1,
-                    Relationship = x.GuestRelationship
+                    Relationship = x.GuestRelationship,
+                    ArrivedAt = x.GuestAttendance?.ArrivalAt
                 }).ToList();
             }
 
             return
             [
-                new GetRecipientGuestDto()
+                new GetRecipientGuestDto
                 {
                     TargetId = groupId.GuestGroupId.Value,
                     GuestName = tGuests.First().GuestGroup.GuestGroupName,
                     AttendanceAmount = tGuests.Count(),
-                    Relationship = tGuests.First().GuestRelationship
+                    Relationship = tGuests.First().GuestRelationship,
+                    ArrivedAt = tGuests.First().GuestAttendance?.ArrivalAt
                 }
             ];
         }).SelectMany(x => x).ToList();

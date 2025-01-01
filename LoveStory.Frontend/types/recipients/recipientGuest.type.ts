@@ -3,4 +3,5 @@ export interface RecipientGuest {
   guestName: string;
   attendanceAmount: number;
   relationship: string;
+  arrivedAt?: Date;
 }

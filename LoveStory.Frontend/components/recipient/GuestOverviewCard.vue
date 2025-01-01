@@ -15,7 +15,11 @@
       </div>
 
       <div class="card-footer flex items-center justify-center h-1/3 p-4">
+        <div v-if="guest.arrivedAt">
+          {{ `${dayjs(guest.arrivedAt).format("HH:mm")} 報到了` }}
+        </div>
         <CommonButtonPrimaryButton
+          v-else
           :text="'報到'"
           class="w-[95%]"
           @click="handleGuestArrive(guest.targetId)"
@@ -28,6 +32,7 @@
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
+import dayjs from "dayjs";
 import { useRecipientStore } from "stores/recipient/useRecipient";
 
 type GuestOverviewCardProps = {
@@ -35,12 +40,15 @@ type GuestOverviewCardProps = {
 };
 
 const props = defineProps<GuestOverviewCardProps>();
+const store = useRecipientStore();
 
-const handleGuestArrive = (guestId: string) => {
+const handleGuestArrive = async (guestId: string) => {
   const attendanceAmount =
     props.guests.find((guest) => guest.targetId === guestId)
       ?.attendanceAmount ?? 0;
   const guestType = attendanceAmount > 1 ? "family" : "single";
-  useRecipientStore().guestArrive(guestId, guestType);
+
+  await store.guestArrive(guestId, guestType);
+  await store.refreshRecipientGuests();
 };
 </script>
