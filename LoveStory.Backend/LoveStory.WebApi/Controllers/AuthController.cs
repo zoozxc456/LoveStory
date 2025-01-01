@@ -14,16 +14,21 @@ namespace LoveStory.WebApi.Controllers;
 public class AuthController(IServiceProvider provider) : ControllerBase
 {
     private readonly ILoginService _loginService = provider.GetRequiredService<ILoginService>();
-    private readonly IAccessTokenProvider _accessTokenProvider = provider.GetRequiredService<IAccessTokenProvider>();
+    private readonly IHostEnvironment _environment = provider.GetRequiredService<IHostEnvironment>();
 
     [HttpPost("Origin")]
     public async Task<IActionResult> AuthOriginLogin([FromBody] LoginRequestModel request)
     {
-        var (isSuccess, token) = await _loginService.Login(new LoginRequestDto
-        {
-            Username = request.Username,
-            Password = request.Password
-        });
+        var (isSuccess, token) = await (_environment.IsProduction()
+            ? _loginService.Login(new LoginRequestDto
+            {
+                Username = request.Username,
+                Password = request.Password
+            })
+            : _loginService.Login(new DevelopLoginRequestDto
+            {
+                Username = request.Username
+            }));
 
         return Ok(new LoginResponseModel
         {

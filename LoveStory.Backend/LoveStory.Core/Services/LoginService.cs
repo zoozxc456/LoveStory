@@ -19,7 +19,7 @@ public class LoginService(
     {
         var user = await userRepository.GetOneAsync(user => user.Username == requestDto.Username);
         if (user == null) throw new Exception("No User");
-
+        
         var isValidPassword = hashProvider.VerifyPassword(requestDto.Password, user.Password);
         if (!isValidPassword) return (false, null);
 
@@ -28,6 +28,22 @@ public class LoginService(
             UserId = user.UserId,
             IssueAt = DateTime.Now,
             Expired = DateTime.Now.AddMinutes(30),
+            NotBefore = DateTime.Now
+        });
+
+        return (true, accessToken);
+    }
+
+    public async Task<(bool, string?)> Login(DevelopLoginRequestDto requestDto)
+    {
+        var user = await userRepository.GetOneAsync(user => user.Username == requestDto.Username);
+        if (user == null) throw new Exception("No User");
+
+        var accessToken = accessTokenProvider.GenerateAccessToken(new AuthOriginLoginAccessTokenDto
+        {
+            UserId = user.UserId,
+            IssueAt = DateTime.Now,
+            Expired = DateTime.Now.AddHours(12),
             NotBefore = DateTime.Now
         });
 
