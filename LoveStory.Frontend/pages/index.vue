@@ -8,7 +8,7 @@
     <!-- Guest Card List-->
 
     <div class="w-full px-3 max-h-[90dvh] overflow-auto">
-      <RecipientGuestOverviewCard :guests="state.data" />
+      <RecipientGuestOverviewCard :guests="recipientGuests()" />
     </div>
   </div>
 </template>
@@ -22,6 +22,6 @@ definePageMeta({ layout: "recipient-layout" });
 
 const searchBarTitles = reactive<string[]>(["男/女方", "賓客關係", "姓名"]);
 
-const { state } = useRecipientStore();
+const { recipientGuests } = useRecipientStore();
 useRecipientStore().fetchRecipientGuests();
 </script>
