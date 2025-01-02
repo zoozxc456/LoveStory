@@ -18,12 +18,14 @@
         <div v-if="guest.arrivedAt">
           {{ `${dayjs(guest.arrivedAt).format("HH:mm")} 報到了` }}
         </div>
-        <CommonButtonPrimaryButton
+        <button
           v-else
-          :text="'報到'"
-          class="w-[95%]"
+          class="block w-full select-none rounded-lg py-3 px-6 text-center align-middle font-sans text-xl font-bold uppercase text-white bg-pink-300 shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button"
           @click="handleGuestArrive(guest.targetId)"
-        />
+        >
+          報到
+        </button>
       </div>
     </div>
   </div>
