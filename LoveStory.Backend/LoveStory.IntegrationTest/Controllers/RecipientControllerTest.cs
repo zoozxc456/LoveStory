@@ -35,7 +35,8 @@ public class RecipientControllerTest : IDisposable
     {
         var requestModel = new GuestArriveRequestModel
         {
-            GuestId = Guid.Parse("f322dfe3-b3bf-45cf-8f57-197ad1f2df12")
+            GuestId = Guid.Parse("f322dfe3-b3bf-45cf-8f57-197ad1f2df12"),
+            GuestType = "single"
         };
 
         var result = _recipientController.GuestArrive(requestModel);
