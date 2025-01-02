@@ -21,7 +21,7 @@ public class UserData
 
     [Column("role")] [StringLength(20)] public string Role { get; set; } = string.Empty;
 
-    [Column("salted")] [StringLength(16)] public string Salted { get; set; } = string.Empty;
+    [Column("salted")] [StringLength(32)] public string Salted { get; set; } = string.Empty;
     [Column("is_needed_reset_password")] public bool IsNeededResetPassword { get; set; }
 
     [Column("create_at")] public DateTime CreateAt { get; set; }
@@ -38,4 +38,5 @@ public class UserData
     public ICollection<GuestGroupData> CreatedGroups { get; set; } = new List<GuestGroupData>();
     public ICollection<UserData> CreatedUsers { get; set; }
     public ICollection<WeddingGiftData> CreatedWeddingGifts { get; set; }
+    public ICollection<GuestAttendanceData> CreatedAttendance { get; set; }
 }

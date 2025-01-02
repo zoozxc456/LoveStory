@@ -1,13 +1,27 @@
 <template>
-  <div
-    class="w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mx-auto"
-  >
-    <!-- <DashboardCard v-for="card in cards" v-bind="card" /> -->
+  <div class="flex flex-1 flex-col h-full overflow-auto relative">
+    <!-- Search Bar -->
+    <RecipientGuestSearchBar
+      class="fixed w-[85%] mx-auto bg-white z-10 px-3"
+      :titles="searchBarTitles"
+    />
+
+    <!-- Guest Card List-->
+
+    <div class="w-full px-3 absolute top-[15%]">
+      <RecipientGuestOverviewCard :guests="store.recipientGuests()" />
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-// import { definePageMeta } from ".nuxt/imports";
+<style scoped lang="scss"></style>
 
-definePageMeta({ layout: "admin-layout" });
+<script setup lang="ts">
+import { useRecipientStore } from "stores/recipient/useRecipient";
+
+definePageMeta({ layout: "recipient-layout" });
+
+const searchBarTitles = reactive<string[]>(["男/女方", "賓客關係", "姓名"]);
+const store = useRecipientStore();
+store.fetchRecipientGuests();
 </script>

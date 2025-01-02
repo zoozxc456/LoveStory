@@ -4,6 +4,7 @@ using LoveStory.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoveStory.Infrastructure.Migrations
 {
     [DbContext(typeof(LoveStoryContext))]
-    partial class LoveStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20241214070429_Update_User_Salted_String_Length")]
+    partial class Update_User_Salted_String_Length
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,20 +80,15 @@ namespace LoveStory.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("arrival_at");
 
-                    b.Property<Guid>("CreatorId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("creator");
-
-                    b.Property<Guid>("GuestId")
+                    b.Property<Guid?>("GuestId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guest_id");
 
                     b.HasKey("AttendanceId");
 
-                    b.HasIndex("CreatorId");
-
                     b.HasIndex("GuestId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[guest_id] IS NOT NULL");
 
                     b.ToTable("guest_attendances");
                 });
@@ -331,19 +329,9 @@ namespace LoveStory.Infrastructure.Migrations
 
             modelBuilder.Entity("LoveStory.Infrastructure.Data.GuestAttendanceData", b =>
                 {
-                    b.HasOne("LoveStory.Infrastructure.Data.UserData", "Creator")
-                        .WithMany("CreatedAttendance")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("LoveStory.Infrastructure.Data.GuestData", "Guest")
                         .WithOne("GuestAttendance")
-                        .HasForeignKey("LoveStory.Infrastructure.Data.GuestAttendanceData", "GuestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
+                        .HasForeignKey("LoveStory.Infrastructure.Data.GuestAttendanceData", "GuestId");
 
                     b.Navigation("Guest");
                 });
@@ -451,8 +439,6 @@ namespace LoveStory.Infrastructure.Migrations
 
             modelBuilder.Entity("LoveStory.Infrastructure.Data.UserData", b =>
                 {
-                    b.Navigation("CreatedAttendance");
-
                     b.Navigation("CreatedGroups");
 
                     b.Navigation("CreatedGuests");

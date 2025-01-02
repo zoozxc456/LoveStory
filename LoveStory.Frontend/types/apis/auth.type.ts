@@ -3,4 +3,4 @@ export type OriginalAuthRequest = {
   password: string;
 };
 
-export type OriginalAuthResponse = { isSuccess: true; accessToken: string; } | { isSuccess: false; accessToken: null; };
+export type OriginalAuthResponse = { isSuccess: true; accessToken: string; path: string; } | { isSuccess: false; accessToken: null; };

@@ -15,7 +15,13 @@ public class GuestAttendanceData
 
     [Column("guest_id")]
     [ForeignKey("Guest")]
-    public Guid? GuestId { get; set; }
+    public Guid GuestId { get; set; }
 
     public GuestData? Guest { get; set; }
+
+    [Column("creator")]
+    [ForeignKey("Creator")]
+    public Guid CreatorId { get; set; }
+
+    [InverseProperty("CreatedAttendance")] public UserData Creator { get; set; }
 }

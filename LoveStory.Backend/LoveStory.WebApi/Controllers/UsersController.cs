@@ -19,6 +19,12 @@ public class UsersController(IServiceProvider serviceProvider) : BaseController(
         var users = await _userService.GetAllUsersAsync();
         return Ok(users);
     }
+    
+    [HttpGet("Role")]
+    public async Task<IActionResult> GetUserRole()
+    {
+        return Ok(await _userService.GetUserRoleAsync(UserId));
+    }
 
     [HttpPost]
     public async Task<IActionResult> CreateNewUser([FromBody] CreateUserRequestModel request)

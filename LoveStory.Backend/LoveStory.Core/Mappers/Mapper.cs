@@ -10,6 +10,7 @@ public class Mapper : Profile
     {
         // DTO to Data
         CreateMap<UserDto, UserData>().ReverseMap();
+        CreateMap<CreatorDto, UserData>().ReverseMap();
         CreateMap<UserManagementDto, UserData>().ReverseMap();
         CreateMap<GuestSpecialNeedDto, GuestSpecialNeedData>()
             .ForMember(d => d.Creator, opt => opt.Ignore())
