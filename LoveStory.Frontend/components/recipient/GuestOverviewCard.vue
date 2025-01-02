@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full grid grid-cols-4 gap-5 max-h-[90dvh] overflow-auto">
+  <div class="w-full grid grid-cols-4 gap-5 my-3">
     <div
       class="h-[200px] p-3 border rounded text-center text-gray-700 flex flex-col"
       v-for="guest in props.guests"
