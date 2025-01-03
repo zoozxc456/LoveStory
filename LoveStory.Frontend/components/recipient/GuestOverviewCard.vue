@@ -1,9 +1,16 @@
 <template>
   <div class="w-full grid grid-cols-4 gap-5 my-3">
     <div
-      class="h-[200px] p-3 border rounded text-center text-gray-700 flex flex-col"
+      class="h-[200px] p-3 border rounded text-center text-gray-700 flex flex-col hover:cursor-pointer"
       v-for="guest in props.guests"
       :key="guest.targetId"
+      @click.prevent.stop="
+        emits(
+          'view-guest-overview',
+          guest.targetId,
+          guest.attendanceAmount > 1 ? 'family' : 'single'
+        )
+      "
     >
       <div class="card-header flex items-center justify-center h-1/5 p-4">
         <h6 class="text-2xl font-bold">{{ guest.guestName }}</h6>
@@ -42,6 +49,13 @@ type GuestOverviewCardProps = {
 };
 
 const props = defineProps<GuestOverviewCardProps>();
+const emits = defineEmits<{
+  (
+    e: "view-guest-overview",
+    targetId: string,
+    guestType: "single" | "family"
+  ): void;
+}>();
 const store = useRecipientStore();
 
 const handleGuestArrive = async (guestId: string) => {

@@ -19,6 +19,12 @@ public class RecipientController(IServiceProvider provider) : BaseController(pro
         return Ok(_recipientService.GetRecipientGuests());
     }
 
+    [HttpGet("guests/{targetId:guid}")]
+    public IActionResult GetRecipientGuestOverview(Guid targetId, string guestType)
+    {
+        return Ok(_recipientService.GetRecipientGuestOverview(targetId, guestType));
+    }
+
     [HttpPatch("guest-arrive")]
     public IActionResult GuestArrive([FromBody] GuestArriveRequestModel requestModel)
     {
