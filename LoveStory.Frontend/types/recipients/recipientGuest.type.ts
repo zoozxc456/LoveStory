@@ -5,3 +5,9 @@ export interface RecipientGuest {
   relationship: string;
   arrivedAt?: Date;
 }
+
+export type RecipientGuestOverview = RecipientGuest & {
+  specialNeed: string[];
+  remark?: string;
+  seatLocation?: string;
+};
