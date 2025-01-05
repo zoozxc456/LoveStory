@@ -89,16 +89,17 @@ public class RecipientService(IServiceProvider provider) : IRecipientService
             {
                 SpecialNeeds = guestDatas.SelectMany(x => x.SpecialNeeds.Select(y => y.SpecialNeedContent).ToList())
                     .ToList(),
-                Remark = string.Join(" / ", guestDatas.Select(x => $"{x.GuestName}:{x.Remark}").ToList()),
+                Remark = string.Join(" / ", guestDatas.Select(x => x.Remark).Distinct().ToList()),
                 SeatLocation = string.Join(" / ",
-                    guestDatas.Select(x => $"{x.GuestName}:{x.SeatLocation?.TableAlias ?? string.Empty}").ToList()),
+                    guestDatas.Select(x => x.SeatLocation?.TableAlias ?? string.Empty).Distinct().ToList()),
                 TargetId = targetId,
-                GuestName = guestDatas[0].GuestGroup.GuestGroupName,
+                GuestName = guestDatas[0].GuestGroup?.GuestGroupName ?? "",
                 AttendanceAmount = guestDatas.Count,
                 Relationship = guestDatas[0].GuestRelationship,
-                ArrivedAt = guestDatas[0].GuestAttendance.ArrivalAt
+                ArrivedAt = guestDatas[0].GuestAttendance?.ArrivalAt
             };
         }
+
         throw new Exception($"This Guest Group Is Not Exist, GroupId: {targetId}");
     }
 
