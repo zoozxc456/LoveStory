@@ -9,19 +9,60 @@
     <!-- Guest Card List-->
 
     <div class="w-full px-3 absolute top-[15%]">
-      <RecipientGuestOverviewCard :guests="store.recipientGuests()" />
+      <RecipientGuestOverviewCard
+        :guests="recipientStore.recipientGuests()"
+        :relationships="recipientGuestFilterStore.relationships"
+        @view-guest-overview="handleViewGuestOverview"
+      />
     </div>
   </div>
+
+  <RecipientGuestOverview
+    v-bind="tempOverview"
+    v-model:display-controller="displayController"
+  />
 </template>
 
 <style scoped lang="scss"></style>
 
 <script setup lang="ts">
 import { useRecipientStore } from "stores/recipient/useRecipient";
+import { useRecipientGuestFilterStore } from "stores/recipient/useRecipientGuestFilter";
 
 definePageMeta({ layout: "recipient-layout" });
 
 const searchBarTitles = reactive<string[]>(["男/女方", "賓客關係", "姓名"]);
-const store = useRecipientStore();
-store.fetchRecipientGuests();
+const [recipientStore, recipientGuestFilterStore] = [
+  useRecipientStore(),
+  useRecipientGuestFilterStore(),
+];
+recipientStore.fetchRecipientGuests();
+
+const tempOverview = ref<RecipientGuestOverview>({
+  targetId: "",
+  guestName: "",
+  attendanceAmount: 0,
+  relationship: "",
+  specialNeed: [],
+});
+
+const handleViewGuestOverview = (
+  targetId: string,
+  guestType: "single" | "family"
+) => {
+  useAsyncData<RecipientGuestOverview>("fetch-guest-management", () =>
+    $fetch(`/api/recipient/guests/${targetId}`, {
+      method: "GET",
+      headers: generateJwtAuthorizeHeader(),
+      query: { guestType },
+    })
+  ).then((res) => {
+    if (res.data.value) {
+      tempOverview.value = res.data.value;
+      displayController.onShow();
+    }
+  });
+};
+
+const displayController = useDisplayController();
 </script>

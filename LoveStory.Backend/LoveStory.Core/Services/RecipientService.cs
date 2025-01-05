@@ -53,6 +53,56 @@ public class RecipientService(IServiceProvider provider) : IRecipientService
         }).SelectMany(x => x).ToList();
     }
 
+    public GetRecipientGuestOverviewDto GetRecipientGuestOverview(Guid targetId, string guestType)
+    {
+        if (guestType.Equals("single"))
+        {
+            if (_guestExistenceChecker.IsGuestExistAsync(targetId).Result)
+            {
+                var guest = _guestRepository.GetAll().ToList().FirstOrDefault(x => x.GuestId == targetId);
+                if (guest is null) throw new Exception();
+
+                return new GetRecipientGuestOverviewDto
+                {
+                    SpecialNeeds = guest.SpecialNeeds.Select(x => x.SpecialNeedContent).ToList(),
+                    Remark = guest.Remark,
+                    SeatLocation = guest.SeatLocation?.TableAlias,
+                    TargetId = targetId,
+                    GuestName = guest.GuestName,
+                    AttendanceAmount = 1,
+                    Relationship = guest.GuestRelationship,
+                    ArrivedAt = guest.GuestAttendance?.ArrivalAt
+                };
+            }
+            else
+            {
+                throw new Exception($"This Guest Is Not Exist, GuestId: {targetId}");
+            }
+        }
+
+
+        if (_guestGroupExistenceChecker.IsGuestGroupExistAsync(targetId).Result)
+        {
+            var guestDatas = _guestRepository.GetAll().ToList().Where(x => x.GuestGroupId == targetId).ToList();
+
+            return new GetRecipientGuestOverviewDto
+            {
+                SpecialNeeds = guestDatas.SelectMany(x => x.SpecialNeeds.Select(y => y.SpecialNeedContent).ToList())
+                    .ToList(),
+                Remark = string.Join(" / ", guestDatas.Select(x => x.Remark).Distinct().ToList()),
+                SeatLocation = string.Join(" / ",
+                    guestDatas.Select(x => x.SeatLocation?.TableAlias ?? string.Empty).Distinct().ToList()),
+                TargetId = targetId,
+                GuestName = guestDatas[0].GuestGroup?.GuestGroupName ?? "",
+                AttendanceAmount = guestDatas.Count,
+                Relationship = guestDatas[0].GuestRelationship,
+                ArrivedAt = guestDatas[0].GuestAttendance?.ArrivalAt
+            };
+        }
+
+        throw new Exception($"This Guest Group Is Not Exist, GroupId: {targetId}");
+    }
+
     public bool RegisterGuestAttendance(RegisterGuestAttendanceDto dto)
     {
         if (_guestExistenceChecker.IsGuestExistAsync(dto.GuestId).Result)

@@ -1,0 +1,1 @@
+export type BanquetTableManagement = Pick<IBanquetTable, "banquetTableId" | "tableAlias">;

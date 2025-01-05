@@ -8,3 +8,10 @@ public class GetRecipientGuestDto
     public required string Relationship { get; set; }
     public required DateTime? ArrivedAt { get; set; }
 }
+
+public class GetRecipientGuestOverviewDto : GetRecipientGuestDto
+{
+    public required List<string> SpecialNeeds { get; set; }
+    public required string? Remark { get; set; }
+    public required string? SeatLocation { get; set; }
+}

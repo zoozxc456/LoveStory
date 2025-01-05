@@ -9,7 +9,11 @@ export const useNavigator = () => {
     'admin': [{ to: "/management/", displayText: "總覽", icon: "house-chimney-window" },
     { to: "/management/gifts", displayText: "禮金管理", icon: "gift" },
     { to: "/management/guests", displayText: "賓客名單", icon: "people-group" },
-    { to: "/management/users", displayText: "帳號管理", icon: "people-group" },],
+    { to: "/management/users", displayText: "帳號管理", icon: "people-group" }, {
+      to: "/management/SeatLocation",
+      displayText: "座位管理",
+      icon: "chair"
+    }],
     recipient: [{
       to: "/",
       displayText: "總覽",

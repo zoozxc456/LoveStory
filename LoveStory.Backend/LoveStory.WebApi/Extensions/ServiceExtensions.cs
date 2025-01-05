@@ -54,6 +54,7 @@ public static class ServiceExtensions
         collection.AddScoped<IUserService, UserService>();
         collection.AddScoped<IWeddingGiftManagementService, WeddingGiftManagementService>();
         collection.AddScoped<IRecipientService, RecipientService>();
+        collection.AddScoped<IGuestSeatLocationManagementService, GuestSeatLocationManagementService>();
     }
 
     private static void InjectProviders(this IServiceCollection collection)
