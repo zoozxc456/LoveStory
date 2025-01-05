@@ -37,10 +37,15 @@ export const useRecipientStore = defineStore('useRecipientStore', () => {
 
 const fetchRecipientGuestsRequest = () => useAsyncData<RecipientGuest[], ErrorResponse>('fetch-all-users', () => $fetch('/api/recipient/guests', { method: "GET", headers: generateJwtAuthorizeHeader() }));
 
-const recipientGuestsFilter = (guest: RecipientGuest, { maleOrFemale, relationship, guestNameSearchText }: { maleOrFemale: "全部" | "男方" | "女方" | "共同朋友", relationship: string; guestNameSearchText: string; }): boolean => {
+const recipientGuestsFilter = (guest: RecipientGuest, { maleOrFemale, relationship, guestNameSearchText }: { maleOrFemale: "全部" | "主婚人" | "男方" | "女方" | "共同朋友", relationship: string; guestNameSearchText: string; }): boolean => {
   if (maleOrFemale === "全部") {
     if (guestNameSearchText === "") return true;
     return guest.guestName.includes(guestNameSearchText);
+  }
+
+  if ((maleOrFemale === "女方" || maleOrFemale === "男方") && relationship === "全部") {
+    if (guestNameSearchText === "") return guest.relationship.includes(maleOrFemale);
+    return guest.relationship.includes(maleOrFemale) && guest.guestName.includes(guestNameSearchText);
   }
 
   return guest.relationship.includes(maleOrFemale) && guest.relationship.includes(relationship) && guest.guestName.includes(guestNameSearchText);

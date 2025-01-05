@@ -10,7 +10,8 @@
 
     <div class="w-full px-3 absolute top-[15%]">
       <RecipientGuestOverviewCard
-        :guests="store.recipientGuests()"
+        :guests="recipientStore.recipientGuests()"
+        :relationships="recipientGuestFilterStore.relationships"
         @view-guest-overview="handleViewGuestOverview"
       />
     </div>
@@ -26,12 +27,16 @@
 
 <script setup lang="ts">
 import { useRecipientStore } from "stores/recipient/useRecipient";
+import { useRecipientGuestFilterStore } from "stores/recipient/useRecipientGuestFilter";
 
 definePageMeta({ layout: "recipient-layout" });
 
 const searchBarTitles = reactive<string[]>(["男/女方", "賓客關係", "姓名"]);
-const store = useRecipientStore();
-store.fetchRecipientGuests();
+const [recipientStore, recipientGuestFilterStore] = [
+  useRecipientStore(),
+  useRecipientGuestFilterStore(),
+];
+recipientStore.fetchRecipientGuests();
 
 const tempOverview = ref<RecipientGuestOverview>({
   targetId: "",
