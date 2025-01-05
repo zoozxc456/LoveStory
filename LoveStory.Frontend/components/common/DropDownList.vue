@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-11 w-full min-w-[200px]">
+  <div class="relative h-11">
     <div ref="dropDownListElementRef">
       <slot name="presentation"></slot>
       <slot name="list"></slot>
